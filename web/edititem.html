@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add/Edit Item - XXX Website</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="header">
+        <span>xxx website</span>
+        <div>
+            <a href="retailer.html" class="text-white">back</a>
+        </div>
+    </div>
+    <div class="main">
+        <div class="container">
+            <h2 class="text-center">Add/Edit Item</h2>
+            <form>
+                <div class="form-group">
+                    <label for="itemName">Item Name</label>
+                    <input type="text" class="form-control" id="itemName" placeholder="Enter item name">
+                </div>
+                <div class="form-group">
+                    <label for="quantity">Quantity</label>
+                    <input type="number" class="form-control" id="quantity" placeholder="Enter quantity">
+                </div>
+                <div class="form-group">
+                    <label for="expirationDate">Expiration Date</label>
+                    <input type="date" class="form-control" id="expirationDate">
+                </div>
+                <div class="form-group">
+                    <label for="priceType">Price Type</label>
+                    <select class="form-control" id="priceType">
+                        <option>select</option>
+                        <!-- Options will be populated from backend -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="price">Price</label>
+                    <input type="text" class="form-control" id="price" placeholder="Enter price">
+                </div>
+                <div class="form-group">
+                    <label for="isSurplus">Is Surplus</label>
+                    <select class="form-control" id="isSurplus">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-custom btn-block">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // JavaScript to fetch and display price type options from backend
+        // Example:
+        /*
+        fetch('/api/priceTypes')
+            .then(response => response.json())
+            .then(data => {
+                let options = '<option>select</option>';
+                data.forEach(priceType => {
+                    options += `<option value="${priceType.priceTypeID}">${priceType.priceType}</option>`;
+                });
+                document.getElementById('priceType').innerHTML = options;
+            });
+
+        // JavaScript to save item
+        document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const item = {
+                itemName: document.getElementById('itemName').value,
+                quantity: document.getElementById('quantity').value,
+                expirationDate: document.getElementById('expirationDate').value,
+                priceTypeID: document.getElementById('priceType').value,
+                price: document.getElementById('price').value,
+                isSurplus: document.getElementById('isSurplus').value
+            };
+            fetch('/api/retailer/items', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(item)
+            }).then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = 'retailer.html';
+                } else {
+                    alert('Failed to save item');
+                }
+            });
+        });
+        */
+    </script>
+</body>
+</html>
