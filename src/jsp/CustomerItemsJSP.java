@@ -39,7 +39,7 @@ public class CustomerItemsJSP extends HttpServlet {
         printWriter.println("<div class='header'>");
         printWriter.println("<span>xxx website</span>");
         printWriter.println("<div>");
-        printWriter.println("<a href='" + request.getContextPath() + "/logout'class='text-white'>Log out</a>");
+        printWriter.println("<a href='" + request.getContextPath() + "/logoutController' class='text-white'>Log out</a>");
         printWriter.println("</div>");
         printWriter.println("</div>");
         printWriter.println("<div class='main'>");

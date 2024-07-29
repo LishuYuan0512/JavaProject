@@ -38,7 +38,7 @@ public class ShowCheckoutJSP extends HttpServlet {
         printWriter.println("<div class='header'>");
         printWriter.println("<span>xxx website</span>");
         printWriter.println("<div>");
-        printWriter.println("<a href='" + request.getContextPath() + "/customer.html' class='text-white'>back</a>");
+        printWriter.println("<a href='" + request.getContextPath() + "/customer/safe/showItemsController' class='text-white'>back</a>");
         printWriter.println("</div>");
         printWriter.println("</div>");
         printWriter.println("<div class='main'>");
