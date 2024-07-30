@@ -26,25 +26,17 @@ public class CheckoutController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("item携带的数据如下：");
+
         Integer itemID = Integer.parseInt(request.getParameter("itemID"));
-        System.out.println("itemID:" + itemID);
         Integer enterQuantity = Integer.parseInt(request.getParameter("enterQuantity"));
         Integer quantity = Integer.parseInt(request.getParameter("quantity"));
 
-        System.out.println("enter quantity:" + enterQuantity);
-
         String itemName = request.getParameter("itemName");
-        System.out.println("itemName:" + itemName);
         Integer priceTypeID = Integer.parseInt(request.getParameter("priceTypeID"));
-        System.out.println("priceTypeID:" + priceTypeID);
         Double price = Double.parseDouble(request.getParameter("price"));
-        System.out.println("price:" + price);
 
-        System.out.println("item携带的数据如下："+itemName+"="+enterQuantity);
 
         Customer customer = (Customer) request.getSession().getAttribute("customer");
-        System.out.println("======customer信息如下："+customer);
         int userID = customer.getUserID();
 
         Purchase purchase = new Purchase();
