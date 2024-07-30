@@ -2,24 +2,28 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.finalproject;
+package project;
 
 /**
  *
  * @author tangy
  */
+import java.sql.SQLException;
 import java.util.List;
 
 public class FoodItemBusinessLogic {
-    private FoodItemDao foodItemDao;
+    private FoodItemDaoImpl foodItemDao =null;
 
-    public FoodItemBusinessLogic(FoodItemDao foodItemDao) {
-        this.foodItemDao = foodItemDao;
+
+      public FoodItemBusinessLogic() {
+        foodItemDao = new FoodItemDaoImpl();
     }
 
-//    public void addItem(FoodItem foodItem) {
-//        foodItemDao.addFoodItem(foodItem);
-//    }
+
+    public void addItem(FoodItem foodItem) throws SQLException {
+    foodItemDao.addFoodItem(foodItem);
+}
+
 //
 //    public void updateItem(FoodItem foodItem) {
 //        foodItemDao.updateFoodItem(foodItem);
@@ -33,10 +37,10 @@ public class FoodItemBusinessLogic {
 //        foodItemDao.deleteFoodItem(itemID);
 //    }
 
-    public List<FoodItem> getAllItems() {
+    public List<FoodItem> getAllItems()  throws SQLException{
         return foodItemDao.getAllFoodItems();
     }
-
+}
 //    public List<PriceType> getAllPriceTypes() {
 //        return foodItemDao.getAllPriceTypes();
 //    }
@@ -48,7 +52,8 @@ public class FoodItemBusinessLogic {
 //            updateItem(item);
 //        }
 //    }
-}
+
+
 
 //  public List<FoodItem> getFoodItemsByRetailerId(long retailerId) throws SQLException {
 //    return foodItemDao.getFoodItemsByRetailerId(retailerId);

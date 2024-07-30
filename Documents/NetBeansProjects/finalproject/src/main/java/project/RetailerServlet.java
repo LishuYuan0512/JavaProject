@@ -1,31 +1,102 @@
-package com.mycompany.finalproject;
+package project;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import project.FoodItemBusinessLogic;
+import java.util.Map;
 
 //@WebServlet("/retailer/*")
 public class RetailerServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-
-    private FoodItemBusinessLogic foodItemService;
-
+    
     @Override
-    public void init() {
-        foodItemService = new FoodItemBusinessLogic(new FoodItemDaoImpl());
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        FoodItemBusinessLogic foodItemBusinessLogic = new FoodItemBusinessLogic();
+        List<FoodItem> items = null;
+
+        try {
+            items = foodItemBusinessLogic.getAllItems();
+        } catch (SQLException ex) {
+           log(ex.getMessage());
+      }
+
+        request.setAttribute("items", items);
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("views/retailer.jsp");
+        dispatcher.forward(request, response);
     }
     
-    private void listFoodItems(HttpServletRequest request, HttpServletResponse response)
+    @Override
+
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
-    List<FoodItem> foodItems = foodItemService.getAllItems();
-    request.setAttribute("foodItems", foodItems);
-    request.getRequestDispatcher("/WEB-INF/retailer.jsp").forward(request, response);
+    String action = request.getParameter("action");
+
+    if ("add".equals(action)) {
+        // Get parameters from the request
+        String itemName = request.getParameter("itemName");
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        Date expirationDate = Date.valueOf(request.getParameter("expirationDate"));
+        int priceTypeID = Integer.parseInt(request.getParameter("priceTypeID"));
+        double price = Double.parseDouble(request.getParameter("price"));
+
+        // Create a new FoodItem object and set its properties
+        FoodItem newItem = new FoodItem();
+        newItem.setItemName(itemName);
+        newItem.setQuantity(quantity);
+        newItem.setExpirationDate(expirationDate);
+        newItem.setPriceTypeID(priceTypeID);
+        newItem.setPrice(price);
+
+        // Use business logic to add the new item
+        FoodItemBusinessLogic foodItemBusinessLogic = new FoodItemBusinessLogic();
+        try {
+            foodItemBusinessLogic.addItem(newItem);
+        } catch (SQLException e) {
+            log(e.getMessage());
+        }
+
+        // Redirect back to the retailer page to show the updated list
+        response.sendRedirect("RetailerServlet");
+    } else {
+        // Handle other actions (if any)
+        doGet(request, response);
+    }
 }
+
+
+    
+     @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
+    
+
+//    private static final long serialVersionUID = 1L;
+//
+//    private FoodItemBusinessLogic foodItemService;
+//
+//    @Override
+//    public void init() {
+//        foodItemService = new FoodItemBusinessLogic(new FoodItemDaoImpl());
+//    }
+//    
+//    private void listFoodItems(HttpServletRequest request, HttpServletResponse response)
+//        throws ServletException, IOException {
+//    List<FoodItem> foodItems = foodItemService.getAllItems();
+//    request.setAttribute("foodItems", foodItems);
+//    request.getRequestDispatcher("/WEB-INF/retailer.jsp").forward(request, response);
+//}
 //        private void listFoodItems(HttpServletRequest request, HttpServletResponse response)
 //            throws ServletException, IOException {
 //        request.setAttribute("foodItems", foodItemService.getAllItems());

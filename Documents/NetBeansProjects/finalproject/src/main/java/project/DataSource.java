@@ -6,7 +6,7 @@
  * Ram N. (2013).  Data Access Object Design Pattern or DAO Pattern [blog] Retrieved from
  * http://ramj2ee.blogspot.in/2013/08/data-access-object-design-pattern-or.html
  */
-package com.mycompany.finalproject;
+package project;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,7 +15,7 @@ import java.sql.SQLException;
 public class DataSource {
 
     private Connection connection = null;
-    private String url = "jdbc:mysql://localhost:3306/finalproject";
+    private String url = "jdbc:mysql://localhost:3306/finalproject?useSSL=false&allowPublicKeyRetrieval=true";
     private String username = "root";
     private String password = "ty8988226";
 
