@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <!--
 Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -12,35 +13,35 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <link href="styles.css" rel="stylesheet">
 </head>
 <body>
-    <div class="header">
-        <span>xxx website</span>
-        <div>
-            <a href="login.html" class="text-white">login</a>
-        </div>
+<div class="header">
+    <span>xxx website</span>
+    <div>
+        <a href="login.html" class="text-white">login</a>
     </div>
-    <div class="main">
-        <div class="card p-4">
-            <h2 class="text-center">Login</h2>
-            <form>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="Enter email">
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="Password">
-                </div>
-                <button type="button" class="btn btn-custom btn-block" onclick="window.location.href='customer.html'">Login</button>
-                <!--in real requirement the type should use submit-->
-                <!--<button type="submit" class="btn btn-custom btn-block" onclick="window.location.href='customer.html'">Login</button>-->
-                <div class="text-center mt-3">
-                    <span>Don't have an account? <a href="signup.html">Sign Up</a></span>
-                </div>
-            </form>
-        </div>
+</div>
+<div class="main">
+    <div class="card p-4">
+        <h2 class="text-center">Login</h2>
+        <form action="../FinalProject/LoginController" method="post">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-custom btn-block">Login</button>
+            <!--in real requirement the type should use submit-->
+            <!--<button type="submit" class="btn btn-custom btn-block" onclick="window.location.href='customer.html'">Login</button>-->
+            <div class="text-center mt-3">
+                <span>Don't have an account? <a href="signup.html">Sign Up</a></span>
+            </div>
+        </form>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
