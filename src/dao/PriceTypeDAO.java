@@ -1,5 +1,7 @@
 package dao;
 
-public interface PriceTypeDAO {
+import entity.PriceType;
 
+public interface PriceTypeDAO {
+    public String getPriceTypeBYID(int priceTypeID);
 }

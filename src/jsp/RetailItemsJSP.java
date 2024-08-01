@@ -1,19 +1,21 @@
 package jsp;
 
-import dao.CustomerDAO;
-import dao.CustomerDAOImpl;
-import entity.Customer;
+import dao.RetailerDAO;
+import dao.RetailerDAOImpl;
 import entity.FoodItem;
+import entity.Retailer;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.WebServlet;
+import service.PriceTypeService;
+import service.PriceTypeServiceImpl;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@WebServlet(name = "CustomerItemsJSP", value = "/customer/safe/showItemsJSP")
-public class CustomerItemsJSP extends HttpServlet {
+@WebServlet(name = "RetailItems", value = "/retailer/safe/showRetailerItemsJSP")
+public class RetailItemsJSP extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
@@ -21,11 +23,13 @@ public class CustomerItemsJSP extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Customer customer = null;
+        Retailer retailer = null;
         List<FoodItem> foodItems = (List<FoodItem>) request.getAttribute("foodItems");
         HttpSession session = request.getSession();
-        customer = (Customer) session.getAttribute("customer");
-        CustomerDAO customerDAO = new CustomerDAOImpl();
+        retailer = (Retailer) session.getAttribute("retailer");
+        RetailerDAO retailerDAO = new RetailerDAOImpl();
+        PriceTypeService priceTypeService = new PriceTypeServiceImpl();
+
 
         PrintWriter printWriter = response.getWriter();
         printWriter.println("<head>");
@@ -44,29 +48,47 @@ public class CustomerItemsJSP extends HttpServlet {
         printWriter.println("</div>");
         printWriter.println("<div class='main'>");
         printWriter.println("<div class='container'>");
-        printWriter.println("<h2 class='text-center'>Welcome back, "+customer.getUsername()+"</h2>");
+        printWriter.println("<h2 class='text-center'>Welcome back, "+retailer.getUsername()+"</h2>");
+        printWriter.println("<td><a href='" + request.getContextPath() +
+                "/retailer/safe/showAddRetailerItemJSP'>Add</a></td>");
         printWriter.println("<table class='table table-striped'>");
         printWriter.println("<thead>");
         printWriter.println("<tr>");
         printWriter.println("<th>itemID</th>");
         printWriter.println("<th>itemName</th>");
         printWriter.println("<th>quantity</th>");
+        printWriter.println("<th>Expiration Date</th>");
+        printWriter.println("<th>Price Type</th>");
         printWriter.println("<th>price</th>");
-        printWriter.println("<th>option</th>");
+        printWriter.println("<th>isSurplus</th>");
+        printWriter.println("<th colspan='3'>Options</th>");
         printWriter.println("</tr>");
         printWriter.println("</thead>");
         printWriter.println("<tbody id='customer-items'>");
         for (FoodItem foodItem : foodItems) {
             int userID = foodItem.getUserID();
-            if (customerDAO.getUserTypeByUserID(customer).equalsIgnoreCase("Customer")){
+            if (retailerDAO.getUserTypeByUserID(retailer).equalsIgnoreCase("Retailer")){
                 printWriter.println("<tr>");
                 printWriter.println("<td>" + foodItem.getItemID() + "</td>");
                 printWriter.println("<td>" + foodItem.getItemName() + "</td>");
                 printWriter.println("<td>" + foodItem.getQuantity() + "</td>");
+                printWriter.println("<td>" + foodItem.getExpirationDate() + "</td>");
+
+                int priceTypeID = foodItem.getIsPlus();
+                printWriter.println("<td>" + priceTypeService.showPriceType(priceTypeID) + "</td>");
                 printWriter.println("<td>" + foodItem.getPrice() + "</td>");
-                if (foodItem.getQuantity() > 0) {
+
+                if (foodItem.getIsPlus() == 1){
+                    printWriter.println("<td>Yes</td>");
+                }else if(foodItem.getIsPlus() == 2){
+                    printWriter.println("<td>No</td>");
+                }
+
+                printWriter.println("<td><a href='" + request.getContextPath() +
+                        "/retailer/safe/showEditRetailerItemsJSP?editItemID=" + foodItem.getItemID() + "'>Update</a></td>");
+                if (foodItem.getIsPlus() == 1){
                     printWriter.println("<td><a href='" + request.getContextPath() +
-                            "/customer/safe/showCheckoutJSP?itemID=" + foodItem.getItemID() + "'>Purchase</a></td>");
+                            "/retailer/safe/showSurplusItemJSP?surplusItemID=" + foodItem.getItemID() + "'>Surplus</a></td>");
                 }
                 printWriter.println("</tr>");
             }
@@ -89,4 +111,5 @@ public class CustomerItemsJSP extends HttpServlet {
         printWriter.println("</html>");
 
     }
+
 }

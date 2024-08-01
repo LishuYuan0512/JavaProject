@@ -16,7 +16,8 @@ public class LogoutController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        if (session.getAttribute("customer") != null) {
+        if (session.getAttribute("customer") != null || session.getAttribute("retailer")!= null ||
+                session.getAttribute("charity")!= null){
             session.invalidate();
         }
         response.sendRedirect(request.getContextPath()+"/login.html");

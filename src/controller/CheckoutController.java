@@ -55,7 +55,7 @@ public class CheckoutController extends HttpServlet {
         foodItem.setQuantity(enterQuantity);
         foodItem.setItemName(itemName);
         FoodItemService foodItemService = new FoodItemServiceImpl();
-        foodItemService.modifyFoodItemQuantity(foodItem);
+        foodItemService.purchaseFoodItemQuantity(foodItem);
         response.sendRedirect(request.getContextPath()+"/customer/safe/showItemsController");
     }
 }

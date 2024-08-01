@@ -42,11 +42,67 @@ public class FoodItemServiceImpl implements FoodItemService{
     }
 
     @Override
-    public int modifyFoodItemQuantity(FoodItem foodItem) {
+    public int purchaseFoodItemQuantity(FoodItem foodItem) {
         int result = 0;
         try {
             DbUtil.begin();
-            result = foodItemDAO.updateFoodItemQuantity(foodItem);
+            result = foodItemDAO.consumeFoodItemQuantity(foodItem);
+            DbUtil.commit();
+        } catch (Exception e) {
+            DbUtil.rollback();
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    @Override
+    public int addFoodItemQuantity(FoodItem foodItem) {
+        int result = 0;
+        try {
+            DbUtil.begin();
+            result = foodItemDAO.addFoodItemQuantity(foodItem);
+            DbUtil.commit();
+        } catch (Exception e) {
+            DbUtil.rollback();
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    @Override
+    public int updateFoodItemDate(FoodItem foodItem) {
+        int result = 0;
+        try {
+            DbUtil.begin();
+            result = foodItemDAO.updateFoodItemExpirationDates(foodItem);
+            DbUtil.commit();
+        } catch (Exception e) {
+            DbUtil.rollback();
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    @Override
+    public int insertFoodItem(FoodItem foodItem) {
+        int result = 0;
+        try {
+            DbUtil.begin();
+            result = foodItemDAO.insertFoodItem(foodItem);
+            DbUtil.commit();
+        } catch (Exception e) {
+            DbUtil.rollback();
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    @Override
+    public int surplusItem(FoodItem foodItem) {
+        int result = 0;
+        try {
+            DbUtil.begin();
+            result = foodItemDAO.updateFoodItemSurplus(foodItem);
             DbUtil.commit();
         } catch (Exception e) {
             DbUtil.rollback();
