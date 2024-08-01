@@ -4,6 +4,7 @@
  */
 package Subscription;
 
+import dao.SubscriptionDao;
 import java.sql.SQLException;
 /**
  *

@@ -18,8 +18,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet(name = "CustomerItemsJSP", value = "/customer/safe/showItemsJSP")
-public class CustomerItemsJSP extends HttpServlet {
+/**
+ *
+ * @author ZU
+ */
+@WebServlet(name = "ShowItemsJSP", value = "/customer/safe/showItemsJSP")
+public class ShowItemsJSP extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
@@ -71,8 +75,6 @@ public class CustomerItemsJSP extends HttpServlet {
                 printWriter.println("<td>" + foodItem.getQuantity() + "</td>");
                 printWriter.println("<td>" + foodItem.getPrice() + "</td>");
                 if (foodItem.getQuantity() > 0) {
-                    System.out.println(request.getContextPath() +
-                            "/customer/safe/showCheckoutJSP?id="+foodItem.getItemID());
                     printWriter.println("<td><a href='" + request.getContextPath() +
                             "/customer/safe/showCheckoutJSP?itemID=" + foodItem.getItemID() + "'>Purchase</a></td>");
                 }
