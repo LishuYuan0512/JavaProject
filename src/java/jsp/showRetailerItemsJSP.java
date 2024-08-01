@@ -35,6 +35,7 @@ public class showRetailerItemsJSP extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Retailer retailer = null;
         List<FoodItem> foodItems = (List<FoodItem>) request.getAttribute("foodItems");
+
         HttpSession session = request.getSession();
         retailer = (Retailer) session.getAttribute("retailer");
         RetailerDAO retailerDAO = new RetailerDAOImpl();

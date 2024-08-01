@@ -68,6 +68,7 @@ public class ShowItemsJSP extends HttpServlet {
         printWriter.println("<tbody id='customer-items'>");
         for (FoodItem foodItem : foodItems) {
             int userID = foodItem.getUserID();
+            if(foodItem.getPriceTypeID() == 2){
             if (customerDAO.getUserTypeByUserID(customer).equalsIgnoreCase("Customer")){
                 printWriter.println("<tr>");
                 printWriter.println("<td>" + foodItem.getItemID() + "</td>");
@@ -79,6 +80,10 @@ public class ShowItemsJSP extends HttpServlet {
                             "/customer/safe/showCheckoutJSP?itemID=" + foodItem.getItemID() + "'>Purchase</a></td>");
                 }
                 printWriter.println("</tr>");
+            }
+            }
+            else{
+                System.out.println("no fooditem");
             }
         }
 

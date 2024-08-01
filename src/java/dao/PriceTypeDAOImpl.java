@@ -13,7 +13,7 @@ public class PriceTypeDAOImpl implements PriceTypeDAO{
     public String getPriceTypeBYID(int priceTypeID) {
         ScalarHandler<Long> scalarHandler = new ScalarHandler<>();
         try {
-            String userType = String.valueOf(queryRunner.query(DbUtil.getConnection(),"select priceType from PriceType where priceTypeID = ?;",
+            String userType = String.valueOf(queryRunner.query(DbUtil.getConnection(),"select priceType from PriceType2 where priceTypeID = ?;",
                     scalarHandler,priceTypeID));
             return userType;
         } catch (SQLException e) {
