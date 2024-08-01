@@ -27,7 +27,7 @@ import service.PurchaseServiceImpl;
 @WebServlet(name = "CheckoutController", value = "/customer/safe/checkoutController")
 public class CheckoutController extends HttpServlet {
 
- @Override
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
@@ -63,7 +63,7 @@ public class CheckoutController extends HttpServlet {
         foodItem.setQuantity(enterQuantity);
         foodItem.setItemName(itemName);
         FoodItemService foodItemService = new FoodItemServiceImpl();
-        foodItemService.modifyFoodItemQuantity(foodItem);
+        foodItemService.purchaseFoodItemQuantity(foodItem);
         response.sendRedirect(request.getContextPath()+"/customer/safe/showItemsController");
     }
 }

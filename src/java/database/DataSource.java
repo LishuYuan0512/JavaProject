@@ -21,7 +21,7 @@ class DataSource {
      */
     private static final String serverUrl = "jdbc:mysql://localhost:3306/finalproject";
     private static final String userString = "root";
-    private static final String passwordString = "0505";
+    private static final String passwordString = "123456";
     private static final String driverString = "com.mysql.cj.jdbc.Driver";
 
     /**

@@ -12,11 +12,11 @@ public class FoodItem {
     private Date expirationDate;
     private double price;
     private int priceTypeID;
-
+    private int isPlus;
     public FoodItem() {
     }
 
-    public FoodItem(int itemID, int userID, String itemName, int quantity, Date restockTime, Date expirationDate, double price, int priceTypeID) {
+    public FoodItem(int itemID, int userID, String itemName, int quantity, Date restockTime, Date expirationDate, double price, int priceTypeID, int isPlus) {
         this.itemID = itemID;
         this.userID = userID;
         this.itemName = itemName;
@@ -25,6 +25,7 @@ public class FoodItem {
         this.expirationDate = expirationDate;
         this.price = price;
         this.priceTypeID = priceTypeID;
+        this.isPlus = isPlus;
     }
 
     public int getItemID() {
@@ -89,6 +90,14 @@ public class FoodItem {
 
     public void setPriceTypeID(int priceTypeID) {
         this.priceTypeID = priceTypeID;
+    }
+
+    public int getIsPlus() {
+        return isPlus;
+    }
+
+    public void setIsPlus(int isPlus) {
+        this.isPlus = isPlus;
     }
 
     @Override

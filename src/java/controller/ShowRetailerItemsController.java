@@ -4,21 +4,21 @@
  */
 package controller;
 
+import entity.FoodItem;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import service.FoodItemService;
+import service.FoodItemServiceImpl;
 
-/**
- *
- * @author ZU
- */
-@WebServlet(name = "LogoutController", urlPatterns = {"/LogoutController"})
-public class LogoutController extends HttpServlet {
+@WebServlet(name = "ShowRetailerItemsController", value = "/retailer/safe/showRetailerItemsController")
+public class ShowRetailerItemsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
@@ -26,11 +26,12 @@ public class LogoutController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        if (session.getAttribute("customer") != null || session.getAttribute("retailer")!= null ||
-                session.getAttribute("charity")!= null){
-            session.invalidate();
-        }
-        response.sendRedirect(request.getContextPath()+"/login.html");
+        //filter已经做了权限验证
+        System.out.println("进入controller");
+        FoodItemService fs = new FoodItemServiceImpl();
+        List<FoodItem> foodItems = fs.getAllFoodItems();
+        request.setAttribute("foodItems", foodItems);
+        RequestDispatcher rd = request.getRequestDispatcher("/retailer/safe/showRetailerItemsJSP");
+        rd.forward(request,response);
     }
 }

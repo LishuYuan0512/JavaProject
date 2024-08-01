@@ -15,7 +15,7 @@ public class CustomerDAOImpl implements CustomerDAO{
     @Override
     public List<Customer> selectAllCustomer() {
         try {
-            List<Customer> customers = queryRunner.query(DbUtil.getConnection(), "select * from Users;",
+            List<Customer> customers = queryRunner.query(DbUtil.getConnection(), "select * from Users where userType = 'Customer';",
                     new BeanListHandler<Customer>(Customer.class));
             return customers;
         } catch (SQLException e) {
@@ -51,7 +51,7 @@ public class CustomerDAOImpl implements CustomerDAO{
     public int insertCustomer(Customer customer) {
         try {
             int result = queryRunner.update(DbUtil.getConnection(),
-                    "insert into Users (userName, password, email, phone, userType, locationID) values (?, ?,?,?,?,?);",
+                    "insert into Consumer (userName, password, email, phone, userType, locationID) values (?, ?,?,?,?,?);",
                     customer.getUsername(), customer.getPassword(), customer.getEmail(), customer.getPhone(),
                     customer.getUserType(),customer.getLocationID());
             return result;
@@ -63,7 +63,7 @@ public class CustomerDAOImpl implements CustomerDAO{
     @Override
     public Customer selectCustomerByEmail(String email) {
         try {
-            Customer customer = queryRunner.query(DbUtil.getConnection(),"select * from Users where email = ?;",
+            Customer customer = queryRunner.query(DbUtil.getConnection(),"select * from Consumer where email = ?;",
                     new BeanHandler<Customer>(Customer.class),email);
             return customer;
         } catch (SQLException e) {
@@ -75,7 +75,7 @@ public class CustomerDAOImpl implements CustomerDAO{
     public int getUserIDByEmail(String email) {
         try {
             ScalarHandler<Long> scalarHandler = new ScalarHandler<>();
-            Long userID = queryRunner.query(DbUtil.getConnection(),"select userID from Users where email = ?;",
+            Long userID = queryRunner.query(DbUtil.getConnection(),"select userID from Consumer where email = ?;",
                     scalarHandler,email);
             return userID.intValue();
         } catch (SQLException e) {
@@ -87,7 +87,7 @@ public class CustomerDAOImpl implements CustomerDAO{
     public String getUserTypeByUserID(Customer customer) {
         ScalarHandler<Long> scalarHandler = new ScalarHandler<>();
         try {
-            String userType = String.valueOf(queryRunner.query(DbUtil.getConnection(),"select userType from Users where userID = ?;",
+            String userType = String.valueOf(queryRunner.query(DbUtil.getConnection(),"select userType from Consumer where userID = ?;",
                     scalarHandler,customer.getUserID()));
             return userType;
         } catch (SQLException e) {
