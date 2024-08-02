@@ -1,7 +1,6 @@
 package dao;
 
 import entity.Charity;
-import entity.Retailer;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import utils.DbUtil;

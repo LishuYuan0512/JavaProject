@@ -67,7 +67,9 @@ public class LoginController extends HttpServlet {
                 System.out.println("进入判断retailer密码");
                 response.sendRedirect(request.getContextPath() + "/retailer/safe/showRetailerItemsController");
             } else {
-                response.sendRedirect(request.getContextPath() + "/login.html");
+                request.setAttribute("error", "Invalid email or password. Please try again.");
+                request.getRequestDispatcher("/login.jsp").forward(request, response);
+
             }
         }else if (charity != null) {
             session.setAttribute("charity", charity);
@@ -75,10 +77,14 @@ public class LoginController extends HttpServlet {
             if (charity.getUserType().equalsIgnoreCase("Charity")) {
                 response.sendRedirect(request.getContextPath() + "/charity/safe/showItemsController");
             } else {
-                response.sendRedirect(request.getContextPath() + "/login.html");
+                request.setAttribute("error", "Invalid email or password. Please try again.");
+                request.getRequestDispatcher("/login.jsp").forward(request, response);
+
             }
         }else {
-            response.sendRedirect(request.getContextPath() + "/login.html");
+            request.setAttribute("error", "Invalid email or password. Please try again.");
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
+
         }
 
     }

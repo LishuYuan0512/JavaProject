@@ -1,32 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller;
 
-import dao.CharityDAO;
-import dao.CharityDAOImpl;
-import dao.CustomerDAO;
-import dao.CustomerDAOImpl;
-import dao.RetailerDAO;
-import dao.RetailerDAOImpl;
+import dao.*;
 import entity.Charity;
 import entity.Customer;
 import entity.Retailer;
-import java.io.IOException;
-import java.io.PrintWriter;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import jakarta.servlet.annotation.WebServlet;
+import Validation.InputValidator;
 
-/**
- *
- * @author ZU
- */
-@WebServlet(name = "SignUpController", urlPatterns = {"/SignUpController"})
+import java.io.IOException;
+
+@WebServlet(name = "SignUpController", value = "/SignUpController")
 public class SignUpController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -35,43 +20,75 @@ public class SignUpController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //1. 接收参数
+        // Retrieve form parameters
         String username = request.getParameter("name");
         String password = request.getParameter("password");
+        String retypePassword = request.getParameter("retypePassword");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
         String type = request.getParameter("type");
         int locationID = Integer.parseInt(request.getParameter("location"));
         HttpSession session = request.getSession();
-        System.out.println("从表单接收的信息如下："+email+"-"+password);
+        System.out.println("Received form data: " + email + "-" + password);
+        
+        // Validate inputs
+        String validationError = validateInputs(email, phone, password, retypePassword);
+        if (validationError != null) {
+            request.getRequestDispatcher("signup.jsp").forward(request, response);
+            request.setAttribute("error", validationError);
+            return;
+        }
+
         try {
-            switch (type){
+            switch (type) {
                 case "Customer":
-                    System.out.println("----进入customer");
+                    System.out.println("Processing customer registration");
                     Customer customer = new Customer(username, password, email, phone, type, locationID);
                     CustomerDAO customerDAO = new CustomerDAOImpl();
-                    session.setAttribute("customer", customer);
                     customerDAO.insertCustomer(customer);
+                    session.setAttribute("customer", customer);
                     break;
                 case "Retailer":
+                    System.out.println("Processing retailer registration");
                     Retailer retailer = new Retailer(username, password, email, phone, type, locationID);
-                    System.out.println("------接收的 retailer信息如下："+retailer.getEmail()+retailer.getPassword());
                     RetailerDAO retailerDAO = new RetailerDAOImpl();
-                    session.setAttribute("retailer", retailer);
                     retailerDAO.insertRetailer(retailer);
+                    session.setAttribute("retailer", retailer);
                     break;
                 case "Charity":
-                    System.out.println("进入charity");
+                    System.out.println("Processing charity registration");
                     Charity charity = new Charity(username, password, email, phone, type, locationID);
                     CharityDAO charityDAO = new CharityDAOImpl();
-                    session.setAttribute("charity", charity);
                     charityDAO.insertCharity(charity);
+                    session.setAttribute("charity", charity);
                     break;
+                default:
+                    throw new IllegalArgumentException("Invalid user type: " + type);
             }
-            response.sendRedirect(request.getContextPath() + "/login.html");
+            
+            // Redirect to login page after successful registration
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
         } catch (Exception e) {
+            // Log the exception and set an error message
             e.printStackTrace();
-
+            request.setAttribute("error", "Registration failed due to a server error.");
+            request.getRequestDispatcher("signup.jsp").forward(request, response);
         }
+    }
+
+    private String validateInputs(String email, String phone, String password, String retypePassword) {
+        if (!InputValidator.isValidEmail(email)) {
+            return "Invalid email format.";
+        }
+        if (!InputValidator.isValidPhone(phone)) {
+            return "Phone number must be 10 digits.";
+        }
+        if (!InputValidator.isValidPassword(password)) {
+            return "Password must be at least 4 characters long and contain at least one letter and one number.";
+        }
+        if (!InputValidator.doPasswordsMatch(password, retypePassword)) {
+            return "Passwords do not match.";
+        }
+        return null;
     }
 }
