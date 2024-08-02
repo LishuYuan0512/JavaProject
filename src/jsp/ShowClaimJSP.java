@@ -10,8 +10,8 @@ import service.FoodItemServiceImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "AddRetailerItemJSP", value = "/retailer/safe/showAddRetailerItemJSP")
-public class ShowAddRetailerItemJSP extends HttpServlet {
+@WebServlet(name = "ShowClaimJSP", value = "/charity/safe/showClaimJSP")
+public class ShowClaimJSP extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
@@ -19,8 +19,9 @@ public class ShowAddRetailerItemJSP extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Integer foodId = Integer.parseInt(request.getParameter("claimItemID"));
         FoodItemService fs = new FoodItemServiceImpl();
-
+        FoodItem foodItem = fs.getFoodItemById(foodId);
 
         PrintWriter printWriter = response.getWriter();
         response.setContentType("text/html;charset=UTF-8");
@@ -38,64 +39,41 @@ public class ShowAddRetailerItemJSP extends HttpServlet {
         printWriter.println("<div class='header'>");
         printWriter.println("<span>xxx website</span>");
         printWriter.println("<div>");
-        printWriter.println("<a href='" + request.getContextPath() + "/retailer/safe//retailer/safe/addRetailerItemController' class='text-white'>back</a>");
+        printWriter.println("<a href='" + request.getContextPath() + "/charity/safe/claimItemsController' class='text-white'>back</a>");
         printWriter.println("</div>");
         printWriter.println("</div>");
         printWriter.println("<div class='main'>");
         printWriter.println("<div class='container'>");
         printWriter.println("<h2 class='text-center'>Checkout</h2>");
-        printWriter.println("<form action='" + request.getContextPath() + "/retailer/safe/addRetailerItemController' method='post'>");
+        printWriter.println("<form action='" + request.getContextPath() + "/charity/safe/claimItemsController' method='post'>");
+
+        System.out.println("itemID:" + foodItem.getItemID());
+
+        printWriter.println("<div class='form-group'>");
+        printWriter.println("<input type='hidden' class='form-control' id='itemID' name='itemID' value='" + foodItem.getItemID() + "'>");
+        printWriter.println("</div>");
 
         printWriter.println("<div class='form-group'>");
         printWriter.println("<label for='itemName'>Item Name</label>");
-        printWriter.println("<input type='text' class='form-control' id='itemName' name='itemName'>");
+        printWriter.println("<input type='text' class='form-control' id='itemName' name='itemName' value='" + foodItem.getItemName() + "' readonly>");
         printWriter.println("</div>");
 
         printWriter.println("<div class='form-group'>");
         printWriter.println("<label for='price'>Price</label>");
-        printWriter.println("<input type='text' class='form-control' id='price' name='price' >");
+        printWriter.println("<input type='text' class='form-control' id='price' name='price' value='" + foodItem.getPrice() + "' readonly>");
         printWriter.println("</div>");
 
         printWriter.println("<div class='form-group'>");
-        printWriter.println("<label for='quantity'>Quantity</label>");
-        printWriter.println("<input type='number' class='form-control' id='quantity' name='quantity'> ");
-        printWriter.println("</div>");
-
-        printWriter.println("<div class='form-group'>");
-        printWriter.println("<label for='restockTime'>Restock date</label>");
-        printWriter.println("<input type='date' class='form-control' id='restockTime' name='restockTime' placeholder='Restock date' >");
-        printWriter.println("</div>");
-
-        printWriter.println("<div class='form-group'>");
-        printWriter.println("<label for='expirationData'>Expiration date</label>");
-        printWriter.println("<input type='date' class='form-control' id='expirationData' name='expirationData' placeholder='Expiration date' >");
-        printWriter.println("</div>");
-
-        printWriter.println("<div class='form-group'>");
-        printWriter.println("<label for='priceType'>Price Type</label>");
-        printWriter.println("<select class='form-control' id='priceType' name='priceType'>");
-        printWriter.println("<option value='' disabled selected>Select a price type</option>");
-        printWriter.println("<option value='1'>Donate</option>");
-        printWriter.println("<option value='2'>Sales</option>");
-        printWriter.println("</select>");
-        printWriter.println("</div>");
-
-        printWriter.println("<div class='form-group'>");
-        printWriter.println("<label for='isSurplus'>Is Surplus</label>");
-        printWriter.println("<select class='form-control' id='isSurplus' name='isSurplus'>");
-        printWriter.println("<option value='' disabled selected>Select an option</option>");
-        printWriter.println("<option value='1'>Yes</option>");
-        printWriter.println("<option value='2'>No</option>");
-        printWriter.println("</select>");
+        printWriter.println("<input type='text' class='form-control' id='quantity' name='quantity' >");
         printWriter.println("</div>");
 
 
         printWriter.println("<div class='text-center mt-3'>");
-        printWriter.println("<input type='submit' value='Add Item' class='btn btn-custom btn-block'>");
+        printWriter.println("<input type='submit' value='Check out' class='btn btn-custom btn-block'>");
         printWriter.println("</div>");
 
         printWriter.println("<div class='text-center mt-3'>");
-        printWriter.println("<a href='" + request.getContextPath() + "/charity/safe/showItemsController' class='btn btn-secondary btn-block'>Go Back</a>");
+        printWriter.println("<a href='" + request.getContextPath() + "/charity/safe/showRetailerItemsController' class='btn btn-secondary btn-block'>Go Back</a>");
         printWriter.println("</div>");
 
         printWriter.println("</form>");
@@ -107,4 +85,5 @@ public class ShowAddRetailerItemJSP extends HttpServlet {
         printWriter.println("</body>");
         printWriter.println("</html>");
     }
+
 }
