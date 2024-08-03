@@ -49,6 +49,7 @@ public class ShowItemsJSP extends HttpServlet {
         printWriter.println("<div class='header'>");
         printWriter.println("<span>xxx website</span>");
         printWriter.println("<div>");
+        printWriter.println("<a href='" + request.getContextPath() + "/Subscription.jsp?userID='"+customer.getUserID()+" class='text-white'>Subscription</a>");
         printWriter.println("<a href='" + request.getContextPath() + "/LogoutController' class='text-white'>Log out</a>");
         printWriter.println("</div>");
         printWriter.println("</div>");
@@ -77,7 +78,7 @@ public class ShowItemsJSP extends HttpServlet {
                 printWriter.println("<td>" + foodItem.getPrice() + "</td>");
                 if (foodItem.getQuantity() > 0) {
                     printWriter.println("<td><a href='" + request.getContextPath() +
-                            "/customer/safe/showCheckoutJSP?itemID=" + foodItem.getItemID() + "'>Purchase</a></td>");
+                            "/customer/safe/showCheckoutJSP?itemID?=" + foodItem.getItemID() + "'>Purchase</a></td>");
                 }
                 printWriter.println("</tr>");
             }

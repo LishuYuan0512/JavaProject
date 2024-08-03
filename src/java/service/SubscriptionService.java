@@ -11,5 +11,5 @@ import Subscription.Subscription;
  * @author ZU
  */
 public interface SubscriptionService {
-    public Subscription createSubscription(String email);
+    boolean createSubscription(Subscription subscription);
 }

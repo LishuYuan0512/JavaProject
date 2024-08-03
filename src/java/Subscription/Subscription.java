@@ -11,16 +11,19 @@ package Subscription;
 public class Subscription {
     private int subscriptionID;
     private int userID;
-    private String location;
+    private int locationID;
     private String foodPrefer;
     private String email;
     private String phone;
+    private int comunication_method;
 
- 
-    public Subscription(int subscriptionID, int userID, String location, String foodPrefer, String email, String phone) {
+    public Subscription(){
+    }
+    
+    public Subscription(int subscriptionID, int userID, int locationID, String foodPrefer, String email, String phone) {
         this.subscriptionID = subscriptionID;
         this.userID = userID;
-        this.location = location;
+        this.locationID = locationID;
         this.foodPrefer = foodPrefer;
         this.email = email;
         this.phone = phone;
@@ -43,12 +46,12 @@ public class Subscription {
         this.userID = userID;
     }
 
-    public String getLocation() {
-        return location;
+    public int getLocationID() {
+        return locationID;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setLocationID(int locationID) {
+        this.locationID = locationID;
     }
 
     public String getFoodPrefer() {
@@ -74,4 +77,13 @@ public class Subscription {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    public int getComunicationMethod() {
+        return comunication_method; // Getter for com method
+    }
+
+    public void setComunicationMethod(int comunication_method) {
+        this.comunication_method = comunication_method; // Setter for com method
+    }
+    
 }
