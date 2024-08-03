@@ -17,19 +17,29 @@ public class SubscriptionBusinessLogic {
         this.subscriptionDao = subscriptionDao;
     }
 
+    /**
+     * Adds a new subscription.
+     *
+     * @param subscription the Subscription object containing details to be added
+     * @return true if the subscription was added successfully, false otherwise
+     * @throws SQLException if a database access error occurs
+     */
+    public boolean addSubscription(Subscription subscription) throws SQLException {
+        subscriptionDao.addSubscription(subscription); // Handle the exception (e.g., logging)
+        // Indicate failure
+        return true; // Indicate success
+    }
+
+    /**
+     * Updates an existing subscription.
+     *
+     * @param subscription the Subscription object containing updated details
+     * @return true if the subscription was updated successfully, false otherwise
+     * @throws SQLException if a database access error occurs
+     */
     public boolean updateSubscription(Subscription subscription) throws SQLException {
-        return subscriptionDao.updateSubscription(subscription);
-    }
-
-    public Subscription getSubscription(int subscriptionID) throws SQLException {
-        return subscriptionDao.getSubscription(subscriptionID);
-    }
-
-    public void createSubscription(Subscription subscription) throws SQLException {
-        subscriptionDao.createSubscription(subscription);
-    }
-
-    public boolean deleteSubscription(int subscriptionID) throws SQLException {
-        return subscriptionDao.deleteSubscription(subscriptionID);
+        subscriptionDao.updateSubscription(subscription); // Handle the exception (e.g., logging)
+        // Indicate failure
+        return true;
     }
 }

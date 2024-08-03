@@ -13,8 +13,6 @@ import Subscription.Subscription;
 import java.sql.SQLException;
 
 public interface SubscriptionDao {
-    boolean updateSubscription(Subscription subscription) throws SQLException;
-    Subscription getSubscription(int subscriptionID) throws SQLException;
-    void createSubscription(Subscription subscription) throws SQLException;
-    boolean deleteSubscription(int subscriptionID) throws SQLException;
+    void addSubscription(Subscription subscription);
+    void updateSubscription(Subscription subscription);
 }
