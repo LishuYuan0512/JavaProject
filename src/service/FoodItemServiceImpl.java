@@ -98,7 +98,7 @@ public class FoodItemServiceImpl implements FoodItemService{
     }
 
     @Override
-    public int surplusItem(FoodItem foodItem) {
+    public int updateSurplusItem(FoodItem foodItem) {
         int result = 0;
         try {
             DbUtil.begin();
@@ -110,4 +110,33 @@ public class FoodItemServiceImpl implements FoodItemService{
         }
         return result;
     }
+
+    @Override
+    public int getFoodItemIsPlus(FoodItem foodItem) {
+        int result = 0;
+        try {
+            DbUtil.begin();
+            result = foodItemDAO.getFoodItemIsPlusID(foodItem);
+            DbUtil.commit();
+        } catch (Exception e) {
+            DbUtil.rollback();
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    @Override
+    public int updateFoodItem(FoodItem foodItem) {
+        int result = 0;
+        try {
+            DbUtil.begin();
+            result = foodItemDAO.updatePriceTypeAndPrice(foodItem);
+            DbUtil.commit();
+        } catch (Exception e) {
+            DbUtil.rollback();
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
 }

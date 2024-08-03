@@ -1,7 +1,12 @@
 package entity;
 
+
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.Date;
+
 
 public class FoodItem {
     private int itemID;
@@ -112,5 +117,19 @@ public class FoodItem {
                 ", price=" + price +
                 ", priceTypeID=" + priceTypeID +
                 '}';
+    }
+
+    public boolean isDateWithin7Days(Date expirationDate) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(expirationDate);
+        long expirationTime = calendar.getTimeInMillis();
+
+        calendar.setTime(new Date());
+        long currentTime = calendar.getTimeInMillis();
+
+        long diffInMillis = expirationTime - currentTime;
+        long diffInDays = diffInMillis / (1000 * 60 * 60 * 24);
+
+        return diffInDays < 7;
     }
 }

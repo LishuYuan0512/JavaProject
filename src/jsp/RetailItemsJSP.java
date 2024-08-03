@@ -7,11 +7,14 @@ import entity.Retailer;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.WebServlet;
+import service.FoodItemService;
+import service.FoodItemServiceImpl;
 import service.PriceTypeService;
 import service.PriceTypeServiceImpl;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.ZoneId;
 import java.util.List;
 
 @WebServlet(name = "RetailItems", value = "/retailer/safe/showRetailerItemsJSP")
@@ -29,7 +32,7 @@ public class RetailItemsJSP extends HttpServlet {
         retailer = (Retailer) session.getAttribute("retailer");
         RetailerDAO retailerDAO = new RetailerDAOImpl();
         PriceTypeService priceTypeService = new PriceTypeServiceImpl();
-
+        FoodItemService fsService = new FoodItemServiceImpl();
 
         PrintWriter printWriter = response.getWriter();
         printWriter.println("<head>");
@@ -61,26 +64,33 @@ public class RetailItemsJSP extends HttpServlet {
         printWriter.println("<th>Price Type</th>");
         printWriter.println("<th>price</th>");
         printWriter.println("<th>isSurplus</th>");
-        printWriter.println("<th colspan='3'>Options</th>");
+        printWriter.println("<th colspan='5'>Options</th>");
         printWriter.println("</tr>");
         printWriter.println("</thead>");
         printWriter.println("<tbody id='customer-items'>");
         for (FoodItem foodItem : foodItems) {
             int userID = foodItem.getUserID();
+
             if (retailerDAO.getUserTypeByUserID(retailer).equalsIgnoreCase("Retailer")){
+                if (foodItem.isDateWithin7Days(foodItem.getExpirationDate())){
+                    foodItem.setIsPlus(1);
+                    fsService.updateFoodItemDate(foodItem);
+                    System.out.println("========fooditem isplus:"+foodItem.getIsPlus());
+                }
+
                 printWriter.println("<tr>");
                 printWriter.println("<td>" + foodItem.getItemID() + "</td>");
                 printWriter.println("<td>" + foodItem.getItemName() + "</td>");
                 printWriter.println("<td>" + foodItem.getQuantity() + "</td>");
                 printWriter.println("<td>" + foodItem.getExpirationDate() + "</td>");
 
-                int priceTypeID = foodItem.getIsPlus();
+                int priceTypeID = foodItem.getPriceTypeID();
                 printWriter.println("<td>" + priceTypeService.showPriceType(priceTypeID) + "</td>");
                 printWriter.println("<td>" + foodItem.getPrice() + "</td>");
 
                 if (foodItem.getIsPlus() == 1){
                     printWriter.println("<td>Yes</td>");
-                }else if(foodItem.getIsPlus() == 2){
+                }else if(foodItem.getIsPlus()  == 2){
                     printWriter.println("<td>No</td>");
                 }
 
@@ -90,6 +100,16 @@ public class RetailItemsJSP extends HttpServlet {
                     printWriter.println("<td><a href='" + request.getContextPath() +
                             "/retailer/safe/showSurplusItemJSP?surplusItemID=" + foodItem.getItemID() + "'>Surplus</a></td>");
                 }
+                if (foodItem.getQuantity() <= 1 ){
+                    System.out.println("foodItem.getQuantity() <= 1 ");
+                    printWriter.println("<td>Need to restock</td>");
+                }
+
+                if (foodItem.isDateWithin7Days(foodItem.getExpirationDate())){
+                    printWriter.println("<td>Within 7 days</td>");
+                }
+
+
                 printWriter.println("</tr>");
             }
         }

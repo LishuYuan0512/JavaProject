@@ -11,5 +11,7 @@ public interface FoodItemService {
     public int addFoodItemQuantity(FoodItem foodItem);
     public int updateFoodItemDate(FoodItem foodItem);
     public int insertFoodItem(FoodItem foodItem);
-    public int surplusItem(FoodItem foodItem);
+    public int updateSurplusItem(FoodItem foodItem);
+    public int getFoodItemIsPlus(FoodItem foodItem);
+    public int updateFoodItem(FoodItem foodItem);
 }

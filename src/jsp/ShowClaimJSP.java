@@ -73,7 +73,7 @@ public class ShowClaimJSP extends HttpServlet {
         printWriter.println("</div>");
 
         printWriter.println("<div class='text-center mt-3'>");
-        printWriter.println("<a href='" + request.getContextPath() + "/charity/safe/showRetailerItemsController' class='btn btn-secondary btn-block'>Go Back</a>");
+        printWriter.println("<a href='" + request.getContextPath() + "/charity/safe/showItemsController' class='btn btn-secondary btn-block'>Go Back</a>");
         printWriter.println("</div>");
 
         printWriter.println("</form>");

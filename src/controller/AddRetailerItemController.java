@@ -41,6 +41,7 @@ public class AddRetailerItemController extends HttpServlet {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
+
         FoodItem foodItem = new FoodItem();
         foodItem.setItemName(itemName);
         foodItem.setPrice(price);

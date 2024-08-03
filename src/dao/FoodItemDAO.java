@@ -13,4 +13,7 @@ public interface FoodItemDAO {
     public int updateFoodItemExpirationDates(FoodItem foodItem);
     public int insertFoodItem(FoodItem foodItem);
     public int updateFoodItemSurplus(FoodItem foodItem);
+    public int getFoodItemIsPlusID(FoodItem foodItem);
+    public int updatePriceTypeAndPrice(FoodItem foodItem);
+
 }

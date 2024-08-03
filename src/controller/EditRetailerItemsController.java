@@ -30,6 +30,7 @@ public class EditRetailerItemsController extends HttpServlet {
         Date expirationDate = null;
         try {
             expirationDate = sdf.parse(date);
+            System.out.println("======传递的日期为："+expirationDate);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
