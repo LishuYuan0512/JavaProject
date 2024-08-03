@@ -1,5 +1,6 @@
 package dao;
 
+import com.sun.jdi.connect.spi.Connection;
 import entity.Customer;
 import entity.FoodItem;
 import entity.Retailer;
@@ -10,6 +11,7 @@ import org.apache.commons.dbutils.handlers.ScalarHandler;
 import utils.DbUtil;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RetailerDAOImpl implements RetailerDAO{
@@ -84,8 +86,8 @@ public class RetailerDAOImpl implements RetailerDAO{
             throw new RuntimeException(e);
         }
     }
-    @Override
-    public List<FoodItem> getRetailerItems(int retailerID) {
+@Override
+public List<FoodItem> getRetailerItems(int retailerID) {
     try {
         List<FoodItem> foodItems = queryRunner.query(DbUtil.getConnection(),
                 "SELECT * FROM FoodItem2 WHERE userID = ?", 
@@ -95,5 +97,6 @@ public class RetailerDAOImpl implements RetailerDAO{
         throw new RuntimeException("Error retrieving retailer items", e);
     }
 }
-
 }
+
+

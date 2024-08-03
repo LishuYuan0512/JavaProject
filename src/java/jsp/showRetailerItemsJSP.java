@@ -50,6 +50,6 @@ public class showRetailerItemsJSP extends HttpServlet {
         List<FoodItem> foodItems = retailerDAO.getRetailerItems(retailer.getUserID());
 
         request.setAttribute("foodItems", foodItems);
-        request.getRequestDispatcher("/showRetailerItems.jsp").forward(request, response);
+        request.getRequestDispatcher("/retailer.jsp").forward(request, response);
     }
 }

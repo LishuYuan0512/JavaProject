@@ -13,7 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@WebServlet(name = "AddRetailerItemController", value = "/retailer/safe/addRetailerItemController")
+@WebServlet(name = "AddRetailerItemController", urlPatterns = {"/retailer/safe/addRetailerItemController"})
 public class AddRetailerItemController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

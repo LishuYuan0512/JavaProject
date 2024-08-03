@@ -8,42 +8,35 @@ import dao.RetailerDAO;
 import dao.RetailerDAOImpl;
 import entity.FoodItem;
 import entity.Retailer;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "ShowRetailerItemsServlet", urlPatterns = {"/retailer/safe/showRetailerItemsJSP"})
+@WebServlet(name = "ShowRetailerItemsController", value = "/retailer/safe/showRetailerItems")
 public class ShowItemsJSP extends HttpServlet {
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request, response);
+        doPost(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Retailer retailer = (Retailer) session.getAttribute("retailer");
 
-        if (retailer == null) {
+        if (retailer != null) {
+            RetailerDAO retailerDAO = new RetailerDAOImpl();
+            List<FoodItem> foodItems = retailerDAO.getRetailerItems(retailer.getUserID());
+
+            request.setAttribute("foodItems", foodItems);
+            request.getRequestDispatcher("/retailer.jsp").forward(request, response);
+        } else {
             response.sendRedirect(request.getContextPath() + "/login.jsp");
-            return;
         }
-
-        RetailerDAO retailerDAO = new RetailerDAOImpl();
-        List<FoodItem> foodItems = retailerDAO.getRetailerItems(retailer.getUserID());
-
-        request.setAttribute("foodItems", foodItems);
-        request.getRequestDispatcher("/retailer.jsp").forward(request, response);
     }
 }
