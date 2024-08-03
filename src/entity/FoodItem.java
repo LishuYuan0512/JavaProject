@@ -18,6 +18,7 @@ public class FoodItem {
     private double price;
     private int priceTypeID;
     private int isPlus;
+    private double discount;
     public FoodItem() {
     }
 
@@ -103,6 +104,14 @@ public class FoodItem {
 
     public void setIsPlus(int isPlus) {
         this.isPlus = isPlus;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
     }
 
     @Override
