@@ -31,7 +31,7 @@ public class CheckCustomerFilter implements Filter {
         if (customer != null) {
             chain.doFilter(request, response);
         }else {
-            res.sendRedirect(req.getContextPath() + "/login.html");
+            res.sendRedirect(req.getContextPath() + "/login.jsp");
         }
     }
 }

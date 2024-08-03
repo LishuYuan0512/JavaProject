@@ -1,4 +1,8 @@
 
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
 package controller;
 
 import dao.CharityDAO;
@@ -10,88 +14,65 @@ import dao.RetailerDAOImpl;
 import entity.Charity;
 import entity.Customer;
 import entity.Retailer;
-
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+/**
+ *
+ * @author ZU
+ */
 @WebServlet(name = "SignUpController", urlPatterns = {"/SignUpController"})
 public class SignUpController extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doPost(request, response);
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username");
+        //1. 接收参数
+        String username = request.getParameter("name");
         String password = request.getParameter("password");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
-        int locationID = Integer.parseInt(request.getParameter("locationID"));
-        String userType = request.getParameter("userType");
-
-        if (username == null || password == null || email == null || phone == null || userType == null ||
-            username.isEmpty() || password.isEmpty() || email.isEmpty() || phone.isEmpty()) {
-            request.setAttribute("error", "All fields are required.");
-            request.getRequestDispatcher("/signup.jsp").forward(request, response);
-            return;
-        }
-
+        String type = request.getParameter("type");
+        int locationID = Integer.parseInt(request.getParameter("location"));
+        HttpSession session = request.getSession();
+        System.out.println("从表单接收的信息如下："+email+"-"+password);
         try {
-            if ("Charity".equalsIgnoreCase(userType)) {
-                Charity charity = new Charity();
-                charity.setUsername(username);
-                charity.setPassword(password);
-                charity.setEmail(email);
-                charity.setPhone(phone);
-                charity.setUserType(userType);
-                charity.setLocationID(locationID);
-
-                CharityDAO charityDAO = new CharityDAOImpl();
-                if (charityDAO.insertCharity(charity) > 0) {
-                    response.sendRedirect(request.getContextPath() + "/login.jsp");
-                    return;
-                }
-
-            } else if ("Retailer".equalsIgnoreCase(userType)) {
-                Retailer retailer = new Retailer();
-                retailer.setUsername(username);
-                retailer.setPassword(password);
-                retailer.setEmail(email);
-                retailer.setPhone(phone);
-                retailer.setUserType(userType);
-                retailer.setLocationID(locationID);
-
-                RetailerDAO retailerDAO = new RetailerDAOImpl();
-                if (retailerDAO.insertRetailer(retailer) > 0) {
-                    response.sendRedirect(request.getContextPath() + "/login.jsp");
-                    return;
-                }
-
-            } else if ("Consumer".equalsIgnoreCase(userType)) {
-                Customer customer = new Customer();
-                customer.setUsername(username);
-                customer.setPassword(password);
-                customer.setEmail(email);
-                customer.setPhone(phone);
-                customer.setUserType(userType);
-                customer.setLocationID(locationID);
-
-                CustomerDAO customerDAO = new CustomerDAOImpl();
-                if (customerDAO.insertCustomer(customer) > 0) {
-                    response.sendRedirect(request.getContextPath() + "/login.jsp");
-                    return;
-                }
+            switch (type){
+                case "Customer":
+                    System.out.println("----进入customer");
+                    Customer customer = new Customer(username, password, email, phone, type, locationID);
+                    CustomerDAO customerDAO = new CustomerDAOImpl();
+                    session.setAttribute("customer", customer);
+                    customerDAO.insertCustomer(customer);
+                    break;
+                case "Retailer":
+                    Retailer retailer = new Retailer(username, password, email, phone, type, locationID);
+                    System.out.println("------接收的 retailer信息如下："+retailer.getEmail()+retailer.getPassword());
+                    RetailerDAO retailerDAO = new RetailerDAOImpl();
+                    session.setAttribute("retailer", retailer);
+                    retailerDAO.insertRetailer(retailer);
+                    break;
+                case "Charity":
+                    System.out.println("进入charity");
+                    Charity charity = new Charity(username, password, email, phone, type, locationID);
+                    CharityDAO charityDAO = new CharityDAOImpl();
+                    session.setAttribute("charity", charity);
+                    charityDAO.insertCharity(charity);
+                    break;
             }
-
-            // 如果插入失败
-            request.setAttribute("error", "Failed to register. User might already exist.");
-            request.getRequestDispatcher("/signup.jsp").forward(request, response);
-
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
         } catch (Exception e) {
-             e.printStackTrace();
-            request.setAttribute("error", "An unexpected error occurred.");
-            request.getRequestDispatcher("/signup.jsp").forward(request, response);
+            e.printStackTrace();
+
         }
     }
 }
