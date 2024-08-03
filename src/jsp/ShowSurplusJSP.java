@@ -62,8 +62,8 @@ public class ShowSurplusJSP extends HttpServlet {
         printWriter.println("</div>");
 
         printWriter.println("<div class='form-group'>");
-        printWriter.println("<label for='price'>Price</label>");
-        printWriter.println("<input type='text' class='form-control' id='price' name='price'>");
+        printWriter.println("<label for='discount'>Discount</label>");
+        printWriter.println("<input type='text' class='form-control' id='discount' name='discount'>");
         printWriter.println("</div>");
 
 

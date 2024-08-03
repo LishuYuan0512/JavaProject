@@ -121,8 +121,8 @@ public class FoodItemDAOImpl implements FoodItemDAO{
     @Override
     public int updatePriceTypeAndPrice(FoodItem foodItem) {
         try {
-            int result = queryRunner.update(DbUtil.getConnection(), "update FoodItem2 set priceTypeID = ?, price=? where itemID =?;",
-                    foodItem.getPriceTypeID(),foodItem.getPrice(), foodItem.getItemID());
+            int result = queryRunner.update(DbUtil.getConnection(), "update FoodItem2 set priceTypeID = ?, price=price*(1-?) where itemID =?;",
+                    foodItem.getPriceTypeID(),foodItem.getDiscount(), foodItem.getItemID());
             return result;
         } catch (SQLException e) {
             throw new RuntimeException(e);

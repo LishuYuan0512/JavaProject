@@ -20,12 +20,12 @@ public class SurplusItemController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Integer itemID = Integer.parseInt(request.getParameter("itemID"));
         Integer priceType = Integer.parseInt(request.getParameter("priceType"));
-        double price = Double.parseDouble(request.getParameter("price"));
-        System.out.println("price="+price+"priceType="+priceType);
+        double discount = Double.parseDouble(request.getParameter("discount"));
+
         FoodItemService foodItemService = new FoodItemServiceImpl();
         FoodItem foodItem = foodItemService.getFoodItemById(itemID);
         foodItem.setPriceTypeID(priceType);
-        foodItem.setPrice(price);
+        foodItem.setDiscount(discount);
         foodItemService.updateFoodItem(foodItem);
 
         response.sendRedirect(request.getContextPath()+"/retailer/safe/showRetailerItemsController");
