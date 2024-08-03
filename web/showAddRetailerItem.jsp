@@ -71,6 +71,7 @@
 
             <div class="text-center mt-3">
                 <a href="${pageContext.request.contextPath}/retailer/safe/showRetailerItemsController" class="btn btn-secondary btn-block">Go Back</a>
+
             </div>
         </form>
     </div>

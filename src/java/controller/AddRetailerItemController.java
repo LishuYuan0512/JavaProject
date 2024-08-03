@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @WebServlet(name = "AddRetailerItemController", value = "/retailer/safe/addRetailerItemController")
+
 public class AddRetailerItemController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,7 +30,7 @@ public class AddRetailerItemController extends HttpServlet {
        double price = Double.parseDouble(request.getParameter("price"));
        int quantity = Integer.parseInt(request.getParameter("quantity"));
        String restockTime = request.getParameter("restockTime");
-       String expirationDate = request.getParameter("expirationData");
+       String expirationDate = request.getParameter("expirationDate");
        int priceTypeID = Integer.parseInt(request.getParameter("priceType"));
        int isSurplus = Integer.parseInt(request.getParameter("isSurplus"));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

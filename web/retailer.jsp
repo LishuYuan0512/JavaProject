@@ -65,7 +65,7 @@
         <h2 class="text-center">Welcome back, <%= ((Retailer) session.getAttribute("retailer")).getUsername() %></h2>
 
         <div class="text-right mb-3">
-            <a href="<%= request.getContextPath() %>/retailer/safe/addRetailerItem.jsp" class="btn btn-primary">Add New Item</a>
+            <a href="<%= request.getContextPath() %>/showAddRetailerItem.jsp" class="btn btn-primary">Add New Item</a>
         </div>
 
         <table class="table table-hover table-bordered">
