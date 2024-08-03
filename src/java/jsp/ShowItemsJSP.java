@@ -4,104 +4,46 @@
  */
 package jsp;
 
-import dao.CustomerDAO;
-import dao.CustomerDAOImpl;
-import entity.Customer;
+import dao.RetailerDAO;
+import dao.RetailerDAOImpl;
 import entity.FoodItem;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import entity.Retailer;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
-/**
- *
- * @author ZU
- */
-@WebServlet(name = "ShowItemsJSP", value = "/customer/safe/showItemsJSP")
+import java.io.IOException;
+import java.util.List;
+
+@WebServlet(name = "ShowRetailerItemsServlet", urlPatterns = {"/retailer/safe/showRetailerItemsJSP"})
 public class ShowItemsJSP extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request, response);
+        processRequest(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Customer customer = null;
-        List<FoodItem> foodItems = (List<FoodItem>) request.getAttribute("foodItems");
-        HttpSession session = request.getSession();
-        customer = (Customer) session.getAttribute("customer");
-        CustomerDAO customerDAO = new CustomerDAOImpl();
+        processRequest(request, response);
+    }
 
-        PrintWriter printWriter = response.getWriter();
-        printWriter.println("<head>");
-        printWriter.println("<meta charset='UTF-8'>");
-        printWriter.println("<meta name='viewport' content='width=device-width,initial-scale=1.0'>");
-        printWriter.println("<title>Customer-XXX Website</title>");
-        printWriter.println("<link href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'rel='stylesheet'>");
-        printWriter.println("<link href='" + request.getContextPath() + "/styles.css'rel='stylesheet'>");
-        printWriter.println("</head>");
-        printWriter.println("<body>");
-        printWriter.println("<div class='header'>");
-        printWriter.println("<span>xxx website</span>");
-        printWriter.println("<div>");
-        printWriter.println("<a href='" + request.getContextPath() + "/LogoutController' class='text-white'>Log out</a>");
-        printWriter.println("</div>");
-        printWriter.println("</div>");
-        printWriter.println("<div class='main'>");
-        printWriter.println("<div class='container'>");
-        printWriter.println("<h2 class='text-center'>Welcome back, "+customer.getUsername()+"</h2>");
-        printWriter.println("<table class='table table-striped'>");
-        printWriter.println("<thead>");
-        printWriter.println("<tr>");
-        printWriter.println("<th>itemID</th>");
-        printWriter.println("<th>itemName</th>");
-        printWriter.println("<th>quantity</th>");
-        printWriter.println("<th>price</th>");
-        printWriter.println("<th>option</th>");
-        printWriter.println("</tr>");
-        printWriter.println("</thead>");
-        printWriter.println("<tbody id='customer-items'>");
-        for (FoodItem foodItem : foodItems) {
-            int userID = foodItem.getUserID();
-            if(foodItem.getPriceTypeID() == 2){
-            if (customerDAO.getUserTypeByUserID(customer).equalsIgnoreCase("Customer")){
-                printWriter.println("<tr>");
-                printWriter.println("<td>" + foodItem.getItemID() + "</td>");
-                printWriter.println("<td>" + foodItem.getItemName() + "</td>");
-                printWriter.println("<td>" + foodItem.getQuantity() + "</td>");
-                printWriter.println("<td>" + foodItem.getPrice() + "</td>");
-                if (foodItem.getQuantity() > 0) {
-                    printWriter.println("<td><a href='" + request.getContextPath() +
-                            "/customer/safe/showCheckoutJSP?itemID=" + foodItem.getItemID() + "'>Purchase</a></td>");
-                }
-                printWriter.println("</tr>");
-            }
-            }
-            else{
-                System.out.println("no fooditem");
-            }
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Retailer retailer = (Retailer) session.getAttribute("retailer");
+
+        if (retailer == null) {
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
+            return;
         }
 
-        printWriter.println("</tbody>");
-        printWriter.println("</table>");
-        printWriter.println("</div>");
-        printWriter.println("</div>");
-        printWriter.println("<script src='https://code.jquery.com/jquery-3.5.1.slim.min.js'></script>");
-        printWriter.println("<script src='https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js'></script>");
-        printWriter.println("<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js'></script>");
-        printWriter.println("<script>");
-        printWriter.println("function purchaseItem(itemID) {");
-        printWriter.println("alert('Purchasing item with ID: ' + itemID);");
-        printWriter.println("// Implement your purchase logic here");
-        printWriter.println("}");
-        printWriter.println("</script>");
-        printWriter.println("</body>");
-        printWriter.println("</html>");
+        RetailerDAO retailerDAO = new RetailerDAOImpl();
+        List<FoodItem> foodItems = retailerDAO.getRetailerItems(retailer.getUserID());
 
+        request.setAttribute("foodItems", foodItems);
+        request.getRequestDispatcher("/retailer.jsp").forward(request, response);
     }
 }
