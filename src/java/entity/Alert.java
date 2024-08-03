@@ -1,35 +1,18 @@
-package alert;
-
-
-import java.sql.Timestamp;
-
-
-/**
- *
- * @author rosal
- */
+package entity;
+import java.util.Date;
 public class Alert {
     private int alertID;
     private int userID;
     private int itemID;
     private int alertTypeID;
-    private Timestamp alertTime;
+    private Date alertTime;
     private String email;
     private String phone;
-    
-    
-    /**
-     * Constructs a alert the specified ID and details.
-     *
-     * @param alertID
-     * @param userID
-     * @param itemID
-     * @param alertTypeID
-     * @param alertTime
-     * @param email
-     * @param phone
-     */
-    public Alert(int alertID, int userID, int itemID, int alertTypeID, Timestamp alertTime, String email, String phone) {
+
+    public Alert() {
+    }
+
+    public Alert(int alertID, int userID, int itemID, int alertTypeID, Date alertTime, String email, String phone) {
         this.alertID = alertID;
         this.userID = userID;
         this.itemID = itemID;
@@ -37,16 +20,6 @@ public class Alert {
         this.alertTime = alertTime;
         this.email = email;
         this.phone = phone;
-        
-    }
-
-    // Getters and Setters
-    public int getAlertID() {
-        return alertID;
-    }
-
-    public void setAlertID(int alertID) {
-        this.alertID = alertID;
     }
 
     public int getUserID() {
@@ -55,6 +28,14 @@ public class Alert {
 
     public void setUserID(int userID) {
         this.userID = userID;
+    }
+
+    public int getAlertID() {
+        return alertID;
+    }
+
+    public void setAlertID(int alertID) {
+        this.alertID = alertID;
     }
 
     public int getItemID() {
@@ -73,11 +54,11 @@ public class Alert {
         this.alertTypeID = alertTypeID;
     }
 
-    public Timestamp getAlertTime() {
+    public Date getAlertTime() {
         return alertTime;
     }
 
-    public void setAlertTime(Timestamp alertTime) {
+    public void setAlertTime(Date alertTime) {
         this.alertTime = alertTime;
     }
 

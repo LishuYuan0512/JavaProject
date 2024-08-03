@@ -4,10 +4,10 @@
  */
 package jsp;
 
-import dao.CustomerDAO;
-import dao.CustomerDAOImpl;
-import entity.Customer;
+import dao.RetailerDAO;
+import dao.RetailerDAOImpl;
 import entity.FoodItem;
+import entity.Retailer;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -17,13 +17,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import service.FoodItemService;
+import service.FoodItemServiceImpl;
+import service.PriceTypeService;
+import service.PriceTypeServiceImpl;
 
-/**
- *
- * @author ZU
- */
-@WebServlet(name = "ShowItemsJSP", value = "/customer/safe/showItemsJSP")
-public class ShowItemsJSP extends HttpServlet {
+@WebServlet(name = "RetailItems", value = "/retailer/safe/showRetailerItemsJSP")
+public class RetailItemsJSP extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
@@ -31,11 +31,13 @@ public class ShowItemsJSP extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Customer customer = null;
+        Retailer retailer = null;
         List<FoodItem> foodItems = (List<FoodItem>) request.getAttribute("foodItems");
         HttpSession session = request.getSession();
-        customer = (Customer) session.getAttribute("customer");
-        CustomerDAO customerDAO = new CustomerDAOImpl();
+        retailer = (Retailer) session.getAttribute("retailer");
+        RetailerDAO retailerDAO = new RetailerDAOImpl();
+        PriceTypeService priceTypeService = new PriceTypeServiceImpl();
+        FoodItemService fsService = new FoodItemServiceImpl();
 
         PrintWriter printWriter = response.getWriter();
         printWriter.println("<head>");
@@ -54,33 +56,66 @@ public class ShowItemsJSP extends HttpServlet {
         printWriter.println("</div>");
         printWriter.println("<div class='main'>");
         printWriter.println("<div class='container'>");
-        printWriter.println("<h2 class='text-center'>Welcome back, "+customer.getUsername()+"</h2>");
+        printWriter.println("<h2 class='text-center'>Welcome back, "+retailer.getUsername()+"</h2>");
+        printWriter.println("<td><a href='" + request.getContextPath() +
+                "/retailer/safe/showAddRetailerItemJSP'>Add</a></td>");
         printWriter.println("<table class='table table-striped'>");
         printWriter.println("<thead>");
         printWriter.println("<tr>");
         printWriter.println("<th>itemID</th>");
         printWriter.println("<th>itemName</th>");
         printWriter.println("<th>quantity</th>");
+        printWriter.println("<th>Expiration Date</th>");
+        printWriter.println("<th>Price Type</th>");
         printWriter.println("<th>price</th>");
-        printWriter.println("<th>option</th>");
+        printWriter.println("<th>isSurplus</th>");
+        printWriter.println("<th colspan='5'>Options</th>");
         printWriter.println("</tr>");
         printWriter.println("</thead>");
         printWriter.println("<tbody id='customer-items'>");
         for (FoodItem foodItem : foodItems) {
             int userID = foodItem.getUserID();
-            if (foodItem.getPriceTypeID() == 2){
-                if (customerDAO.getUserTypeByUserID(customer).equalsIgnoreCase("Customer")){
-                    printWriter.println("<tr>");
-                    printWriter.println("<td>" + foodItem.getItemID() + "</td>");
-                    printWriter.println("<td>" + foodItem.getItemName() + "</td>");
-                    printWriter.println("<td>" + foodItem.getQuantity() + "</td>");
-                    printWriter.println("<td>" + foodItem.getPrice() + "</td>");
-                    if (foodItem.getQuantity() > 0) {
-                        printWriter.println("<td><a href='" + request.getContextPath() +
-                                "/customer/safe/showCheckoutJSP?itemID=" + foodItem.getItemID() + "'>Purchase</a></td>");
-                    }
-                    printWriter.println("</tr>");
+
+            if (retailerDAO.getUserTypeByUserID(retailer).equalsIgnoreCase("Retailer")){
+                if (foodItem.isDateWithin7Days(foodItem.getExpirationDate())){
+                    foodItem.setIsPlus(1);
+                    fsService.updateFoodItemDate(foodItem);
+                    System.out.println("========fooditem isplus:"+foodItem.getIsPlus());
                 }
+
+                printWriter.println("<tr>");
+                printWriter.println("<td>" + foodItem.getItemID() + "</td>");
+                printWriter.println("<td>" + foodItem.getItemName() + "</td>");
+                printWriter.println("<td>" + foodItem.getQuantity() + "</td>");
+                printWriter.println("<td>" + foodItem.getExpirationDate() + "</td>");
+
+                int priceTypeID = foodItem.getPriceTypeID();
+                printWriter.println("<td>" + priceTypeService.showPriceType(priceTypeID) + "</td>");
+                printWriter.println("<td>" + foodItem.getPrice() + "</td>");
+
+                if (foodItem.getIsPlus() == 1){
+                    printWriter.println("<td>Yes</td>");
+                }else if(foodItem.getIsPlus()  == 2){
+                    printWriter.println("<td>No</td>");
+                }
+
+                printWriter.println("<td><a href='" + request.getContextPath() +
+                        "/retailer/safe/showEditRetailerItemsJSP?editItemID=" + foodItem.getItemID() + "'>Update</a></td>");
+                if (foodItem.getIsPlus() == 1){
+                    printWriter.println("<td><a href='" + request.getContextPath() +
+                            "/retailer/safe/showSurplusItemJSP?surplusItemID=" + foodItem.getItemID() + "'>Surplus</a></td>");
+                }
+                if (foodItem.getQuantity() <= 1 ){
+                    System.out.println("foodItem.getQuantity() <= 1 ");
+                    printWriter.println("<td>Need to restock</td>");
+                }
+
+                if (foodItem.isDateWithin7Days(foodItem.getExpirationDate())){
+                    printWriter.println("<td>Within 7 days</td>");
+                }
+
+
+                printWriter.println("</tr>");
             }
         }
 
@@ -101,4 +136,5 @@ public class ShowItemsJSP extends HttpServlet {
         printWriter.println("</html>");
 
     }
+
 }

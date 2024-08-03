@@ -42,7 +42,6 @@ public class RetailerDAOImpl implements RetailerDAO{
                     "insert into Retailer (userName, password, email, phone, userType, locationID) values (?, ?,?,?,?,?);",
                     retailer.getUsername(), retailer.getPassword(), retailer.getEmail(), retailer.getPhone(),
                     retailer.getUserType(),retailer.getLocationID());
-            System.out.println("尝试插入数据");
             return result;
         } catch (SQLException e) {
             throw new RuntimeException(e);

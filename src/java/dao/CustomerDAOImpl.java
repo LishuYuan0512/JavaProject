@@ -41,7 +41,7 @@ public class CustomerDAOImpl implements CustomerDAO{
         try {
             int result = queryRunner.update(DbUtil.getConnection(),"update Users set username=?,password=?;",
                     customer.getUsername(),customer.getPassword());
-            return 0;
+            return result;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

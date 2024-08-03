@@ -4,6 +4,7 @@ import entity.FoodItem;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 import utils.DbUtil;
 
 import java.sql.SQLException;
@@ -104,4 +105,29 @@ public class FoodItemDAOImpl implements FoodItemDAO{
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public int getFoodItemIsPlusID(FoodItem foodItem) {
+        try {
+            ScalarHandler<Integer> scalarHandler = new ScalarHandler<>();
+            Integer userID = queryRunner.query(DbUtil.getConnection(),"select isPlus from FoodItem2 where itemID = ?;",
+                    scalarHandler,foodItem.getItemID());
+            return userID.intValue();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public int updatePriceTypeAndPrice(FoodItem foodItem) {
+        try {
+            int result = queryRunner.update(DbUtil.getConnection(), "update FoodItem2 set priceTypeID = ?, price=price*(1-?) where itemID =?;",
+                    foodItem.getPriceTypeID(),foodItem.getDiscount(), foodItem.getItemID());
+            return result;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }

@@ -1,22 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package service;
 
 import dao.FoodItemDAO;
 import dao.FoodItemDAOImpl;
 import entity.FoodItem;
-import java.util.ArrayList;
-import java.util.List;
 import utils.DbUtil;
 
-/**
- *
- * @author ZU
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class FoodItemServiceImpl implements FoodItemService{
-   private FoodItemDAO foodItemDAO= new FoodItemDAOImpl();
+    private FoodItemDAO foodItemDAO= new FoodItemDAOImpl();
     @Override
     public List<FoodItem> getAllFoodItems() {
         List<FoodItem> foodItems = new ArrayList<FoodItem>();
@@ -105,7 +98,7 @@ public class FoodItemServiceImpl implements FoodItemService{
     }
 
     @Override
-    public int surplusItem(FoodItem foodItem) {
+    public int updateSurplusItem(FoodItem foodItem) {
         int result = 0;
         try {
             DbUtil.begin();
@@ -117,4 +110,33 @@ public class FoodItemServiceImpl implements FoodItemService{
         }
         return result;
     }
+
+    @Override
+    public int getFoodItemIsPlus(FoodItem foodItem) {
+        int result = 0;
+        try {
+            DbUtil.begin();
+            result = foodItemDAO.getFoodItemIsPlusID(foodItem);
+            DbUtil.commit();
+        } catch (Exception e) {
+            DbUtil.rollback();
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    @Override
+    public int updateFoodItem(FoodItem foodItem) {
+        int result = 0;
+        try {
+            DbUtil.begin();
+            result = foodItemDAO.updatePriceTypeAndPrice(foodItem);
+            DbUtil.commit();
+        } catch (Exception e) {
+            DbUtil.rollback();
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
 }

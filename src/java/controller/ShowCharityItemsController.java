@@ -7,6 +7,8 @@ package controller;
 import entity.FoodItem;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import service.FoodItemService;
 import service.FoodItemServiceImpl;
 
-@WebServlet(name = "SurplusItemController", value = "/retailer/safe/surplusItemController")
-public class SurplusItemController extends HttpServlet {
+@WebServlet(name = "ShowCharityItemsController", value = "/charity/safe/showItemsController")
+public class ShowCharityItemsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
@@ -24,16 +26,11 @@ public class SurplusItemController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Integer itemID = Integer.parseInt(request.getParameter("itemID"));
-        Integer priceType = Integer.parseInt(request.getParameter("priceType"));
-        double discount = Double.parseDouble(request.getParameter("discount"));
+        FoodItemService fs = new FoodItemServiceImpl();
+        List<FoodItem> foodItems = fs.getAllFoodItems();
+        request.setAttribute("foodItems", foodItems);
 
-        FoodItemService foodItemService = new FoodItemServiceImpl();
-        FoodItem foodItem = foodItemService.getFoodItemById(itemID);
-        foodItem.setPriceTypeID(priceType);
-        foodItem.setDiscount(discount);
-        foodItemService.updateFoodItem(foodItem);
-
-        response.sendRedirect(request.getContextPath()+"/retailer/safe/showRetailerItemsController");
+        RequestDispatcher rd = request.getRequestDispatcher("/charity/safe/showItemsJSP");
+        rd.forward(request,response);
     }
 }
