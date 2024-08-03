@@ -1,6 +1,8 @@
 package controller;
 
 import entity.FoodItem;
+import entity.Retailer;
+import jakarta.servlet.http.HttpSession;
 import service.FoodItemService;
 import service.FoodItemServiceImpl;
 
@@ -23,6 +25,7 @@ public class EditRetailerItemsController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+       
         System.out.println("进入doPost方法");
         Integer itemId = (Integer.parseInt(request.getParameter("itemID")));
         int enterQuantity = Integer.parseInt(request.getParameter("enterQuantity"));
@@ -42,6 +45,5 @@ public class EditRetailerItemsController extends HttpServlet {
         foodItemService.addFoodItemQuantity(foodItem);
         foodItemService.updateFoodItemDate(foodItem);
         response.sendRedirect(request.getContextPath()+"/retailer/safe/showRetailerItemsController");
-
     }
 }

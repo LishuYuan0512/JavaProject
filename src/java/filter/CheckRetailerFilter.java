@@ -25,8 +25,9 @@ public class CheckRetailerFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-        HttpSession session = req.getSession();
-        Retailer retailer = (Retailer) session.getAttribute("retailer");
+        HttpSession session = req.getSession(false);
+        Retailer retailer = (Retailer) (session != null ? session.getAttribute("retailer") : null);
+
         if (retailer != null) {
             chain.doFilter(request, response);
         }else {

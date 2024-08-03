@@ -98,7 +98,7 @@
                 <td><%= foodItem.getPrice() %></td>
                 <td><%= foodItem.getIsPlus() == 1 ? "Yes" : "No" %></td>
                 <td>
-                    <a href="<%= request.getContextPath() %>/retailer/safe/editRetailerItem.jsp?editItemID=<%= foodItem.getItemID() %>" class="btn btn-warning btn-sm">Update</a>
+                    <a href="<%= request.getContextPath() %>/retailer/safe/showEditRetailerItemsJSP?editItemID=<%= foodItem.getItemID() %>" class="btn btn-warning btn-sm">Update</a>
                     <% if (foodItem.getIsPlus() == 1) { %>
                         <a href="<%= request.getContextPath() %>/retailer/safe/surplusItem.jsp?surplusItemID=<%= foodItem.getItemID() %>" class="btn btn-danger btn-sm">Surplus</a>
                     <% } %>

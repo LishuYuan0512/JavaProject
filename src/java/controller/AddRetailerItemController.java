@@ -13,7 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@WebServlet(name = "AddRetailerItemController", value = "/retailer/safe/addRetailerItemController")
+@WebServlet(name = "AddRetailerItemController", urlPatterns  = "/retailer/safe/addRetailerItemController")
 
 public class AddRetailerItemController extends HttpServlet {
     @Override
@@ -25,6 +25,12 @@ public class AddRetailerItemController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Retailer retailer = (Retailer) session.getAttribute("retailer");
+
+            if (retailer == null) {
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
+            return;
+}
+       
         int userID = retailer.getUserID();
        String itemName = request.getParameter("itemName");
        double price = Double.parseDouble(request.getParameter("price"));
