@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import service.FoodItemService;
 import service.FoodItemServiceImpl;
 
-@WebServlet(name = "SurplusItemController", value = "/retailer/safe/surplusItemController")
-public class SurplusItemController extends HttpServlet {
+@WebServlet(name = "ClaimItemController", value = "/charity/safe/claimItemsController")
+public class ClaimItemController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
@@ -25,15 +25,16 @@ public class SurplusItemController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Integer itemID = Integer.parseInt(request.getParameter("itemID"));
-        Integer priceType = Integer.parseInt(request.getParameter("priceType"));
-        double discount = Double.parseDouble(request.getParameter("discount"));
+        Integer enterQuantity = Integer.parseInt(request.getParameter("quantity"));
+
 
         FoodItemService foodItemService = new FoodItemServiceImpl();
-        FoodItem foodItem = foodItemService.getFoodItemById(itemID);
-        foodItem.setPriceTypeID(priceType);
-        foodItem.setDiscount(discount);
-        foodItemService.updateFoodItem(foodItem);
 
-        response.sendRedirect(request.getContextPath()+"/retailer/safe/showRetailerItemsController");
+        FoodItem foodItem = foodItemService.getFoodItemById(itemID);
+        foodItem.setQuantity(enterQuantity);
+        foodItemService.purchaseFoodItemQuantity(foodItem);
+
+
+        response.sendRedirect(request.getContextPath()+"/charity/safe/showItemsController");
     }
 }

@@ -26,7 +26,6 @@ import service.PurchaseServiceImpl;
  */
 @WebServlet(name = "CheckoutController", value = "/customer/safe/checkoutController")
 public class CheckoutController extends HttpServlet {
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
@@ -47,22 +46,21 @@ public class CheckoutController extends HttpServlet {
         Customer customer = (Customer) request.getSession().getAttribute("customer");
         int userID = customer.getUserID();
 
-        Purchase purchase = new Purchase();
-        purchase.setItemID(itemID);
-        purchase.setQuantity(enterQuantity);
-        purchase.setPrice(price);
-        purchase.setPurchaseTime(LocalDateTime.now());
+//        Purchase purchase = new Purchase();
+//        purchase.setItemID(itemID);
+//        purchase.setQuantity(enterQuantity);
+//        purchase.setPrice(price);
+//        purchase.setPurchaseTime(LocalDateTime.now());
+//        purchase.setPriceTypeID(priceTypeID);
+//        purchase.setUserID(userID);
+//        PurchaseService purchaseService = new PurchaseServiceImpl();
+//        purchaseService.recordPurchase(purchase);
 
-        purchase.setPriceTypeID(priceTypeID);
-        purchase.setUserID(userID);
-        PurchaseService purchaseService = new PurchaseServiceImpl();
-        purchaseService.recordPurchase(purchase);
-
-        FoodItem foodItem = new FoodItem();
-        foodItem.setItemID(itemID);
-        foodItem.setQuantity(enterQuantity);
-        foodItem.setItemName(itemName);
         FoodItemService foodItemService = new FoodItemServiceImpl();
+        FoodItem foodItem = foodItemService.getFoodItemById(itemID);
+        foodItem.setQuantity(enterQuantity);
+
+
         foodItemService.purchaseFoodItemQuantity(foodItem);
         response.sendRedirect(request.getContextPath()+"/customer/safe/showItemsController");
     }
