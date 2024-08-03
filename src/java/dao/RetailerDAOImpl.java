@@ -1,6 +1,7 @@
 package dao;
 
 import entity.Customer;
+import entity.FoodItem;
 import entity.Retailer;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
@@ -83,6 +84,16 @@ public class RetailerDAOImpl implements RetailerDAO{
             throw new RuntimeException(e);
         }
     }
-
+    @Override
+    public List<FoodItem> getRetailerItems(int retailerID) {
+    try {
+        List<FoodItem> foodItems = queryRunner.query(DbUtil.getConnection(),
+                "SELECT * FROM FoodItem2 WHERE userID = ?", 
+                new BeanListHandler<>(FoodItem.class), retailerID);
+        return foodItems;
+    } catch (SQLException e) {
+        throw new RuntimeException("Error retrieving retailer items", e);
+    }
+}
 
 }

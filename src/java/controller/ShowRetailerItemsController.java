@@ -31,7 +31,7 @@ public class ShowRetailerItemsController extends HttpServlet {
         FoodItemService fs = new FoodItemServiceImpl();
         List<FoodItem> foodItems = fs.getAllFoodItems();
         request.setAttribute("foodItems", foodItems);
-        RequestDispatcher rd = request.getRequestDispatcher("/retailer/safe/showRetailerItemsJSP");
+        RequestDispatcher rd = request.getRequestDispatcher("/retailer.jsp");
         rd.forward(request,response);
     }
 }
