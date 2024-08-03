@@ -104,4 +104,18 @@ public class FoodItemDAOImpl implements FoodItemDAO{
             throw new RuntimeException(e);
         }
     }
+    @Override
+    public List<FoodItem> selectFoodItemsByRetailerId(int userID) {
+        List<FoodItem> foodItems = null;
+        try {
+            String query = "SELECT * FROM FoodItem2 WHERE userID = ?";
+            foodItems = queryRunner.query(DbUtil.getConnection(), query,
+                    new BeanListHandler<>(FoodItem.class), userID);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return foodItems;
+    }
 }
+    
+

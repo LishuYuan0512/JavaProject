@@ -13,6 +13,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <title>Sign Up - Food Waste Reduction Platform</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="styles.css" rel="stylesheet">
+    <style>
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        .form-control.error {
+            border-color: red;
+        }
+    </style>
 </head>
 <body>
     <%@ include file="header.jsp" %>
@@ -20,46 +30,50 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <div class="main">
         <div class="card p-4">
             <h2 class="text-center">Sign Up</h2>
-            <form id="signupForm" action="../FinalProject/SignUpController" method="post">
-                <% if (request.getAttribute("error") != null) { %>
-                    <div class="alert alert-danger">
-                        <%= request.getAttribute("error") %>
-                    </div>
-                <% } %>
+            <form id="signupForm" action="../FinalProject/SignUpController" method="post" novalidate>
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
+                    <div id="nameError" class="error-message"></div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                    <div id="emailError" class="error-message"></div>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" class="form-control" name="password" id="password" placeholder="Enter your password" required>
+                    <div id="passwordError" class="error-message"></div>
                 </div>
                 <div class="form-group">
-                    <label for="retypePassword">Retype Password</label>
+                    <label for="retypePassword">Re-type Password</label>
                     <input type="password" class="form-control" name="retypePassword" id="retypePassword" placeholder="Retype your password" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                    <div id="retypePasswordError" class="error-message"></div>
                 </div>
                 <div class="form-group">
                     <label for="phone">Phone</label>
                     <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter your phone number" required>
+                    <div id="phoneError" class="error-message"></div>
                 </div>
                 <div class="form-group">
                     <label for="type">Type</label>
                     <select class="form-control" id="type" name="type" required>
+                        <option value="">Select a user type</option>
                         <option value="Customer">Customer</option>
                         <option value="Retailer">Retailer</option>
                         <option value="Charity">Charity</option>
                     </select>
+                    <div id="typeError" class="error-message"></div>
                 </div>
                 <div class="form-group">
                     <label for="location">Location</label>
                     <select class="form-control" id="location" name="location" required>
+                        <option value="">Select a location</option>
                         <option value="1">Ottawa</option>
                         <option value="2">Toronto</option>
                     </select>
+                    <div id="locationError" class="error-message"></div>
                 </div>
                 <button type="submit" class="btn btn-custom btn-block">Sign Up</button>
                 <div class="text-center mt-3">
@@ -75,18 +89,81 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        // Basic front-end validation for password matching
-        $('#signupForm').on('submit', function(e) {
-            var password = $('#password').val();
-            var retypePassword = $('#retypePassword').val();
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var isValid = validateForm();
+            if (isValid) {
+                this.submit();
+            }
+        });
 
-            if (password !== retypePassword) {
-                e.preventDefault();
-                alert("Passwords do not match!");
+        function validateForm() {
+            var isValid = true;
+
+            // Clear previous errors
+            $('.error-message').text('');
+            $('.form-control').removeClass('error');
+
+            // Validate name
+            var name = $('#name').val();
+            if (name === '' || name.length > 20) {
+                $('#nameError').text('User name should be non-empty, and within 20 characters long.');
+                $('#name').addClass('error');
+                isValid = false;
             }
 
-            // Further validation checks can be added here
-        });
+            // Validate email
+            var email = $('#email').val();
+            var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (email === '' || !emailPattern.test(email)) {
+                $('#emailError').text('Email address should be non-empty with the format xyz@xyz.xyz.');
+                $('#email').addClass('error');
+                isValid = false;
+            }
+
+            // Validate password
+            var password = $('#password').val();
+            var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+            if (password === '' || !passwordPattern.test(password)) {
+                $('#passwordError').text('Password should be at least 6 characters: 1 uppercase, 1 lowercase.');
+                $('#password').addClass('error');
+                isValid = false;
+            }
+
+            // Validate retype password
+            var retypePassword = $('#retypePassword').val();
+            if (retypePassword === '' || retypePassword !== password) {
+                $('#retypePasswordError').text('Please retype password.');
+                $('#retypePassword').addClass('error');
+                isValid = false;
+            }
+
+            // Validate phone
+            var phone = $('#phone').val();
+            if (phone === '') {
+                $('#phoneError').text('Phone number is required.');
+                $('#phone').addClass('error');
+                isValid = false;
+            }
+
+            // Validate user type
+            var type = $('#type').val();
+            if (type === '') {
+                $('#typeError').text('Please select a user type.');
+                $('#type').addClass('error');
+                isValid = false;
+            }
+
+            // Validate location
+            var location = $('#location').val();
+            if (location === '') {
+                $('#locationError').text('Please select a location.');
+                $('#location').addClass('error');
+                isValid = false;
+            }
+
+            return isValid;
+        }
     </script>
 </body>
 </html>

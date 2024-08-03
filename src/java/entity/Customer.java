@@ -12,4 +12,8 @@ public class Customer extends User{
     public String toString() {
         return this.getUsername() + " " + this.getPassword() + " " + this.getEmail() + " " + this.getPhone() + " " + this.getUserType();
     }
+
+    public void setUserName(String username) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

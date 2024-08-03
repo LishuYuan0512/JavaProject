@@ -33,6 +33,25 @@ public class FoodItemServiceImpl implements FoodItemService{
         }
         return foodItems;
     }
+     @Override
+    public List<FoodItem> getFoodItemsByRetailerId(int retailerId) {
+    List<FoodItem> foodItems = new ArrayList<>();
+        try {
+            DbUtil.begin();
+            // 调用DAO方法，使用零售商ID过滤商品
+            List<FoodItem> temps = foodItemDAO.selectFoodItemsByRetailerId(retailerId);
+            if (temps != null && !temps.isEmpty()) {
+                foodItems = temps;
+            }
+            DbUtil.commit();
+        } catch (Exception e) {
+            DbUtil.rollback();
+            throw new RuntimeException(e);
+        }
+        return foodItems;
+    }
+
+
 
     @Override
     public FoodItem getFoodItemById(int id) {
@@ -117,4 +136,6 @@ public class FoodItemServiceImpl implements FoodItemService{
         }
         return result;
     }
+    
+    
 }

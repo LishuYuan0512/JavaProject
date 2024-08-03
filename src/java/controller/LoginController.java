@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller;
 
 import entity.Charity;
@@ -67,9 +63,7 @@ public class LoginController extends HttpServlet {
                 System.out.println("进入判断retailer密码");
                 response.sendRedirect(request.getContextPath() + "/retailer/safe/showRetailerItemsController");
             } else {
-                request.setAttribute("error", "Invalid email or password. Please try again.");
-                request.getRequestDispatcher("/login.jsp").forward(request, response);
-
+                response.sendRedirect(request.getContextPath() + "/login.html");
             }
         }else if (charity != null) {
             session.setAttribute("charity", charity);
@@ -77,14 +71,10 @@ public class LoginController extends HttpServlet {
             if (charity.getUserType().equalsIgnoreCase("Charity")) {
                 response.sendRedirect(request.getContextPath() + "/charity/safe/showItemsController");
             } else {
-                request.setAttribute("error", "Invalid email or password. Please try again.");
-                request.getRequestDispatcher("/login.jsp").forward(request, response);
-
+                response.sendRedirect(request.getContextPath() + "/login.html");
             }
         }else {
-            request.setAttribute("error", "Invalid email or password. Please try again.");
-            request.getRequestDispatcher("/login.jsp").forward(request, response);
-
+            response.sendRedirect(request.getContextPath() + "/login.html");
         }
 
     }

@@ -1,11 +1,9 @@
 <%-- 
     Document   : showAddRetailerItem
-    Created on : Aug 2, 2024, 10:40:40 PM
+    Created on : Aug 2, 2024, 10:40:40?PM
     Author     : rosal
 --%>
 
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,22 +14,11 @@
     <link href="${pageContext.request.contextPath}/styles.css" rel="stylesheet">
 </head>
 <body>
-<div class="header navbar navbar-expand-lg">
-    <a class="navbar-brand" href="${pageContext.request.contextPath}/index.jsp">Food Waste Reduction Platform</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/LogoutController">Logout</a>
-            </li>
-        </ul>
-    </div>
-</div>
-
+    
+<%@ include file="header.jsp" %>
+            
 <div class="main">
-    <div class="container">
+    <div class="card p-4">
         <h2 class="text-center">Add New Item</h2>
         <form action="${pageContext.request.contextPath}/retailer/safe/addRetailerItemController" method="post">
 
@@ -88,6 +75,7 @@
         </form>
     </div>
 </div>
+    
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
