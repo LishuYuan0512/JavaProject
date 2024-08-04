@@ -2,26 +2,24 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Subscription;
+package entity;
 
 /**
  *
  * @author rosal
  */
 public class Subscription {
-    private int subscriptionID;
     private int userID;
     private int locationID;
     private String foodPrefer;
     private String email;
     private String phone;
-    private int comunication_method;
+    private int communicationMethod;
 
     public Subscription(){
     }
     
-    public Subscription(int subscriptionID, int userID, int locationID, String foodPrefer, String email, String phone) {
-        this.subscriptionID = subscriptionID;
+    public Subscription(int userID, int locationID, String foodPrefer, String email, String phone) {
         this.userID = userID;
         this.locationID = locationID;
         this.foodPrefer = foodPrefer;
@@ -29,14 +27,6 @@ public class Subscription {
         this.phone = phone;
     }
 
-    // Getters and Setters
-    public int getSubscriptionID() {
-        return subscriptionID;
-    }
-
-    public void setSubscriptionID(int subscriptionID) {
-        this.subscriptionID = subscriptionID;
-    }
 
     public int getUserID() {
         return userID;
@@ -78,12 +68,12 @@ public class Subscription {
         this.phone = phone;
     }
 
-    public int getComunicationMethod() {
-        return comunication_method; // Getter for com method
+    public int getCommunicationMethod() {
+        return communicationMethod; // Getter for com method
     }
 
-    public void setComunicationMethod(int comunication_method) {
-        this.comunication_method = comunication_method; // Setter for com method
+    public void setCommunicationMethod(int communicationMethod) {
+        this.communicationMethod = communicationMethod; // Setter for com method
     }
     
 }

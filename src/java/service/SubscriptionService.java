@@ -4,7 +4,7 @@
  */
 package service;
 
-import Subscription.Subscription;
+import entity.Subscription;
 
 /**
  *
@@ -12,4 +12,6 @@ import Subscription.Subscription;
  */
 public interface SubscriptionService {
     boolean createSubscription(Subscription subscription);
+    boolean updateSubscription(Subscription subscription);
+    boolean subscriptionExists(int userID);
 }

@@ -4,7 +4,7 @@
  */
 package controller;
 
-import Subscription.Subscription;
+import entity.Subscription;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -104,20 +104,31 @@ public class SubscribeController extends HttpServlet {
     subscription.setUserID(userID);
     subscription.setLocationID(locationID);
     subscription.setFoodPrefer(foodPrefer);
-    subscription.setComunicationMethod(communicationMethod); // Add this line
+    subscription.setCommunicationMethod(communicationMethod); 
     subscription.setEmail(email);
     subscription.setPhone(phone);
 
     // Create and call the SubscriptionService to handle database operations
     SubscriptionService subscriptionService = new SubscriptionServiceImpl();
-    boolean isSuccess = subscriptionService.createSubscription(subscription); // Assuming createSubscription returns a boolean
+    boolean isSuccess;
 
-    if (isSuccess) {
-        // Redirect to confirmation page if successful
-        response.sendRedirect(request.getContextPath() + "/subscriptionConfirmation.jsp");
-    } else {
-        // Handle failure case (e.g., show an error message)
-        System.out.println("error");
-    }
+    // Check if a subscription with this userID already exists
+        boolean exists = subscriptionService.subscriptionExists(userID);
+
+        if (exists) {
+            // Update existing subscription
+            isSuccess = subscriptionService.updateSubscription(subscription);
+        } else {
+            // Create new subscription
+            isSuccess = subscriptionService.createSubscription(subscription);
+        }
+
+        if (isSuccess) {
+            // Redirect to confirmation page if successful
+            response.sendRedirect(request.getContextPath() + "/customer/safe/showItemsController");
+        } else {
+            // Handle failure case (e.g., show an error message)
+            response.getWriter().println("Error processing request.");
+        }
 }
 }
