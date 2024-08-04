@@ -37,14 +37,16 @@ public class CheckoutController extends HttpServlet {
         Integer itemID = Integer.parseInt(request.getParameter("itemID"));
         Integer enterQuantity = Integer.parseInt(request.getParameter("enterQuantity"));
         Integer quantity = Integer.parseInt(request.getParameter("quantity"));
-
+        
+        Customer customer = (Customer) request.getSession().getAttribute("customer");
+        int userID = customer.getUserID();
+        
         String itemName = request.getParameter("itemName");
         Integer priceTypeID = Integer.parseInt(request.getParameter("priceTypeID"));
         Double price = Double.parseDouble(request.getParameter("price"));
 
 
-        Customer customer = (Customer) request.getSession().getAttribute("customer");
-        int userID = customer.getUserID();
+        
 
 //        Purchase purchase = new Purchase();
 //        purchase.setItemID(itemID);
@@ -58,10 +60,30 @@ public class CheckoutController extends HttpServlet {
 
         FoodItemService foodItemService = new FoodItemServiceImpl();
         FoodItem foodItem = foodItemService.getFoodItemById(itemID);
+        
+        if (enterQuantity <= 0 || enterQuantity > quantity) {
+            response.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script type=\"text/javascript\">");
+            out.println("alert('Invalid quantity entered. Please enter a quantity that does not exceed the available quantity.');");
+            out.println("window.location.href = '" + request.getContextPath() + "/customer/safe/showCheckoutJSP?itemID=" + itemID + "';");
+            out.println("</script>");
+            out.close();
+            return;
+        }
+        
         foodItem.setQuantity(enterQuantity);
-
-
         foodItemService.purchaseFoodItemQuantity(foodItem);
+        // Alert the user of successful purchase and redirect to items page
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        out.println("<script type=\"text/javascript\">");
+        out.println("alert('Checkout successful! Thank you for your purchase.');");
+        out.println("window.location.href = '" + request.getContextPath() + "/customer/safe/showItemsController';");
+        out.println("</script>");
+        out.close();
+        
         response.sendRedirect(request.getContextPath()+"/customer/safe/showItemsController");
+
     }
 }

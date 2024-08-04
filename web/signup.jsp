@@ -35,7 +35,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <div class="main">
         <div class="card p-4">
             <h2 class="text-center">Sign Up</h2>
-            <form id="signupForm" action="../FinalProject/SignUpController" method="post" novalidate>
+            <form id="signupForm" action="${pageContext.request.contextPath}/SignUpController" method="post" novalidate>
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>

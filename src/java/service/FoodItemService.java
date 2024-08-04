@@ -14,4 +14,6 @@ public interface FoodItemService {
     public int updateSurplusItem(FoodItem foodItem);
     public int getFoodItemIsPlus(FoodItem foodItem);
     public int updateFoodItem(FoodItem foodItem);
+
+    public List<FoodItem> getFoodItemsByRetailerId(int userID);
 }

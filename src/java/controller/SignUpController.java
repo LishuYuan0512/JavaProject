@@ -68,7 +68,13 @@ public class SignUpController extends HttpServlet {
                     charityDAO.insertCharity(charity);
                     break;
             }
-            response.sendRedirect(request.getContextPath() + "/login.html");
+            response.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script type=\"text/javascript\">");
+            out.println("alert('Registration successful! Redirecting to login page.');");
+            out.println("window.location.href = '" + request.getContextPath() + "/login.jsp';");
+            out.println("</script>");
+            out.close();       
         } catch (Exception e) {
             e.printStackTrace();
 

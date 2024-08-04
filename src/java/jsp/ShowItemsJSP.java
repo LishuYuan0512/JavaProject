@@ -36,24 +36,33 @@ public class ShowItemsJSP extends HttpServlet {
         HttpSession session = request.getSession();
         customer = (Customer) session.getAttribute("customer");
         CustomerDAO customerDAO = new CustomerDAOImpl();
-        int userID = customer.getUserID();
 
         PrintWriter printWriter = response.getWriter();
+        response.setContentType("text/html;charset=UTF-8");
+        
+        
+        printWriter.println("<!DOCTYPE html>");
+        printWriter.println("<html lang=\"en\">");
         printWriter.println("<head>");
-        printWriter.println("<meta charset='UTF-8'>");
-        printWriter.println("<meta name='viewport' content='width=device-width,initial-scale=1.0'>");
-        printWriter.println("<title>Customer-XXX Website</title>");
-        printWriter.println("<link href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'rel='stylesheet'>");
+        printWriter.println("<meta charset=\"UTF-8\">");
+        printWriter.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
+        printWriter.println("<title>Customer - Food Waste Reduction Platform</title>");
+        printWriter.println(" <link href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" rel=\"stylesheet\">");
         printWriter.println("<link href='" + request.getContextPath() + "/styles.css'rel='stylesheet'>");
         printWriter.println("</head>");
         printWriter.println("<body>");
-        printWriter.println("<div class='header'>");
-        printWriter.println("<span>xxx website</span>");
+        printWriter.println("<div class=\"header navbar navbar-expand-lg\">");
+        printWriter.println("<a class=\"navbar-brand\" href=\"" + request.getContextPath() + "/index.jsp\">Food Waste Reduction Platform</a>");
+        printWriter.println("<button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarNav\" aria-controls=\"navbarNav\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n" +
+"");
+        printWriter.println("<span class=\"navbar-toggler-icon\"></span>");
+        
+        printWriter.println("</button>");
         printWriter.println("<div>");
-        printWriter.println("<a href='" + request.getContextPath() + "/Subscription.jsp?userID=" + userID + "' class='text-white'>Subscription</a>");//this line
         printWriter.println("<a href='" + request.getContextPath() + "/LogoutController' class='text-white'>Log out</a>");
         printWriter.println("</div>");
         printWriter.println("</div>");
+        
         printWriter.println("<div class='main'>");
         printWriter.println("<div class='container'>");
         printWriter.println("<h2 class='text-center'>Welcome back, "+customer.getUsername()+"</h2>");
@@ -69,7 +78,7 @@ public class ShowItemsJSP extends HttpServlet {
         printWriter.println("</thead>");
         printWriter.println("<tbody id='customer-items'>");
         for (FoodItem foodItem : foodItems) {
-//            int userID = foodItem.getUserID();
+            int userID = foodItem.getUserID();
             if (foodItem.getPriceTypeID() == 2){
                 if (customerDAO.getUserTypeByUserID(customer).equalsIgnoreCase("Customer")){
                     printWriter.println("<tr>");
@@ -100,6 +109,9 @@ public class ShowItemsJSP extends HttpServlet {
         printWriter.println("}");
         printWriter.println("</script>");
         printWriter.println("</body>");
+        printWriter.println("<div class=\"footer bg-light text-center p-3 mt-4\">");
+        printWriter.println("<p>© 2024 Food Waste Reduction Platform. All rights reserved.</p>");
+        printWriter.println("</div>");
         printWriter.println("</html>");
 
     }

@@ -40,25 +40,36 @@ public class RetailItemsJSP extends HttpServlet {
         FoodItemService fsService = new FoodItemServiceImpl();
 
         PrintWriter printWriter = response.getWriter();
+        response.setContentType("text/html;charset=UTF-8");
+        
+        printWriter.println("<!DOCTYPE html>");
+        printWriter.println("<html lang=\"en\">");
         printWriter.println("<head>");
-        printWriter.println("<meta charset='UTF-8'>");
-        printWriter.println("<meta name='viewport' content='width=device-width,initial-scale=1.0'>");
-        printWriter.println("<title>Customer-XXX Website</title>");
-        printWriter.println("<link href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'rel='stylesheet'>");
+        printWriter.println("<meta charset=\"UTF-8\">");
+        printWriter.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
+        printWriter.println("<title>Retailer - Food Waste Reduction Platform</title>");
+        printWriter.println(" <link href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" rel=\"stylesheet\">");
         printWriter.println("<link href='" + request.getContextPath() + "/styles.css'rel='stylesheet'>");
         printWriter.println("</head>");
         printWriter.println("<body>");
-        printWriter.println("<div class='header'>");
-        printWriter.println("<span>xxx website</span>");
+        printWriter.println("<div class=\"header navbar navbar-expand-lg\">");
+        printWriter.println("<a class=\"navbar-brand\" href=\"" + request.getContextPath() + "/index.jsp\">Food Waste Reduction Platform</a>");
+        printWriter.println("<button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarNav\" aria-controls=\"navbarNav\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n" +
+"");
+        printWriter.println("<span class=\"navbar-toggler-icon\"></span>");
+        
+        printWriter.println("</button>");
         printWriter.println("<div>");
         printWriter.println("<a href='" + request.getContextPath() + "/LogoutController' class='text-white'>Log out</a>");
         printWriter.println("</div>");
         printWriter.println("</div>");
+        
+        
         printWriter.println("<div class='main'>");
         printWriter.println("<div class='container'>");
         printWriter.println("<h2 class='text-center'>Welcome back, "+retailer.getUsername()+"</h2>");
         printWriter.println("<td><a href='" + request.getContextPath() +
-                "/retailer/safe/showAddRetailerItemJSP'>Add</a></td>");
+                "/retailer/safe/showAddRetailerItemJSP' class='add-new-item' >Add New Items</a></td>");
         printWriter.println("<table class='table table-striped'>");
         printWriter.println("<thead>");
         printWriter.println("<tr>");
@@ -73,7 +84,7 @@ public class RetailItemsJSP extends HttpServlet {
         printWriter.println("</tr>");
         printWriter.println("</thead>");
         printWriter.println("<tbody id='customer-items'>");
-        for (FoodItem foodItem : foodItems) {
+            for (FoodItem foodItem : foodItems) {
             int userID = foodItem.getUserID();
 
             if (retailerDAO.getUserTypeByUserID(retailer).equalsIgnoreCase("Retailer")){
@@ -97,14 +108,17 @@ public class RetailItemsJSP extends HttpServlet {
                     printWriter.println("<td>Yes</td>");
                 }else if(foodItem.getIsPlus()  == 2){
                     printWriter.println("<td>No</td>");
-                }
+                 } else {
+                    printWriter.println("<td></td>"); // Empty cell for consistent alignment
+    }
 
                 printWriter.println("<td><a href='" + request.getContextPath() +
-                        "/retailer/safe/showEditRetailerItemsJSP?editItemID=" + foodItem.getItemID() + "'>Update</a></td>");
+                        "/retailer/safe/showEditRetailerItemsJSP?editItemID=" + foodItem.getItemID() + "'class='update'>Update</a></td>");
                 if (foodItem.getIsPlus() == 1){
                     printWriter.println("<td><a href='" + request.getContextPath() +
-                            "/retailer/safe/showSurplusItemJSP?surplusItemID=" + foodItem.getItemID() + "'>Surplus</a></td>");
+                            "/retailer/safe/showSurplusItemJSP?surplusItemID=" + foodItem.getItemID() + "'class='surplus'>Surplus</a></td>");
                 }
+                
                 if (foodItem.getQuantity() <= 1 ){
                     System.out.println("foodItem.getQuantity() <= 1 ");
                     printWriter.println("<td>Need to restock</td>");
@@ -118,7 +132,7 @@ public class RetailItemsJSP extends HttpServlet {
                 printWriter.println("</tr>");
             }
         }
-
+               
         printWriter.println("</tbody>");
         printWriter.println("</table>");
         printWriter.println("</div>");
@@ -133,6 +147,9 @@ public class RetailItemsJSP extends HttpServlet {
         printWriter.println("}");
         printWriter.println("</script>");
         printWriter.println("</body>");
+        printWriter.println("<div class=\"footer bg-light text-center p-3 mt-4\">");
+        printWriter.println("<p>© 2024 Food Waste Reduction Platform. All rights reserved.</p>");
+        printWriter.println("</div>");
         printWriter.println("</html>");
 
     }
