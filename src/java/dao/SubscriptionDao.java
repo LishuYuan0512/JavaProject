@@ -8,11 +8,12 @@ package dao;
  *
  * @author rosal
  */
-import Subscription.Subscription;
-import Subscription.Subscription;
+import entity.Subscription;
+import entity.Subscription;
 import java.sql.SQLException;
 
 public interface SubscriptionDao {
     void addSubscription(Subscription subscription);
     void updateSubscription(Subscription subscription);
+    boolean subscriptionExists(int userID);
 }

@@ -39,11 +39,10 @@
                         <option value="">Select</option>
                         <%
                             QueryRunner queryRunner = new QueryRunner();
-                            Connection con = null;
                             try {
-                                con = DbUtil.getConnection();
+//                                Connection con = DbUtil.getConnection();
                                 String sql = "SELECT itemID, itemName FROM FoodItem2";
-                                List<Map<String, Object>> results = queryRunner.query(con, sql, new MapListHandler());
+                                List<Map<String, Object>> results = queryRunner.query(DbUtil.getConnection(), sql, new MapListHandler());
 
                                 for (Map<String, Object> row : results) {
                                     int itemID = (Integer) row.get("itemID");
@@ -52,8 +51,6 @@
                                 }
                             } catch (SQLException e) {
                                 e.printStackTrace();
-                            } finally {
-                                DbUtil.closeAll(con, null, null);
                             }
                         %>
                     </select>
@@ -63,11 +60,9 @@
                     <select class="form-control" id="location" name="locationID">
                         <option value="">Select</option>
                         <%
-                            Connection con2 = null;
                             try {
-                                con2 = DbUtil.getConnection();
                                 String sql = "SELECT locationID, locationName FROM location";
-                                List<Map<String, Object>> results2 = queryRunner.query(con2, sql, new MapListHandler());
+                                List<Map<String, Object>> results2 = queryRunner.query(DbUtil.getConnection(), sql, new MapListHandler());
 
                                 for (Map<String, Object> row : results2) {
                                     int locationID = (Integer) row.get("locationID");
@@ -76,8 +71,6 @@
                                 }
                             } catch (SQLException e) {
                                 e.printStackTrace();
-                            } finally {
-                                DbUtil.closeAll(con2, null, null);
                             }
                         %>
                     </select>

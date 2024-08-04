@@ -4,8 +4,7 @@
  */
 package service;
 
-import Subscription.Subscription;
-import Subscription.SubscriptionBusinessLogic;
+import entity.Subscription;
 import dao.SubscriptionDAOImp;
 import dao.SubscriptionDao;
 import utils.DbUtil;
@@ -15,21 +14,42 @@ import utils.DbUtil;
  * @author ZU
  */
 public class SubscriptionServiceImpl implements SubscriptionService {
-    private final SubscriptionBusinessLogic subscriptionBusinessLogic;
+    private final SubscriptionDao subscriptionDao;
 
     public SubscriptionServiceImpl() {
-        // Instantiate SubscriptionDao and pass it to SubscriptionBusinessLogic
-        SubscriptionDao subscriptionDao = new SubscriptionDAOImp();
-        this.subscriptionBusinessLogic = new SubscriptionBusinessLogic(subscriptionDao);
+        // Instantiate SubscriptionDao
+        this.subscriptionDao = new SubscriptionDAOImp();
     }
 
     @Override
-    public boolean createSubscription(Subscription subscription){
+    public boolean createSubscription(Subscription subscription) {
         try {
-            // Call the business logic to handle the subscription creation
-            return subscriptionBusinessLogic.updateSubscription(subscription);
+            // Call the DAO to handle the subscription creation
+            subscriptionDao.addSubscription(subscription);
+            return true;
         } catch (Exception e) {
             DbUtil.rollback();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean updateSubscription(Subscription subscription) {
+        try {
+            // Call the DAO to handle the subscription update
+            subscriptionDao.updateSubscription(subscription);
+            return true;
+        } catch (Exception e) {
+            DbUtil.rollback();
+            throw new RuntimeException(e);
+        }
+    }
+    
+    @Override
+    public boolean subscriptionExists(int userID) {
+        try {
+            return subscriptionDao.subscriptionExists(userID);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

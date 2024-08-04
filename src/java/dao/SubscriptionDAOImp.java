@@ -4,13 +4,14 @@
  */
 package dao;
 
-import Subscription.Subscription;
-import Subscription.Subscription;
+import entity.Subscription;
+import entity.Subscription;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 import utils.DbUtil;
 
 /**
@@ -20,22 +21,17 @@ import utils.DbUtil;
 public class SubscriptionDAOImp implements SubscriptionDao {
     // Assuming you have a method to get a database connection
     private QueryRunner queryRunner = new QueryRunner();
-
-    @Override
+@Override
     public void addSubscription(Subscription subscription) {
-        String sql = "INSERT INTO Subscription (userID, locationID, foodPrefer, comunication_method, email, phone) VALUES (?, ?, ?, ?, ?, ?)";
-
-        try (Connection connection = DbUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-
-            statement.setInt(1, subscription.getUserID());
-            statement.setInt(2, subscription.getLocationID());
-            statement.setString(3, subscription.getFoodPrefer());
-            statement.setInt(4, subscription.getComunicationMethod()); // Assuming a getter for com method
-            statement.setString(5, subscription.getEmail());
-            statement.setString(6, subscription.getPhone());
-
-            statement.executeUpdate();
+        String sql = "INSERT INTO Subscription (userID, locationID, foodPrefer, communicationMethod, email, phone) VALUES (?, ?, ?, ?, ?, ?)";
+        try {
+            queryRunner.update(DbUtil.getConnection(), sql,
+                    subscription.getUserID(),
+                    subscription.getLocationID(),
+                    subscription.getFoodPrefer(),
+                    subscription.getCommunicationMethod(),
+                    subscription.getEmail(),
+                    subscription.getPhone());
         } catch (SQLException e) {
             e.printStackTrace();
             // Handle exceptions (e.g., logging)
@@ -44,23 +40,30 @@ public class SubscriptionDAOImp implements SubscriptionDao {
 
     @Override
     public void updateSubscription(Subscription subscription) {
-        String sql = "UPDATE Subscription SET userID = ?, locationID = ?, foodPrefer = ?, comunication_method = ?, email = ?, phone = ? WHERE subscriptionID = ?";
-
-        try (Connection connection = DbUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-
-            statement.setInt(1, subscription.getUserID());
-            statement.setInt(2, subscription.getLocationID());
-            statement.setString(3, subscription.getFoodPrefer());
-            statement.setInt(4, subscription.getComunicationMethod()); // Assuming a getter for com method
-            statement.setString(5, subscription.getEmail());
-            statement.setString(6, subscription.getPhone());
-            statement.setInt(7, subscription.getSubscriptionID());
-
-            statement.executeUpdate();
+        String sql = "UPDATE Subscription SET locationID = ?, foodPrefer = ?, communicationMethod = ?, email = ?, phone = ? WHERE userID = ?";
+        try {
+            queryRunner.update(DbUtil.getConnection(), sql,
+                    subscription.getLocationID(),
+                    subscription.getFoodPrefer(),
+                    subscription.getCommunicationMethod(),
+                    subscription.getEmail(),
+                    subscription.getPhone(),
+                    subscription.getUserID());
         } catch (SQLException e) {
             e.printStackTrace();
             // Handle exceptions (e.g., logging)
+        }
+    }
+
+    @Override
+    public boolean subscriptionExists(int userID) {
+        String sql = "SELECT COUNT(*) FROM Subscription WHERE userID = ?";
+        try {
+            Long count = queryRunner.query(DbUtil.getConnection(), sql, new ScalarHandler<>(), userID);
+            return count > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }

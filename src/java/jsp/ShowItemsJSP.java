@@ -36,6 +36,7 @@ public class ShowItemsJSP extends HttpServlet {
         HttpSession session = request.getSession();
         customer = (Customer) session.getAttribute("customer");
         CustomerDAO customerDAO = new CustomerDAOImpl();
+        int userID = customer.getUserID();
 
         PrintWriter printWriter = response.getWriter();
         printWriter.println("<head>");
@@ -49,6 +50,7 @@ public class ShowItemsJSP extends HttpServlet {
         printWriter.println("<div class='header'>");
         printWriter.println("<span>xxx website</span>");
         printWriter.println("<div>");
+        printWriter.println("<a href='" + request.getContextPath() + "/Subscription.jsp?userID=" + userID + "' class='text-white'>Subscription</a>");//this line
         printWriter.println("<a href='" + request.getContextPath() + "/LogoutController' class='text-white'>Log out</a>");
         printWriter.println("</div>");
         printWriter.println("</div>");
@@ -67,7 +69,7 @@ public class ShowItemsJSP extends HttpServlet {
         printWriter.println("</thead>");
         printWriter.println("<tbody id='customer-items'>");
         for (FoodItem foodItem : foodItems) {
-            int userID = foodItem.getUserID();
+//            int userID = foodItem.getUserID();
             if (foodItem.getPriceTypeID() == 2){
                 if (customerDAO.getUserTypeByUserID(customer).equalsIgnoreCase("Customer")){
                     printWriter.println("<tr>");
