@@ -52,34 +52,34 @@ public class LoginController extends HttpServlet {
         Charity charity = charityService.login(email, password);
 
         HttpSession session = request.getSession();
+        String redirectURL = request.getContextPath() + "/login.jsp";
+        boolean loginSuccess = false;
 
         if (customer != null) {
             session.setAttribute("customer", customer);
-            System.out.println("customer不为空");
             if (customer.getUserType().equalsIgnoreCase("Customer")) {
-                System.out.println("进入判断customer密码");
-                response.sendRedirect(request.getContextPath() + "/customer/safe/showItemsController");
+                redirectURL = request.getContextPath() + "/customer/safe/showItemsController";
+                loginSuccess = true;
             }
-        }else if (retailer != null) {
-            System.out.println("进入判断retailer不为空");
+        } else if (retailer != null) {
             session.setAttribute("retailer", retailer);
             if (retailer.getUserType().equalsIgnoreCase("Retailer")) {
-                System.out.println("进入判断retailer密码");
-                response.sendRedirect(request.getContextPath() + "/retailer/safe/showRetailerItemsController");
-            } else {
-                response.sendRedirect(request.getContextPath() + "/login.html");
+                redirectURL = request.getContextPath() + "/retailer/safe/showRetailerItemsController";
+                loginSuccess = true;
             }
-        }else if (charity != null) {
+        } else if (charity != null) {
             session.setAttribute("charity", charity);
-            System.out.println("charity不为空");
             if (charity.getUserType().equalsIgnoreCase("Charity")) {
-                response.sendRedirect(request.getContextPath() + "/charity/safe/showItemsController");
-            } else {
-                response.sendRedirect(request.getContextPath() + "/login.html");
+                redirectURL = request.getContextPath() + "/charity/safe/showItemsController";
+                loginSuccess = true;
             }
-        }else {
-            response.sendRedirect(request.getContextPath() + "/login.html");
         }
 
+        if (!loginSuccess) {
+            request.setAttribute("loginError", "Invalid email or password. Please try again.");
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
+        } else {
+            response.sendRedirect(redirectURL);
+        }
     }
 }

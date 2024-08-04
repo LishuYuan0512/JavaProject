@@ -80,7 +80,11 @@ public class RetailItemsJSP extends HttpServlet {
         printWriter.println("<th>Price Type</th>");
         printWriter.println("<th>price</th>");
         printWriter.println("<th>isSurplus</th>");
-        printWriter.println("<th colspan='5'>Options</th>");
+        printWriter.println("<th>Options</th>");
+        printWriter.println("<th> </th>");
+        printWriter.println("<th>  </th>");
+
+
         printWriter.println("</tr>");
         printWriter.println("</thead>");
         printWriter.println("<tbody id='customer-items'>");
@@ -126,6 +130,9 @@ public class RetailItemsJSP extends HttpServlet {
 
                 if (foodItem.isDateWithin7Days(foodItem.getExpirationDate())){
                     printWriter.println("<td>Within 7 days</td>");
+                }
+                else {
+                    printWriter.println("<td></td>"); 
                 }
 
 

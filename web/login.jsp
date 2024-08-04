@@ -45,6 +45,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <span>Don't have an account? <a href="signup.jsp">Sign Up</a></span>
                 </div>
             </form>
+            <% 
+            String loginError = (String) request.getAttribute("loginError");
+            if (loginError != null) {
+        %>
+            <div class="alert alert-danger mt-3" role="alert">
+                <%= loginError %>
+            </div>
+        <% } %>
+    </div>
         </div>
     </div>
 
