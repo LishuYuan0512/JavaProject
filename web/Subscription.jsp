@@ -29,7 +29,10 @@
     <div class="main">
         <div class="container">
             <h2 class="text-center">Subscription</h2>
-            <form action="<%= request.getContextPath() %>/customer/safe/SubscribeController" method="post">
+            <%
+                int userID = Integer.parseInt(request.getParameter("userID")); // 获取userID
+            %>
+            <form action="<%= request.getContextPath() %>/customer/safe/SubscribeController?userID=<%= userID %>" method="post">
                 <div class="form-group">
                     <label for="foodPreference">Food Preference</label>
                     <select class="form-control" id="foodPreference" name="foodPrefer">
