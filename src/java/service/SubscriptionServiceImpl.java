@@ -7,6 +7,8 @@ package service;
 import entity.Subscription;
 import dao.SubscriptionDAOImp;
 import dao.SubscriptionDao;
+import observer.FoodItemObserverService;
+import observer.Observable;
 import utils.DbUtil;
 
 /**
@@ -15,6 +17,7 @@ import utils.DbUtil;
  */
 public class SubscriptionServiceImpl implements SubscriptionService {
     private final SubscriptionDao subscriptionDao;
+
 
     public SubscriptionServiceImpl() {
         // Instantiate SubscriptionDao
@@ -26,6 +29,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         try {
             // Call the DAO to handle the subscription creation
             subscriptionDao.addSubscription(subscription);
+            //search if it's surplus
+
             return true;
         } catch (Exception e) {
             DbUtil.rollback();

@@ -65,7 +65,8 @@ public class SubscribeController extends HttpServlet {
         locationID = Integer.parseInt(locationIDParam);
     }
 
-    String foodPrefer = request.getParameter("foodPrefer");
+    String foodPreferStr = request.getParameter("foodPrefer");
+    int foodPrefer = Integer.parseInt(foodPreferStr);
 
     String communicationMethodParam = request.getParameter("communicationMethod");
     Integer communicationMethod = null;

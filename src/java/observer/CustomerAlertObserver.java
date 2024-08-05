@@ -5,6 +5,7 @@
 package observer;
 
 import entity.FoodItem;
+import entity.Subscription;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -29,13 +30,11 @@ public class CustomerAlertObserver implements Observer{
 private static final String LOG_FILE_NAME = "customer_alert.log";
 
     @Override
-    public void update(FoodItem foodItem) {
+    public void update(Subscription subscription) {
         // 发送用户提示
-        if (foodItem.getIsPlus() == 1) {
-            String message = "Alert: New Food Item Added/Updated with isPlus=true: " + foodItem;
+            String message = "Alert: New Subscription Added with isPlus=true: " + subscription;
             System.out.println(message);
             logMessage(message);
-        }
     }
 
     private void logMessage(String message) {

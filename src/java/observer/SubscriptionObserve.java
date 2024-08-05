@@ -8,27 +8,22 @@ import entity.Subscription;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 /**
  *
  * @author ZU
  */
-public class FoodItemObserverService implements Observable {
-    private List<Observer> observers = new ArrayList<>();
+public class SubscriptionObserve {
+    private static List<Observer> observers = new ArrayList<>();
 
-    @Override
     public void addObserver(Observer observer) {
         observers.add(observer);
     }
 
-    @Override
     public void removeObserver(Observer observer) {
         observers.remove(observer);
     }
 
-    @Override
-    public void notifyObservers(Subscription subscription) {
+    public static void notifyObservers(Subscription subscription) {
         for (Observer observer : observers) {
             observer.update(subscription);
         }
@@ -37,6 +32,6 @@ public class FoodItemObserverService implements Observable {
     public static void addSubscriptionObserver(Subscription subscription) {
         // 这里是添加用户订阅的逻辑
         // 例如，保存订阅信息到数据库，更新订阅列表等
-//            notifyObservers(subscription);
+            notifyObservers(subscription);
     }
 }

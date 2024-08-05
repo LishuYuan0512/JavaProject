@@ -10,8 +10,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import observer.FoodItemObserverService;
+import observer.Observable;
+import observer.SubscriptionObserve;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
+import service.FoodItemService;
+import service.FoodItemServiceImpl;
 import utils.DbUtil;
 
 /**
@@ -21,9 +26,12 @@ import utils.DbUtil;
 public class SubscriptionDAOImp implements SubscriptionDao {
     // Assuming you have a method to get a database connection
     private QueryRunner queryRunner = new QueryRunner();
+//    FoodItemService fs = new FoodItemServiceImpl();
+//    Observable fio = new FoodItemObserverService();
 @Override
     public void addSubscription(Subscription subscription) {
         String sql = "INSERT INTO Subscription (userID, locationID, foodPrefer, communicationMethod, email, phone) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql2 = "SELECT isPlus FROM FoodItem2 where itemID = ?";
         try {
             queryRunner.update(DbUtil.getConnection(), sql,
                     subscription.getUserID(),
@@ -32,6 +40,13 @@ public class SubscriptionDAOImp implements SubscriptionDao {
                     subscription.getCommunicationMethod(),
                     subscription.getEmail(),
                     subscription.getPhone());
+            
+            int itemID = subscription.getFoodPrefer();//food item id
+            ScalarHandler<Integer> scalarHandler = new ScalarHandler<>();
+            int isPlus = queryRunner.query(DbUtil.getConnection(), sql2,scalarHandler,itemID);
+            if(isPlus == 1){
+                SubscriptionObserve.addSubscriptionObserver(subscription);
+            };
         } catch (SQLException e) {
             e.printStackTrace();
             // Handle exceptions (e.g., logging)

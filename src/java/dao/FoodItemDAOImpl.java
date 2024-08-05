@@ -106,7 +106,7 @@ public class FoodItemDAOImpl implements FoodItemDAO{
         try {
             int result = queryRunner.update(DbUtil.getConnection(), "update FoodItem2 set isPlus = ?, priceTypeID=? where itemID =?;",
                     foodItem.getIsPlus(),foodItem.getPriceTypeID(), foodItem.getItemID());
-            foodItemObserverService.addOrUpdateFoodItem(foodItem); 
+            
             return result;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -114,12 +114,11 @@ public class FoodItemDAOImpl implements FoodItemDAO{
     }
 
     @Override
-    public int getFoodItemIsPlusID(FoodItem foodItem) {
+    public int getFoodItemIsPlusID(int itemID) {
         try {
             ScalarHandler<Integer> scalarHandler = new ScalarHandler<>();
-            Integer userID = queryRunner.query(DbUtil.getConnection(),"select isPlus from FoodItem2 where itemID = ?;",
-                    scalarHandler,foodItem.getItemID());
-            return userID.intValue();
+            Integer isPlus = queryRunner.query(DbUtil.getConnection(),"select isPlus from FoodItem2 where itemID = ?;", scalarHandler);
+            return isPlus;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
