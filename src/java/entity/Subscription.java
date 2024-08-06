@@ -76,4 +76,12 @@ public class Subscription {
         this.communicationMethod = communicationMethod; // Setter for com method
     }
     
+    //+to string
+
+    @Override
+    public String toString() {
+        return "Subscription{" + "userID=" + userID + ", locationID=" + locationID + ", foodPrefer=" + foodPrefer + ", email=" + email + ", phone=" + phone + ", communicationMethod=" + communicationMethod + '}';
+    }
+    
+    
 }

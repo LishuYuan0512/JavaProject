@@ -12,4 +12,5 @@ import entity.Subscription;
  */
 public interface Observer {
     void update(Subscription subscription);
+	
 }

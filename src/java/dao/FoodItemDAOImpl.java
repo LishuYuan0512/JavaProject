@@ -9,15 +9,10 @@ import utils.DbUtil;
 
 import java.sql.SQLException;
 import java.util.List;
-import observer.FoodItemObserverService;
 
 public class FoodItemDAOImpl implements FoodItemDAO{
     private QueryRunner queryRunner = new QueryRunner();
-    private FoodItemObserverService foodItemObserverService;
 
-    public void setFoodItemObserverService(FoodItemObserverService foodItemObserverService) {
-        this.foodItemObserverService = foodItemObserverService;
-    }
     @Override
     public List<FoodItem> selectAllFoodItems() {
         List<FoodItem> foodItems = null;
@@ -117,7 +112,7 @@ public class FoodItemDAOImpl implements FoodItemDAO{
     public int getFoodItemIsPlusID(int itemID) {
         try {
             ScalarHandler<Integer> scalarHandler = new ScalarHandler<>();
-            Integer isPlus = queryRunner.query(DbUtil.getConnection(),"select isPlus from FoodItem2 where itemID = ?;", scalarHandler);
+            Integer isPlus = queryRunner.query(DbUtil.getConnection(),"select isPlus from fooditem2 where itemID = ?;", scalarHandler, itemID);
             return isPlus;
         } catch (SQLException e) {
             throw new RuntimeException(e);

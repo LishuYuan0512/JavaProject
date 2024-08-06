@@ -7,7 +7,6 @@ package service;
 import entity.Subscription;
 import dao.SubscriptionDAOImp;
 import dao.SubscriptionDao;
-import observer.FoodItemObserverService;
 import observer.Observable;
 import utils.DbUtil;
 
@@ -27,10 +26,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     public boolean createSubscription(Subscription subscription) {
         try {
+            DbUtil.begin();
             // Call the DAO to handle the subscription creation
             subscriptionDao.addSubscription(subscription);
-            //search if it's surplus
-
+            //add new observable subscription
+            DbUtil.commit();
             return true;
         } catch (Exception e) {
             DbUtil.rollback();
@@ -41,8 +41,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     public boolean updateSubscription(Subscription subscription) {
         try {
+            DbUtil.begin();
             // Call the DAO to handle the subscription update
             subscriptionDao.updateSubscription(subscription);
+            DbUtil.commit();
             return true;
         } catch (Exception e) {
             DbUtil.rollback();
@@ -53,6 +55,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     public boolean subscriptionExists(int userID) {
         try {
+            DbUtil.begin();
             return subscriptionDao.subscriptionExists(userID);
         } catch (Exception e) {
             throw new RuntimeException(e);

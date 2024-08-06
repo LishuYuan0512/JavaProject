@@ -7,13 +7,19 @@ package observer;
 import entity.Subscription;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
+import service.FoodItemService;
+import service.FoodItemServiceImpl;
+import utils.DbUtil;
 
 /**
  *
  * @author ZU
  */
-public class SubscriptionObserve {
+public class SubscriptionObserve implements Observable{
     private static List<Observer> observers = new ArrayList<>();
+    private QueryRunner queryRunner = new QueryRunner();
 
     public void addObserver(Observer observer) {
         observers.add(observer);
@@ -23,15 +29,21 @@ public class SubscriptionObserve {
         observers.remove(observer);
     }
 
-    public static void notifyObservers(Subscription subscription) {
-        for (Observer observer : observers) {
-            observer.update(subscription);
+    public void notifyObservers(Subscription subscription) {
+        for (int i = 0; i< observers.size(); i++) {
+	observers.get(i).update(subscription);
         }
     }
 
-    public static void addSubscriptionObserver(Subscription subscription) {
-        // 这里是添加用户订阅的逻辑
-        // 例如，保存订阅信息到数据库，更新订阅列表等
-            notifyObservers(subscription);
-    }
+//新增方法，只要isSruplu == 1成立，就会通知用户。该判断条件应该加在被观察者中，而不是观察者。
+	public void checkChange(Subscription subscription){
+                        //check isPlus
+            int foodID = subscription.getFoodPrefer();
+            FoodItemService foodservice = new FoodItemServiceImpl();
+            int isSruplu = foodservice.getFoodItemIsPlus(foodID);
+		if(isSruplu == 1){//这里需要从数据库中调取相关数据，此处是为了简便
+                notifyObservers(subscription);
+
+	}
+        }
 }
