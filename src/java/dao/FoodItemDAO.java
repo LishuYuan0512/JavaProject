@@ -15,5 +15,7 @@ public interface FoodItemDAO {
     public int updateFoodItemSurplus(FoodItem foodItem);
     public int getFoodItemIsPlusID(int foodItemID);
     public int updatePriceTypeAndPrice(FoodItem foodItem);
+    
+    public List<FoodItem> selectFoodItemsByRetailerId(int userID);    
 
 }

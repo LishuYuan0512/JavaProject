@@ -4,6 +4,7 @@
  */
 package observer;
 
+import entity.FoodItem;
 import entity.Subscription;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +22,17 @@ public class SubscriptionObserve implements Observable{
     private static List<Observer> observers = new ArrayList<>();
     private QueryRunner queryRunner = new QueryRunner();
 
+    @Override
     public void addObserver(Observer observer) {
         observers.add(observer);
     }
 
+    @Override
     public void removeObserver(Observer observer) {
         observers.remove(observer);
     }
 
+    @Override
     public void notifyObservers(Subscription subscription) {
         for (int i = 0; i< observers.size(); i++) {
 	observers.get(i).update(subscription);
@@ -46,4 +50,9 @@ public class SubscriptionObserve implements Observable{
 
 	}
         }
+
+    @Override
+    public void update(FoodItem foodItem) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

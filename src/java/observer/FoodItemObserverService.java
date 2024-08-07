@@ -5,6 +5,7 @@
 package observer;
 
 import entity.FoodItem;
+import entity.Subscription;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  *
  * @author ZU
  */
-public class FoodItemObserverService implements Observable {
+public abstract class FoodItemObserverService implements Observable {
     private List<Observer> observers = new ArrayList<>();
 
     @Override
@@ -25,7 +26,6 @@ public class FoodItemObserverService implements Observable {
         observers.remove(observer);
     }
 
-    @Override
     public void notifyObservers(FoodItem foodItem) {
         for (Observer observer : observers) {
             observer.update(foodItem);
@@ -39,4 +39,6 @@ public class FoodItemObserverService implements Observable {
             notifyObservers(foodItem);
         }
     }
+
+  
 }

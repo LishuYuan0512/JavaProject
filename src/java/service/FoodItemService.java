@@ -1,4 +1,4 @@
-package service;
+ package service;
 
 import entity.FoodItem;
 
@@ -12,8 +12,8 @@ public interface FoodItemService {
     public int updateFoodItemDate(FoodItem foodItem);
     public int insertFoodItem(FoodItem foodItem);
     public int updateSurplusItem(FoodItem foodItem);
-    public int getFoodItemIsPlus(FoodItem foodItem);
+    public int getFoodItemIsPlus(int foodItemID);
     public int updateFoodItem(FoodItem foodItem);
-
+    
     public List<FoodItem> getFoodItemsByRetailerId(int userID);
 }

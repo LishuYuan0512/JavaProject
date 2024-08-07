@@ -4,6 +4,7 @@
  */
 package controller;
 
+import entity.Customer;
 import entity.Subscription;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,12 +13,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import observer.CustomerAlertObserver;
 import observer.Observable;
 import observer.Observer;
 import observer.SubscriptionObserve;
 import service.SubscriptionService;
 import service.SubscriptionServiceImpl;
+
 
 /**
  *
@@ -69,9 +72,12 @@ public class SubscribeController extends HttpServlet {
         locationID = Integer.parseInt(locationIDParam);
     }
 
-    String foodPreferStr = request.getParameter("foodPrefer");
-    int foodPrefer = Integer.parseInt(foodPreferStr);
-
+    String fooPreferParam = request.getParameter("foodPrefer");
+    Integer foodPrefer = null;
+    if (fooPreferParam != null && !fooPreferParam.isEmpty()){
+        foodPrefer = Integer.parseInt(fooPreferParam);
+        }
+    
     String communicationMethodParam = request.getParameter("communicationMethod");
     Integer communicationMethod = null;
     if (communicationMethodParam != null) {

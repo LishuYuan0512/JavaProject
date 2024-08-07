@@ -58,6 +58,7 @@ public class LoginController extends HttpServlet {
         if (customer != null) {
             session.setAttribute("customer", customer);
             if (customer.getUserType().equalsIgnoreCase("Customer")) {
+                session.setAttribute("customer", customer);
                 redirectURL = request.getContextPath() + "/customer/safe/showItemsController";
                 loginSuccess = true;
             }

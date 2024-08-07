@@ -79,6 +79,11 @@ public void receiveMessage(Subscription subscription){
 
 }
 
+    @Override
+    public void update(FoodItem foodItem) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 	
 
 }

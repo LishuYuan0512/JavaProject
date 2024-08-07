@@ -3,6 +3,7 @@ package observer;
 
 import dao.FoodItemDAOImpl;
 import entity.FoodItem;
+import entity.Subscription;
 import observer.CustomerAlertObserver;
 import observer.FoodItemObserverService;
 
@@ -20,7 +21,17 @@ public class FooditemDaoTest {
 
         
         // Create FoodItemObserverService instance
-        FoodItemObserverService observerService = new FoodItemObserverService();
+        FoodItemObserverService observerService = new FoodItemObserverService() {
+            @Override
+            public void notifyObservers(Subscription subscription) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public void update(FoodItem foodItem) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+        };
         
         // Create and add CustomerAlertObserver
         CustomerAlertObserver customerAlertObserver = new CustomerAlertObserver();

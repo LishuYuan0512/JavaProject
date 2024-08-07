@@ -4,6 +4,7 @@
  */
 package observer;
 
+import entity.FoodItem;
 import entity.Subscription;
 
 /**
@@ -14,5 +15,6 @@ public interface Observable {
     void addObserver(Observer observer);
     void removeObserver(Observer observer);
     void notifyObservers(Subscription subscription);
+    public void update(FoodItem foodItem);
 
 }

@@ -112,11 +112,11 @@ public class FoodItemServiceImpl implements FoodItemService{
     }
 
     @Override
-    public int getFoodItemIsPlus(FoodItem foodItem) {
+    public int getFoodItemIsPlus(int foodItemID) {
         int result = 0;
         try {
             DbUtil.begin();
-            result = foodItemDAO.getFoodItemIsPlusID(foodItem);
+            result = foodItemDAO.getFoodItemIsPlusID(foodItemID);
             DbUtil.commit();
         } catch (Exception e) {
             DbUtil.rollback();
@@ -138,6 +138,8 @@ public class FoodItemServiceImpl implements FoodItemService{
         }
         return result;
     }
+
+
     @Override
     public List<FoodItem> getFoodItemsByRetailerId(int retailerId) {
     List<FoodItem> foodItems = new ArrayList<>();

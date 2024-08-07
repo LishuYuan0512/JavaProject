@@ -40,7 +40,7 @@ public class ShowItemsJSP extends HttpServlet {
         PrintWriter printWriter = response.getWriter();
         response.setContentType("text/html;charset=UTF-8");
         
-        
+
         printWriter.println("<!DOCTYPE html>");
         printWriter.println("<html lang=\"en\">");
         printWriter.println("<head>");
@@ -60,6 +60,8 @@ public class ShowItemsJSP extends HttpServlet {
         printWriter.println("</button>");
         printWriter.println("<div>");
         printWriter.println("<a href='" + request.getContextPath() + "/LogoutController' class='text-white'>Log out</a>");
+        
+        printWriter.println("<a href='" + request.getContextPath() + "/Subscription.jsp?userID=" + customer.getUserID() + "' class='text-white'> Subscription </a>");
         printWriter.println("</div>");
         printWriter.println("</div>");
         

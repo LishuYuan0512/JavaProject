@@ -15,16 +15,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subscription - XXX Website</title>
+    <title>Subscription - Food Waste Reduction Platform</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="styles.css" rel="stylesheet">
 </head>
 <body>
-    <div class="header">
-        <span>xxx website</span>
-        <div>
-            <a href="login.html" class="text-white">Log out</a>
-        </div>
+<!-- Include Header -->
+    <div class="header navbar navbar-expand-lg">
+    <a class="navbar-brand" href="${pageContext.request.contextPath}/index.jsp">Food Waste Reduction Platform</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    </div>
     </div>
     <div class="main">
         <div class="container">
@@ -41,7 +43,7 @@
                             QueryRunner queryRunner = new QueryRunner();
                             try {
 //                                Connection con = DbUtil.getConnection();
-                                String sql = "SELECT itemID, itemName FROM FoodItem2";
+                                String sql = "SELECT itemID, itemName FROM foodItem2";
                                 List<Map<String, Object>> results = queryRunner.query(DbUtil.getConnection(), sql, new MapListHandler());
 
                                 for (Map<String, Object> row : results) {
@@ -99,5 +101,3 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-
-
