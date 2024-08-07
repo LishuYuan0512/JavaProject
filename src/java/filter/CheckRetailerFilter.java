@@ -26,7 +26,7 @@ public class CheckRetailerFilter implements Filter {
         if (retailer != null) {
             chain.doFilter(request, response);
         }else {
-            res.sendRedirect(req.getContextPath() + "/login.html");
+            res.sendRedirect(req.getContextPath() + "/login.jsp");
         }
     }
 

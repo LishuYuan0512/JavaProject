@@ -50,9 +50,8 @@ public class ShowCheckoutJSP extends HttpServlet {
         
         printWriter.println("</button>");
         printWriter.println("<div>");
-        printWriter.println("<a href='" + request.getContextPath() + "/customer/safe/showItemsController' class='text-white'> BACK </a>");
-        printWriter.println("<a href='" + request.getContextPath() + "/Subscription.jsp' class='text-white'> Subscription </a>");
-
+        printWriter.println("<a href='" + request.getContextPath() + "/customer/safe/showItemsController' class='text-white'> Back </a>");
+        
         printWriter.println("</div>");
         printWriter.println("</div>");
         

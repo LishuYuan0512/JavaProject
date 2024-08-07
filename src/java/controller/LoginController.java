@@ -75,6 +75,7 @@ public class LoginController extends HttpServlet {
                 loginSuccess = true;
             }
         }
+        
 
         if (!loginSuccess) {
             request.setAttribute("loginError", "Invalid email or password. Please try again.");

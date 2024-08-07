@@ -36,7 +36,7 @@ public class AddRetailerItemController extends HttpServlet {
        double price = Double.parseDouble(request.getParameter("price"));
        int quantity = Integer.parseInt(request.getParameter("quantity"));
        String restockTime = request.getParameter("restockTime");
-       String expirationDate = request.getParameter("expirationData");
+       String expirationDate = request.getParameter("expirationDate");
        int priceTypeID = Integer.parseInt(request.getParameter("priceType"));
        int isSurplus = Integer.parseInt(request.getParameter("isSurplus"));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
