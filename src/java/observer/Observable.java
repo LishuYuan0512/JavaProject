@@ -4,7 +4,7 @@
  */
 package observer;
 
-import entity.FoodItem;
+import entity.Subscription;
 
 /**
  *
@@ -13,5 +13,6 @@ import entity.FoodItem;
 public interface Observable {
     void addObserver(Observer observer);
     void removeObserver(Observer observer);
-    void notifyObservers(FoodItem foodItem);
+    void notifyObservers(Subscription subscription);
+
 }

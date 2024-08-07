@@ -12,6 +12,7 @@ import java.util.List;
 
 public class FoodItemDAOImpl implements FoodItemDAO{
     private QueryRunner queryRunner = new QueryRunner();
+
     @Override
     public List<FoodItem> selectAllFoodItems() {
         List<FoodItem> foodItems = null;
@@ -100,6 +101,7 @@ public class FoodItemDAOImpl implements FoodItemDAO{
         try {
             int result = queryRunner.update(DbUtil.getConnection(), "update FoodItem2 set isPlus = ?, priceTypeID=? where itemID =?;",
                     foodItem.getIsPlus(),foodItem.getPriceTypeID(), foodItem.getItemID());
+            
             return result;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -107,12 +109,11 @@ public class FoodItemDAOImpl implements FoodItemDAO{
     }
 
     @Override
-    public int getFoodItemIsPlusID(FoodItem foodItem) {
+    public int getFoodItemIsPlusID(int itemID) {
         try {
             ScalarHandler<Integer> scalarHandler = new ScalarHandler<>();
-            Integer userID = queryRunner.query(DbUtil.getConnection(),"select isPlus from FoodItem2 where itemID = ?;",
-                    scalarHandler,foodItem.getItemID());
-            return userID.intValue();
+            Integer isPlus = queryRunner.query(DbUtil.getConnection(),"select isPlus from fooditem2 where itemID = ?;", scalarHandler, itemID);
+            return isPlus;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -129,17 +130,5 @@ public class FoodItemDAOImpl implements FoodItemDAO{
         }
     }
 
- @Override
-    public List<FoodItem> selectFoodItemsByRetailerId(int userID) {
-        List<FoodItem> foodItems = null;
-        try {
-            String query = "SELECT * FROM FoodItem2 WHERE userID = ?";
-            foodItems = queryRunner.query(DbUtil.getConnection(), query,
-                    new BeanListHandler<>(FoodItem.class), userID);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return foodItems;
-    }
+
 }
-    

@@ -4,12 +4,13 @@
  */
 package observer;
 
-import entity.FoodItem;
+import entity.Subscription;
 
 /**
  *
  * @author ZU
  */
 public interface Observer {
-    void update(FoodItem foodItem);
+    void update(Subscription subscription);
+	
 }

@@ -11,7 +11,7 @@ package entity;
 public class Subscription {
     private int userID;
     private int locationID;
-    private String foodPrefer;
+    private int foodPrefer;
     private String email;
     private String phone;
     private int communicationMethod;
@@ -19,7 +19,7 @@ public class Subscription {
     public Subscription(){
     }
     
-    public Subscription(int userID, int locationID, String foodPrefer, String email, String phone) {
+    public Subscription(int userID, int locationID, int foodPrefer, String email, String phone) {
         this.userID = userID;
         this.locationID = locationID;
         this.foodPrefer = foodPrefer;
@@ -44,11 +44,11 @@ public class Subscription {
         this.locationID = locationID;
     }
 
-    public String getFoodPrefer() {
+    public int getFoodPrefer() {
         return foodPrefer;
     }
 
-    public void setFoodPrefer(String foodPrefer) {
+    public void setFoodPrefer(int foodPrefer) {
         this.foodPrefer = foodPrefer;
     }
 
@@ -75,5 +75,13 @@ public class Subscription {
     public void setCommunicationMethod(int communicationMethod) {
         this.communicationMethod = communicationMethod; // Setter for com method
     }
+    
+    //+to string
+
+    @Override
+    public String toString() {
+        return "Subscription{" + "userID=" + userID + ", locationID=" + locationID + ", foodPrefer=" + foodPrefer + ", email=" + email + ", phone=" + phone + ", communicationMethod=" + communicationMethod + '}';
+    }
+    
     
 }

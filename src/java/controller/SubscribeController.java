@@ -12,6 +12,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import observer.CustomerAlertObserver;
+import observer.Observable;
+import observer.Observer;
+import observer.SubscriptionObserve;
 import service.SubscriptionService;
 import service.SubscriptionServiceImpl;
 
@@ -65,7 +69,8 @@ public class SubscribeController extends HttpServlet {
         locationID = Integer.parseInt(locationIDParam);
     }
 
-    String foodPrefer = request.getParameter("foodPrefer");
+    String foodPreferStr = request.getParameter("foodPrefer");
+    int foodPrefer = Integer.parseInt(foodPreferStr);
 
     String communicationMethodParam = request.getParameter("communicationMethod");
     Integer communicationMethod = null;
@@ -111,6 +116,12 @@ public class SubscribeController extends HttpServlet {
     // Create and call the SubscriptionService to handle database operations
     SubscriptionService subscriptionService = new SubscriptionServiceImpl();
     boolean isSuccess;
+    
+    CustomerAlertObserver observer = new CustomerAlertObserver();
+    SubscriptionObserve observable = new SubscriptionObserve();
+    observable.addObserver(observer);
+    observable.checkChange(subscription);
+    observable.removeObserver(observer);
 
     // Check if a subscription with this userID already exists
         boolean exists = subscriptionService.subscriptionExists(userID);

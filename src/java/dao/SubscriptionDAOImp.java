@@ -10,8 +10,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import observer.Observable;
+import observer.SubscriptionObserve;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
+import service.FoodItemService;
+import service.FoodItemServiceImpl;
 import utils.DbUtil;
 
 /**
@@ -21,9 +25,12 @@ import utils.DbUtil;
 public class SubscriptionDAOImp implements SubscriptionDao {
     // Assuming you have a method to get a database connection
     private QueryRunner queryRunner = new QueryRunner();
+//    FoodItemService fs = new FoodItemServiceImpl();
+//    Observable fio = new FoodItemObserverService();
 @Override
     public void addSubscription(Subscription subscription) {
         String sql = "INSERT INTO Subscription (userID, locationID, foodPrefer, communicationMethod, email, phone) VALUES (?, ?, ?, ?, ?, ?)";
+
         try {
             queryRunner.update(DbUtil.getConnection(), sql,
                     subscription.getUserID(),
@@ -32,6 +39,8 @@ public class SubscriptionDAOImp implements SubscriptionDao {
                     subscription.getCommunicationMethod(),
                     subscription.getEmail(),
                     subscription.getPhone());
+            
+
         } catch (SQLException e) {
             e.printStackTrace();
             // Handle exceptions (e.g., logging)
