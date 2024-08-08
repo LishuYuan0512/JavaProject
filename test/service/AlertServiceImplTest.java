@@ -4,97 +4,119 @@
  */
 package service;
 
-import entity.Alert;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+
+import dao.AlertDAO;
+import entity.Alert;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import utils.DbUtil;
 
 /**
- *
- * @author tangy
+ * Unit tests for the AlertServiceImpl class.
+ * This class tests the service methods for managing alerts using mocks.
  */
 public class AlertServiceImplTest {
-    
-    public AlertServiceImplTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
+
+    private AlertService alertService;
+
+    @Mock
+    private AlertDAO alertDAO;
+
+    /**
+     * Sets up the test environment before each test method.
+     * This method initializes the service and mocks necessary components.
+     */
     @Before
     public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
+        MockitoAnnotations.initMocks(this);
+
+        // Mock the DbUtil static methods
+        mockStatic(DbUtil.class);
+
+        // Initialize the service with the mocked DAO
+        alertService = new AlertServiceImpl();
+        ((AlertServiceImpl) alertService).alertDAO = alertDAO; // Inject mocked DAO
     }
 
     /**
-     * Test of createAlert method, of class AlertServiceImpl.
+     * Tests the createAlert method of the AlertServiceImpl class.
+     * This test verifies that an alert is created and a transaction is handled correctly.
      */
     @Test
     public void testCreateAlert() {
-        System.out.println("createAlert");
-        Alert alert = null;
-        AlertServiceImpl instance = new AlertServiceImpl();
-        Alert expResult = null;
-        Alert result = instance.createAlert(alert);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Alert alert = new Alert();
+        alert.setAlertID(1);
+        alert.setUserID(2);
+        alert.setItemID(3);
+
+        // Define the behavior of the mock
+        doNothing().when(alertDAO).insertAlert(alert);
+
+        // Call the method to test
+        alertService.createAlert(alert);
+
+        // Verify that transaction methods are called
+        verifyStatic(DbUtil.class);
+        DbUtil.begin();
+
+        verify(alertDAO).insertAlert(alert);
+
+        verifyStatic(DbUtil.class);
+        DbUtil.commit();
     }
 
     /**
-     * Test of getAlertByAlertID method, of class AlertServiceImpl.
+     * Tests the getAlertByAlertID method of the AlertServiceImpl class.
+     * This test verifies that an alert is retrieved by its ID.
      */
     @Test
     public void testGetAlertByAlertID() {
-        System.out.println("getAlertByAlertID");
-        int alertID = 0;
-        AlertServiceImpl instance = new AlertServiceImpl();
-        Alert expResult = null;
-        Alert result = instance.getAlertByAlertID(alertID);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Alert alert = new Alert();
+        alert.setAlertID(1);
+
+        // Define the behavior of the mock
+        when(alertDAO.selectAlertByID(1)).thenReturn(alert);
+
+        // Call the method to test
+        Alert result = alertService.getAlertByAlertID(1);
+
+        // Verify the result
+        assertNotNull(result);
+        assertEquals(alert.getAlertID(), result.getAlertID());
     }
 
     /**
-     * Test of getAllAlerts method, of class AlertServiceImpl.
-     */
-    @Test
-    public void testGetAllAlerts() {
-        System.out.println("getAllAlerts");
-        Alert alert = null;
-        AlertServiceImpl instance = new AlertServiceImpl();
-        Alert expResult = null;
-        Alert result = instance.getAllAlerts(alert);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of updateAlert method, of class AlertServiceImpl.
+     * Tests the updateAlert method of the AlertServiceImpl class.
+     * This test verifies that an alert is updated and a transaction is handled correctly.
      */
     @Test
     public void testUpdateAlert() {
-        System.out.println("updateAlert");
-        Alert alert = null;
-        AlertServiceImpl instance = new AlertServiceImpl();
-        Alert expResult = null;
-        Alert result = instance.updateAlert(alert);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Alert alert = new Alert();
+        alert.setAlertID(1);
+        alert.setUserID(2);
+        alert.setItemID(3);
+
+        // Define the behavior of the mock
+        doNothing().when(alertDAO).updateAlert(alert);
+
+        // Call the method to test
+        alertService.updateAlert(alert);
+
+        // Verify that transaction methods are called
+        verifyStatic(DbUtil.class);
+        DbUtil.begin();
+
+        verify(alertDAO).updateAlert(alert);
+
+        verifyStatic(DbUtil.class);
+        DbUtil.commit();
     }
-    
+
+    private void verifyStatic(Class<DbUtil> aClass) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

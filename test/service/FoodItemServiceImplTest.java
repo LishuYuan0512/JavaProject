@@ -4,187 +4,203 @@
  */
 package service;
 
-import entity.FoodItem;
-import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+
+import dao.FoodItemDAO;
+import entity.FoodItem;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import utils.DbUtil;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
- *
- * @author tangy
+ * Unit tests for the FoodItemServiceImpl class.
+ * This class tests the service methods for managing food items and transaction management using mocks.
  */
 public class FoodItemServiceImplTest {
-    
-    public FoodItemServiceImplTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
+
+    private FoodItemService foodItemService;
+
+    @Mock
+    private FoodItemDAO foodItemDAO;
+
+    /**
+     * Sets up the test environment before each test method.
+     * This method initializes the service and mocks necessary components.
+     */
     @Before
     public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
+        MockitoAnnotations.initMocks(this);
+
+        // Mock the DbUtil static methods
+        mockStatic(DbUtil.class);
+
+
     }
 
     /**
-     * Test of getAllFoodItems method, of class FoodItemServiceImpl.
+     * Tests the getAllFoodItems method of the FoodItemServiceImpl class.
+     * This test verifies that all food items are retrieved correctly.
      */
     @Test
     public void testGetAllFoodItems() {
-        System.out.println("getAllFoodItems");
-        FoodItemServiceImpl instance = new FoodItemServiceImpl();
-        List<FoodItem> expResult = null;
-        List<FoodItem> result = instance.getAllFoodItems();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        List<FoodItem> expectedFoodItems = new ArrayList<>();
+        expectedFoodItems.add(new FoodItem(1, 101, "Apple", 10, new Date(), new Date(), 1.0, 1, 0));
+        expectedFoodItems.add(new FoodItem(2, 102, "Banana", 20, new Date(), new Date(), 0.5, 1, 0));
+
+        // Define the behavior of the mock
+        when(foodItemDAO.selectAllFoodItems()).thenReturn(expectedFoodItems);
+
+        // Call the method to test
+        List<FoodItem> actualFoodItems = foodItemService.getAllFoodItems();
+
+        // Verify the result
+        assertEquals(expectedFoodItems, actualFoodItems);
+
+        // Verify that transaction methods are called
+        verifyStatic(DbUtil.class);
+        DbUtil.begin();
+
+        verifyStatic(DbUtil.class);
+        DbUtil.commit();
     }
 
     /**
-     * Test of getFoodItemById method, of class FoodItemServiceImpl.
+     * Tests the getFoodItemById method of the FoodItemServiceImpl class.
+     * This test verifies that a food item is retrieved correctly by its ID.
      */
     @Test
     public void testGetFoodItemById() {
-        System.out.println("getFoodItemById");
-        int id = 0;
-        FoodItemServiceImpl instance = new FoodItemServiceImpl();
-        FoodItem expResult = null;
-        FoodItem result = instance.getFoodItemById(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int itemId = 1;
+        FoodItem expectedFoodItem = new FoodItem(itemId, 101, "Apple", 10, new Date(), new Date(), 1.0, 1, 0);
+
+        // Define the behavior of the mock
+        when(foodItemDAO.selectFoodItemById(itemId)).thenReturn(expectedFoodItem);
+
+        // Call the method to test
+        FoodItem actualFoodItem = foodItemService.getFoodItemById(itemId);
+
+        // Verify the result
+        assertEquals(expectedFoodItem, actualFoodItem);
+
+        // Verify that transaction methods are called
+        verifyStatic(DbUtil.class);
+        DbUtil.begin();
+
+        verifyStatic(DbUtil.class);
+        DbUtil.commit();
     }
 
     /**
-     * Test of purchaseFoodItemQuantity method, of class FoodItemServiceImpl.
+     * Tests the purchaseFoodItemQuantity method of the FoodItemServiceImpl class.
+     * This test verifies that a food item quantity is reduced correctly.
      */
     @Test
     public void testPurchaseFoodItemQuantity() {
-        System.out.println("purchaseFoodItemQuantity");
-        FoodItem foodItem = null;
-        FoodItemServiceImpl instance = new FoodItemServiceImpl();
-        int expResult = 0;
-        int result = instance.purchaseFoodItemQuantity(foodItem);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        FoodItem foodItem = new FoodItem(1, 101, "Apple", 10, new Date(), new Date(), 1.0, 1, 0);
+
+        // Define the behavior of the mock
+        when(foodItemDAO.consumeFoodItemQuantity(foodItem)).thenReturn(5);
+
+        // Call the method to test
+        int remainingQuantity = foodItemService.purchaseFoodItemQuantity(foodItem);
+
+        // Verify the result
+        assertEquals(5, remainingQuantity);
+
+        // Verify that transaction methods are called
+        verifyStatic(DbUtil.class);
+        DbUtil.begin();
+
+        verifyStatic(DbUtil.class);
+        DbUtil.commit();
     }
 
     /**
-     * Test of addFoodItemQuantity method, of class FoodItemServiceImpl.
+     * Tests the addFoodItemQuantity method of the FoodItemServiceImpl class.
+     * This test verifies that a food item quantity is increased correctly.
      */
     @Test
     public void testAddFoodItemQuantity() {
-        System.out.println("addFoodItemQuantity");
-        FoodItem foodItem = null;
-        FoodItemServiceImpl instance = new FoodItemServiceImpl();
-        int expResult = 0;
-        int result = instance.addFoodItemQuantity(foodItem);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        FoodItem foodItem = new FoodItem(1, 101, "Apple", 10, new Date(), new Date(), 1.0, 1, 0);
+
+        // Define the behavior of the mock
+        when(foodItemDAO.addFoodItemQuantity(foodItem)).thenReturn(15);
+
+        // Call the method to test
+        int newQuantity = foodItemService.addFoodItemQuantity(foodItem);
+
+        // Verify the result
+        assertEquals(15, newQuantity);
+
+        // Verify that transaction methods are called
+        verifyStatic(DbUtil.class);
+        DbUtil.begin();
+
+        verifyStatic(DbUtil.class);
+        DbUtil.commit();
     }
 
     /**
-     * Test of updateFoodItemDate method, of class FoodItemServiceImpl.
-     */
-    @Test
-    public void testUpdateFoodItemDate() {
-        System.out.println("updateFoodItemDate");
-        FoodItem foodItem = null;
-        FoodItemServiceImpl instance = new FoodItemServiceImpl();
-        int expResult = 0;
-        int result = instance.updateFoodItemDate(foodItem);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of insertFoodItem method, of class FoodItemServiceImpl.
+     * Tests the insertFoodItem method of the FoodItemServiceImpl class.
+     * This test verifies that a new food item is inserted correctly.
      */
     @Test
     public void testInsertFoodItem() {
-        System.out.println("insertFoodItem");
-        FoodItem foodItem = null;
-        FoodItemServiceImpl instance = new FoodItemServiceImpl();
-        int expResult = 0;
-        int result = instance.insertFoodItem(foodItem);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        FoodItem foodItem = new FoodItem(1, 101, "Orange", 10, new Date(), new Date(), 1.2, 1, 0);
+
+        // Define the behavior of the mock
+        when(foodItemDAO.insertFoodItem(foodItem)).thenReturn(1);
+
+        // Call the method to test
+        int insertResult = foodItemService.insertFoodItem(foodItem);
+
+        // Verify the result
+        assertEquals(1, insertResult);
+
+        // Verify that transaction methods are called
+        verifyStatic(DbUtil.class);
+        DbUtil.begin();
+
+        verifyStatic(DbUtil.class);
+        DbUtil.commit();
     }
 
     /**
-     * Test of updateSurplusItem method, of class FoodItemServiceImpl.
-     */
-    @Test
-    public void testUpdateSurplusItem() {
-        System.out.println("updateSurplusItem");
-        FoodItem foodItem = null;
-        FoodItemServiceImpl instance = new FoodItemServiceImpl();
-        int expResult = 0;
-        int result = instance.updateSurplusItem(foodItem);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getFoodItemIsPlus method, of class FoodItemServiceImpl.
-     */
-    @Test
-    public void testGetFoodItemIsPlus() {
-        System.out.println("getFoodItemIsPlus");
-        int foodItemID = 0;
-        FoodItemServiceImpl instance = new FoodItemServiceImpl();
-        int expResult = 0;
-        int result = instance.getFoodItemIsPlus(foodItemID);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of updateFoodItem method, of class FoodItemServiceImpl.
-     */
-    @Test
-    public void testUpdateFoodItem() {
-        System.out.println("updateFoodItem");
-        FoodItem foodItem = null;
-        FoodItemServiceImpl instance = new FoodItemServiceImpl();
-        int expResult = 0;
-        int result = instance.updateFoodItem(foodItem);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getFoodItemsByRetailerId method, of class FoodItemServiceImpl.
+     * Tests the getFoodItemsByRetailerId method of the FoodItemServiceImpl class.
+     * This test verifies that food items are retrieved correctly by retailer ID.
      */
     @Test
     public void testGetFoodItemsByRetailerId() {
-        System.out.println("getFoodItemsByRetailerId");
-        int retailerId = 0;
-        FoodItemServiceImpl instance = new FoodItemServiceImpl();
-        List<FoodItem> expResult = null;
-        List<FoodItem> result = instance.getFoodItemsByRetailerId(retailerId);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int retailerId = 101;
+        List<FoodItem> expectedFoodItems = new ArrayList<>();
+        expectedFoodItems.add(new FoodItem(1, retailerId, "Apple", 10, new Date(), new Date(), 1.0, 1, 0));
+        expectedFoodItems.add(new FoodItem(2, retailerId, "Banana", 20, new Date(), new Date(), 0.5, 1, 0));
+
+        // Define the behavior of the mock
+        when(foodItemDAO.selectFoodItemsByRetailerId(retailerId)).thenReturn(expectedFoodItems);
+
+        // Call the method to test
+        List<FoodItem> actualFoodItems = foodItemService.getFoodItemsByRetailerId(retailerId);
+
+        // Verify the result
+        assertEquals(expectedFoodItems, actualFoodItems);
+
+        // Verify that transaction methods are called
+        verifyStatic(DbUtil.class);
+        DbUtil.begin();
+
+        verifyStatic(DbUtil.class);
+        DbUtil.commit();
     }
-    
+
+    private void verifyStatic(Class<DbUtil> aClass) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

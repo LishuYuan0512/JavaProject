@@ -4,82 +4,145 @@
  */
 package service;
 
-import entity.Subscription;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+
+import dao.SubscriptionDao;
+import entity.Subscription;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import utils.DbUtil;
 
 /**
- *
- * @author tangy
+ * Unit tests for the SubscriptionServiceImpl class.
+ * This class tests the subscription management logic and transaction handling using mocks.
  */
 public class SubscriptionServiceImplTest {
-    
-    public SubscriptionServiceImplTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
+
+    private SubscriptionService subscriptionService;
+
+    @Mock
+    private SubscriptionDao subscriptionDao;
+
+    /**
+     * Sets up the test environment before each test method.
+     * This method initializes the service and mocks necessary components.
+     */
     @Before
     public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
+        MockitoAnnotations.initMocks(this);
+
+        // Mock the DbUtil static methods
+        mockStatic(DbUtil.class);
+
+//        // Initialize the service with the mocked DAO
+//        subscriptionService = new SubscriptionServiceImpl();
+//        ((SubscriptionServiceImpl) subscriptionService).subscriptionDao = subscriptionDao; // Inject mocked DAO
     }
 
     /**
-     * Test of createSubscription method, of class SubscriptionServiceImpl.
+     * Tests the createSubscription method of the SubscriptionServiceImpl class for successful creation.
+     * This test verifies that a subscription is created correctly and the transaction is committed.
      */
     @Test
-    public void testCreateSubscription() {
-        System.out.println("createSubscription");
-        Subscription subscription = null;
-        SubscriptionServiceImpl instance = new SubscriptionServiceImpl();
-        boolean expResult = false;
-        boolean result = instance.createSubscription(subscription);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testCreateSubscription_Successful() {
+        Subscription subscription = new Subscription();
+        subscription.setUserID(1);
+        subscription.setLocationID(101);
+
+        // Define the behavior of the mock
+        doNothing().when(subscriptionDao).addSubscription(subscription);
+
+        // Call the method to test
+        boolean result = subscriptionService.createSubscription(subscription);
+
+        // Verify the result
+        assertTrue(result);
+
+        // Verify that transaction methods are called
+        verifyStatic(DbUtil.class);
+        DbUtil.begin();
+
+        verifyStatic(DbUtil.class);
+        DbUtil.commit();
     }
 
     /**
-     * Test of updateSubscription method, of class SubscriptionServiceImpl.
+     * Tests the createSubscription method of the SubscriptionServiceImpl class for failed creation.
+     * This test verifies that an exception is thrown and the transaction is rolled back when an error occurs.
+     */
+    @Test(expected = RuntimeException.class)
+    public void testCreateSubscription_Failed() {
+        Subscription subscription = new Subscription();
+        subscription.setUserID(1);
+        subscription.setLocationID(101);
+
+        // Define the behavior of the mock to throw an exception
+        doThrow(new RuntimeException("Database error")).when(subscriptionDao).addSubscription(subscription);
+
+        // Call the method to test
+        subscriptionService.createSubscription(subscription);
+
+        // Verify that transaction methods are called
+        verifyStatic(DbUtil.class);
+        DbUtil.begin();
+
+        verifyStatic(DbUtil.class);
+        DbUtil.rollback();
+    }
+
+    /**
+     * Tests the updateSubscription method of the SubscriptionServiceImpl class for successful update.
+     * This test verifies that a subscription is updated correctly and the transaction is committed.
      */
     @Test
-    public void testUpdateSubscription() {
-        System.out.println("updateSubscription");
-        Subscription subscription = null;
-        SubscriptionServiceImpl instance = new SubscriptionServiceImpl();
-        boolean expResult = false;
-        boolean result = instance.updateSubscription(subscription);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testUpdateSubscription_Successful() {
+        Subscription subscription = new Subscription();
+        subscription.setUserID(1);
+        subscription.setLocationID(101);
+
+        // Define the behavior of the mock
+        doNothing().when(subscriptionDao).updateSubscription(subscription);
+
+        // Call the method to test
+        boolean result = subscriptionService.updateSubscription(subscription);
+
+        // Verify the result
+        assertTrue(result);
+
+        // Verify that transaction methods are called
+        verifyStatic(DbUtil.class);
+        DbUtil.begin();
+
+        verifyStatic(DbUtil.class);
+        DbUtil.commit();
     }
 
     /**
-     * Test of subscriptionExists method, of class SubscriptionServiceImpl.
+     * Tests the subscriptionExists method of the SubscriptionServiceImpl class.
+     * This test verifies that the existence of a subscription is checked correctly.
      */
     @Test
     public void testSubscriptionExists() {
-        System.out.println("subscriptionExists");
-        int userID = 0;
-        SubscriptionServiceImpl instance = new SubscriptionServiceImpl();
-        boolean expResult = false;
-        boolean result = instance.subscriptionExists(userID);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int userID = 1;
+
+        // Define the behavior of the mock
+        when(subscriptionDao.subscriptionExists(userID)).thenReturn(true);
+
+        // Call the method to test
+        boolean result = subscriptionService.subscriptionExists(userID);
+
+        // Verify the result
+        assertTrue(result);
+
+        // Verify that transaction methods are called
+        verifyStatic(DbUtil.class);
+        DbUtil.begin();
     }
-    
+
+    private void verifyStatic(Class<DbUtil> aClass) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
