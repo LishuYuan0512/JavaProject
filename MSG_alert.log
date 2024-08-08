@@ -1,0 +1,3 @@
+2024-08-07 15:58:12 - Alert: New Subscription Added with Message: Subscription{userID=2, locationID=102, foodPrefer=6, email=test@example.com, phone=123-456-7890, communicationMethod=2}
+2024-08-07 16:14:34 - Alert: New Subscription Added with Message: Subscription{userID=2, locationID=102, foodPrefer=6, email=test@example.com, phone=123-456-7890, communicationMethod=2}
+2024-08-07 16:15:31 - Alert: New Subscription Added with Message: Subscription{userID=2, locationID=102, foodPrefer=6, email=test@example.com, phone=123-456-7890, communicationMethod=2}

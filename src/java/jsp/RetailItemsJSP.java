@@ -22,12 +22,38 @@ import service.FoodItemServiceImpl;
 import service.PriceTypeService;
 import service.PriceTypeServiceImpl;
 
+
+/**
+ * A servlet that handles displaying retailer items on a JSP page.
+ * It retrieves the list of food items available for a retailer and renders them in an HTML table.
+ */
+
 @WebServlet(name = "RetailItems", value = "/retailer/safe/showRetailerItemsJSP")
 public class RetailItemsJSP extends HttpServlet {
+    
+        /**
+     * Handles the HTTP GET request.
+     * Forwards the request to the doPost method.
+     *
+     * @param request  The HttpServletRequest object that contains the request the client made to the servlet.
+     * @param response The HttpServletResponse object that contains the response the servlet returns to the client.
+     * @throws ServletException If an error occurs during the request handling.
+     * @throws IOException      If an I/O error occurs during the request handling.
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
+    
+     /**
+     * Handles the HTTP POST request.
+     * Retrieves the retailer session, gets the list of food items, and outputs them in an HTML table format.
+     *
+     * @param request  The HttpServletRequest object that contains the request the client made to the servlet.
+     * @param response The HttpServletResponse object that contains the response the servlet returns to the client.
+     * @throws ServletException If an error occurs during the request handling.
+     * @throws IOException      If an I/O error occurs during the request handling.
+     */
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

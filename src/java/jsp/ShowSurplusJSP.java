@@ -11,12 +11,37 @@ import javax.servlet.http.HttpServletResponse;
 import service.FoodItemService;
 import service.FoodItemServiceImpl;
 
+/**
+ * A servlet that displays a form for updating the status of a surplus food item.
+ * It allows the retailer to change the price type and apply a discount to the item.
+ */
+
 @WebServlet(name = "ShowSurplusJSP", value = "/retailer/safe/showSurplusItemJSP")
 public class ShowSurplusJSP extends HttpServlet {
+      /**
+     * Handles the HTTP GET request.
+     * Forwards the request to the doPost method.
+     *
+     * @param request  The HttpServletRequest object that contains the request the client made to the servlet.
+     * @param response The HttpServletResponse object that contains the response the servlet returns to the client.
+     * @throws ServletException If an error occurs during the request handling.
+     * @throws IOException      If an I/O error occurs during the request handling.
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
+    
+    
+    /**
+     * Handles the HTTP POST request.
+     * Retrieves the food item details by ID and displays a form to change its surplus status.
+     *
+     * @param request  The HttpServletRequest object that contains the request the client made to the servlet.
+     * @param response The HttpServletResponse object that contains the response the servlet returns to the client.
+     * @throws ServletException If an error occurs during the request handling.
+     * @throws IOException      If an I/O error occurs during the request handling.
+     */
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

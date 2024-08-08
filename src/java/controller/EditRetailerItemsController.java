@@ -16,25 +16,46 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Servlet implementation class EditRetailerItemsController
+ * Handles requests for editing food items in a retailer's inventory.
+ */
+
 @WebServlet(name = "EditRetailerItemsController", value = "/retailer/safe/editRetailerItemsController")
 public class EditRetailerItemsController extends HttpServlet {
+    
+     /**
+     * Processes GET requests by delegating to the doPost method.
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
 
+        /**
+     * Processes POST requests to update the quantity and expiration date of a food item.
+     * Also updates the surplus status based on the expiration date.
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("进入doPost方法");
+       
         Integer itemId = (Integer.parseInt(request.getParameter("itemID")));
         int enterQuantity = Integer.parseInt(request.getParameter("enterQuantity"));
-        System.out.println("表单数据："+itemId +"-"+enterQuantity);
+      
         String date = request.getParameter("expirationData");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date expirationDate = null;
         try {
             expirationDate = sdf.parse(date);
-            System.out.println("======传递的日期为："+expirationDate);
+          
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }

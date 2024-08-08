@@ -10,8 +10,19 @@ import utils.DbUtil;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Implementation of the CustomerDAO interface.
+ * Provides database operations for Customer entities using Apache Commons DbUtils.
+ */
+
 public class CustomerDAOImpl implements CustomerDAO{
     private QueryRunner queryRunner = new QueryRunner();
+    
+        /**
+     * Selects all customers from the database.
+     * @return a list of all Customer objects in the database
+     * @throws RuntimeException if a SQLException occurs
+     */
     @Override
     public List<Customer> selectAllCustomer() {
         try {
@@ -23,6 +34,13 @@ public class CustomerDAOImpl implements CustomerDAO{
         }
 
     }
+    
+       /**
+     * Deletes a customer from the database by email.
+     * @param email the email of the customer to delete
+     * @return the number of rows affected
+     * @throws RuntimeException if a SQLException occurs
+     */
 
     @Override
     public int deleteCustomer(String email) {
@@ -34,6 +52,13 @@ public class CustomerDAOImpl implements CustomerDAO{
         }
 
     }
+    
+       /**
+     * Updates an existing customer in the database.
+     * @param customer the Customer object with updated information
+     * @return the number of rows affected
+     * @throws RuntimeException if a SQLException occurs
+     */
 
 
     @Override
@@ -46,6 +71,13 @@ public class CustomerDAOImpl implements CustomerDAO{
             throw new RuntimeException(e);
         }
     }
+    
+        /**
+     * Inserts a new customer into the database.
+     * @param customer the Customer object to insert
+     * @return the number of rows affected
+     * @throws RuntimeException if a SQLException occurs
+     */
 
     @Override
     public int insertCustomer(Customer customer) {
@@ -59,6 +91,13 @@ public class CustomerDAOImpl implements CustomerDAO{
             throw new RuntimeException(e);
         }
     }
+    
+        /**
+     * Selects a customer from the database by email.
+     * @param email the email of the customer to select
+     * @return the Customer object with the specified email, or null if not found
+     * @throws RuntimeException if a SQLException occurs
+     */
 
     @Override
     public Customer selectCustomerByEmail(String email) {
@@ -70,6 +109,13 @@ public class CustomerDAOImpl implements CustomerDAO{
             throw new RuntimeException(e);
         }
     }
+    
+        /**
+     * Retrieves the user ID for a customer based on their email.
+     * @param email the email of the customer
+     * @return the user ID of the customer
+     * @throws RuntimeException if a SQLException occurs
+     */
 
     @Override
     public int getUserIDByEmail(String email) {
@@ -82,6 +128,13 @@ public class CustomerDAOImpl implements CustomerDAO{
             throw new RuntimeException(e);
         }
     }
+    
+        /**
+     * Retrieves the user type for a customer based on their user ID.
+     * @param customer the Customer object
+     * @return the user type of the customer
+     * @throws RuntimeException if a SQLException occurs
+     */
 
     @Override
     public String getUserTypeByUserID(Customer customer) {

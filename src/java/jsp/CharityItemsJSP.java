@@ -18,12 +18,37 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * A servlet that handles displaying charity items on a JSP page.
+ * It retrieves the list of food items available for a charity and renders them in an HTML table.
+ */
+
 @WebServlet(name = "CharityItemsJSP", value = "/charity/safe/showItemsJSP")
 public class CharityItemsJSP extends HttpServlet {
+    
+        /**
+     * Handles the HTTP GET request.
+     * Forwards the request to the doPost method.
+     *
+     * @param request  The HttpServletRequest object that contains the request the client made to the servlet.
+     * @param response The HttpServletResponse object that contains the response the servlet returns to the client.
+     * @throws ServletException If an error occurs during the request handling.
+     * @throws IOException      If an I/O error occurs during the request handling.
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
+    
+        /**
+     * Handles the HTTP POST request.
+     * Retrieves the charity session, gets the list of food items, and outputs them in an HTML table format.
+     *
+     * @param request  The HttpServletRequest object that contains the request the client made to the servlet.
+     * @param response The HttpServletResponse object that contains the response the servlet returns to the client.
+     * @throws ServletException If an error occurs during the request handling.
+     * @throws IOException      If an I/O error occurs during the request handling.
+     */
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

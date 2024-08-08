@@ -21,15 +21,31 @@ import service.PurchaseService;
 import service.PurchaseServiceImpl;
 
 /**
- *
- * @author ZU
+ * Servlet implementation class CheckoutController
+ * Handles requests for the checkout process, including validation and updating inventory.
  */
 @WebServlet(name = "CheckoutController", value = "/customer/safe/checkoutController")
 public class CheckoutController extends HttpServlet {
+    /**
+     * Processes GET requests by delegating to the doPost method.
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
+    
+        /**
+     * Processes POST requests to handle the checkout operation for a food item.
+     * Validates the entered quantity and updates the inventory accordingly.
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

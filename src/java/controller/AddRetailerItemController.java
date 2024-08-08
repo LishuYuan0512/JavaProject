@@ -7,7 +7,6 @@ package controller;
 import entity.FoodItem;
 import entity.Retailer;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,25 +19,45 @@ import javax.servlet.http.HttpSession;
 import service.FoodItemService;
 import service.FoodItemServiceImpl;
 
+/**
+ * Servlet implementation class AddRetailerItemController
+ * Handles requests for adding new food items to a retailer's inventory.
+ */
 @WebServlet(name = "AddRetailerItemController", value = "/retailer/safe/addRetailerItemController")
 public class AddRetailerItemController extends HttpServlet {
+
+    /**
+     * Processes GET requests by delegating to the doPost method.
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
 
+    /**
+     * Processes POST requests to add a new food item to the retailer's inventory.
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Retailer retailer = (Retailer) session.getAttribute("retailer");
         int userID = retailer.getUserID();
-       String itemName = request.getParameter("itemName");
-       double price = Double.parseDouble(request.getParameter("price"));
-       int quantity = Integer.parseInt(request.getParameter("quantity"));
-       String restockTime = request.getParameter("restockTime");
-       String expirationDate = request.getParameter("expirationData");
-       int priceTypeID = Integer.parseInt(request.getParameter("priceType"));
-       int isSurplus = Integer.parseInt(request.getParameter("isSurplus"));
+        String itemName = request.getParameter("itemName");
+        double price = Double.parseDouble(request.getParameter("price"));
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        String restockTime = request.getParameter("restockTime");
+        String expirationDate = request.getParameter("expirationData");
+        int priceTypeID = Integer.parseInt(request.getParameter("priceType"));
+        int isSurplus = Integer.parseInt(request.getParameter("isSurplus"));
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date expirationDate1 = null;
         Date restockTime2 = null;
@@ -58,10 +77,13 @@ public class AddRetailerItemController extends HttpServlet {
         foodItem.setUserID(userID);
         foodItem.setPriceTypeID(priceTypeID);
         foodItem.setIsPlus(isSurplus);
+
         System.out.println("add item controller: priceTypeID: " + priceTypeID + ", isSurplus: " + isSurplus);
         System.out.println("foodItem priceTypeID: " + foodItem.getPriceTypeID());
+
         FoodItemService foodItemService = new FoodItemServiceImpl();
         foodItemService.insertFoodItem(foodItem);
-        response.sendRedirect(request.getContextPath()+"/retailer/safe/showRetailerItemsController");
+
+        response.sendRedirect(request.getContextPath() + "/retailer/safe/showRetailerItemsController");
     }
 }

@@ -23,19 +23,39 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
- * @author ZU
+ * Servlet implementation class SignUpController
+ * Handles user registration for customers, retailers, and charities.
+ * It processes the signup form, creates the appropriate user entity, 
+ * and persists it to the database using DAOs.
  */
 @WebServlet(name = "SignUpController", urlPatterns = {"/SignUpController"})
 public class SignUpController extends HttpServlet {
+    
+      /**
+     * Processes GET requests by delegating to the doPost method.
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
+    
+     /**
+     * Processes POST requests to handle user registration.
+     * Based on the user type, it creates the appropriate entity, 
+     * saves it to the database, and sets the session attribute.
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //1. 接收参数
+  
         String username = request.getParameter("name");
         String password = request.getParameter("password");
         String email = request.getParameter("email");
@@ -43,11 +63,11 @@ public class SignUpController extends HttpServlet {
         String type = request.getParameter("type");
         int locationID = Integer.parseInt(request.getParameter("location"));
         HttpSession session = request.getSession();
-        System.out.println("从表单接收的信息如下："+email+"-"+password);
+       
         try {
             switch (type){
                 case "Customer":
-                    System.out.println("----进入customer");
+                   
                     Customer customer = new Customer(username, password, email, phone, type, locationID);
                     CustomerDAO customerDAO = new CustomerDAOImpl();
                     session.setAttribute("customer", customer);
@@ -55,19 +75,20 @@ public class SignUpController extends HttpServlet {
                     break;
                 case "Retailer":
                     Retailer retailer = new Retailer(username, password, email, phone, type, locationID);
-                    System.out.println("------接收的 retailer信息如下："+retailer.getEmail()+retailer.getPassword());
+                  
                     RetailerDAO retailerDAO = new RetailerDAOImpl();
                     session.setAttribute("retailer", retailer);
                     retailerDAO.insertRetailer(retailer);
                     break;
                 case "Charity":
-                    System.out.println("进入charity");
+                
                     Charity charity = new Charity(username, password, email, phone, type, locationID);
                     CharityDAO charityDAO = new CharityDAOImpl();
                     session.setAttribute("charity", charity);
                     charityDAO.insertCharity(charity);
                     break;
             }
+             // Send success response and redirect to login page
             response.setContentType("text/html;charset=UTF-8");
             PrintWriter out = response.getWriter();
             out.println("<script type=\"text/javascript\">");

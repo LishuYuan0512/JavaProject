@@ -16,12 +16,34 @@ import javax.servlet.http.HttpServletResponse;
 import service.FoodItemService;
 import service.FoodItemServiceImpl;
 
+/**
+ * Servlet implementation class ClaimItemController
+ * Handles requests for claiming food items by a charity organization.
+ */
+
 @WebServlet(name = "ClaimItemController", value = "/charity/safe/claimItemsController")
 public class ClaimItemController extends HttpServlet {
+    
+    /**
+     * Processes GET requests by delegating to the doPost method.
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
+    
+        /**
+     * Processes POST requests to claim a specified quantity of a food item.
+     * Updates the inventory to reflect the claimed quantity.
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

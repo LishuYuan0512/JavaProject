@@ -13,14 +13,18 @@ import observer.FoodItemObserverService;
  */
 
 /**
- *
- * @author ZU
+ * A test class to demonstrate the functionality of the Observer pattern for food item updates.
+ * It creates a FoodItemObserverService instance, adds a CustomerAlertObserver, and triggers a notification.
  */
 public class FooditemDaoTest {
     public static void main(String[] args) {
 
         
-        // Create FoodItemObserverService instance
+       /**
+     * The main method to test the Observer pattern functionality.
+     *
+     * @param args The command line arguments.
+     */
         FoodItemObserverService observerService = new FoodItemObserverService() {
             @Override
             public void notifyObservers(Subscription subscription) {

@@ -11,8 +11,19 @@ import utils.DbUtil;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Implementation of the RetailerDAO interface.
+ * Provides database operations for Retailer entities using Apache Commons DbUtils.
+ */
+
 public class RetailerDAOImpl implements RetailerDAO{
     private QueryRunner queryRunner = new QueryRunner();
+    
+        /**
+     * Selects all retailers from the database.
+     * @return a list of all Retailer objects in the database
+     * @throws RuntimeException if a SQLException occurs
+     */
 
     @Override
     public List<Retailer> selectAllRetailers() {
@@ -24,6 +35,13 @@ public class RetailerDAOImpl implements RetailerDAO{
             throw new RuntimeException(e);
         }
     }
+    
+        /**
+     * Deletes a retailer from the database by their ID.
+     * @param retailerID the ID of the retailer to delete
+     * @return the number of rows affected
+     * @throws RuntimeException if a SQLException occurs
+     */
 
     @Override
     public int deleteRetailer(int retailerID) {
@@ -34,6 +52,13 @@ public class RetailerDAOImpl implements RetailerDAO{
             throw new RuntimeException(e);
         }
     }
+    
+        /**
+     * Inserts a new retailer into the database.
+     * @param retailer the Retailer object to insert
+     * @return the number of rows affected
+     * @throws RuntimeException if a SQLException occurs
+     */
 
     @Override
     public int insertRetailer(Retailer retailer) {
@@ -47,6 +72,13 @@ public class RetailerDAOImpl implements RetailerDAO{
             throw new RuntimeException(e);
         }
     }
+    
+        /**
+     * Retrieves the retailer ID for a retailer based on their email.
+     * @param email the email of the retailer
+     * @return the retailer ID of the retailer
+     * @throws RuntimeException if a SQLException occurs
+     */
 
     @Override
     public int getRetailerIDByEmail(String email) {
@@ -59,6 +91,12 @@ public class RetailerDAOImpl implements RetailerDAO{
             throw new RuntimeException(e);
         }
     }
+        /**
+     * Selects a retailer from the database by email.
+     * @param email the email of the retailer to select
+     * @return the Retailer object with the specified email, or null if not found
+     * @throws RuntimeException if a SQLException occurs
+     */
 
     @Override
     public Retailer selectRetailerByEmail(String email) {
@@ -70,6 +108,13 @@ public class RetailerDAOImpl implements RetailerDAO{
             throw new RuntimeException(e);
         }
     }
+    
+       /**
+     * Retrieves the user type for a retailer based on their user ID.
+     * @param retailer the Retailer object
+     * @return the user type of the retailer
+     * @throws RuntimeException if a SQLException occurs
+     */
 
     @Override
     public String getUserTypeByUserID(Retailer retailer) {

@@ -15,20 +15,21 @@ import java.time.format.DateTimeFormatter;
 import org.apache.juli.FileHandler;
 
 /**
- *
- * @author ZU
+ * A class that implements the Observer interface to receive alerts and log messages for customers.
+ * It supports two types of communication methods: email and SMS.
+ * Logs are saved in separate files for email and SMS alerts.
  */
 public class CustomerAlertObserver implements Observer{
-//     @Override
-//    public void update(FoodItem foodItem) {
-//        // 发送用户提示
-//        if (foodItem.getIsPlus() == 1) {
-//            System.out.println("Alert: New Food Item Added/Updated with isPlus=true: " + foodItem);
-//            // 在这里可以添加实际的发送用户提示逻辑，比如发送邮件或短信
-//        }
-//    }
+
 private static final String LOG_FILE_EMAIL = "EMAIL_alert.log";
 private static final String LOG_FILE_MSG = "MSG_alert.log";
+
+    /**
+     * Updates the observer with the given subscription details.
+     * It sends alerts to customers based on their preferred communication method.
+     *
+     * @param subscription The Subscription object containing subscription details.
+     */
 
     @Override
     public void update(Subscription subscription) {
@@ -42,7 +43,11 @@ private static final String LOG_FILE_MSG = "MSG_alert.log";
         }
 
     }
-
+  /**
+     * Logs email messages to the log file.
+     *
+     * @param message The message to be logged.
+     */
     private void logMessageEmail(String message) {
         try (FileWriter fw = new FileWriter(LOG_FILE_EMAIL, true);
              PrintWriter pw = new PrintWriter(fw)) {
@@ -53,6 +58,12 @@ private static final String LOG_FILE_MSG = "MSG_alert.log";
         }
     }
     
+    
+    /**
+     * Logs SMS messages to the log file.
+     *
+     * @param message The message to be logged.
+     */
     private void logMessageSMS(String message) {
         try (FileWriter fw = new FileWriter(LOG_FILE_MSG, true);
              PrintWriter pw = new PrintWriter(fw)) {
@@ -62,15 +73,22 @@ private static final String LOG_FILE_MSG = "MSG_alert.log";
             e.printStackTrace();
         }
     }
-    
-//新增方法
+    /**
+     * Receives an email alert for the given subscription.
+     *
+     * @param subscription The Subscription object containing subscription details.
+     */
 public void receiveEmail(Subscription subscription){
 	System.out.println("Receive Email:");
 	String message = "Alert: New Subscription Added with Email: " + subscription;
 	logMessageEmail(message);
 
 }
-//新增方法
+    /**
+     * Receives an SMS alert for the given subscription.
+     *
+     * @param subscription The Subscription object containing subscription details.
+     */
 public void receiveMessage(Subscription subscription){
 	System.out.println("Receive message:");
 	String message = "Alert: New Subscription Added with Message: " + subscription;
@@ -78,6 +96,12 @@ public void receiveMessage(Subscription subscription){
 
 
 }
+  /**
+     * Updates the observer with the given food item details.
+     * This method is not supported in this class.
+     *
+     * @param foodItem The FoodItem object containing food item details.
+     */
 
     @Override
     public void update(FoodItem foodItem) {

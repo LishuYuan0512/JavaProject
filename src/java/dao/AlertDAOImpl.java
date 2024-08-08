@@ -11,8 +11,20 @@ import utils.DbUtil;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Implementation of the AlertDAO interface.
+ * Provides database operations for Alert entities using Apache Commons DbUtils.
+ */
+
 public class AlertDAOImpl implements AlertDAO{
     private QueryRunner queryRunner = new QueryRunner();
+    
+    /**
+     * Inserts a new alert into the database.
+     * @param alert the Alert object to insert
+     * @return the number of rows affected
+     * @throws RuntimeException if a SQLException occurs
+     */
     @Override
     public int insertAlert(Alert alert) {
         try {
@@ -24,6 +36,13 @@ public class AlertDAOImpl implements AlertDAO{
             throw new RuntimeException(e);
         }
     }
+    
+        /**
+     * Updates an existing alert in the database.
+     * @param alert the Alert object with updated information
+     * @return the number of rows affected
+     * @throws RuntimeException if a SQLException occurs
+     */
 
     @Override
     public int updateAlert(Alert alert) {
@@ -35,6 +54,13 @@ public class AlertDAOImpl implements AlertDAO{
             throw new RuntimeException(e);
         }
     }
+    
+     /**
+     * Deletes an alert from the database.
+     * @param alert the Alert object to delete
+     * @return the number of rows affected
+     * @throws RuntimeException if a SQLException occurs
+     */
 
     @Override
     public int deleteAlert(Alert alert) {
@@ -46,6 +72,13 @@ public class AlertDAOImpl implements AlertDAO{
             throw new RuntimeException(e);
         }
     }
+    
+    /**
+     * Selects an alert from the database by its ID.
+     * @param alertID the ID of the alert to select
+     * @return the Alert object with the specified ID, or null if not found
+     * @throws RuntimeException if a SQLException occurs
+     */
 
     @Override
     public Alert selectAlertByID(int alertID) {
@@ -57,6 +90,12 @@ public class AlertDAOImpl implements AlertDAO{
             throw new RuntimeException(e);
         }
     }
+    
+    /**
+     * Selects all alerts from the database.
+     * @return a list of all Alert objects in the database
+     * @throws RuntimeException if a SQLException occurs
+     */
 
     @Override
     public List<Alert> selectAllAlerts() {

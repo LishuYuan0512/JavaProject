@@ -15,12 +15,37 @@ import javax.servlet.http.HttpServletResponse;
 import service.FoodItemService;
 import service.FoodItemServiceImpl;
 
+/**
+ * A servlet that displays a checkout page for customers.
+ * It retrieves the details of a food item for checkout and renders a form for entering the purchase quantity.
+ */
+
 @WebServlet(name = "CheckoutJSP", value = "/customer/safe/showCheckoutJSP")
 public class ShowCheckoutJSP extends HttpServlet {
+    
+        /**
+     * Handles the HTTP GET request.
+     * Forwards the request to the doPost method.
+     *
+     * @param request  The HttpServletRequest object that contains the request the client made to the servlet.
+     * @param response The HttpServletResponse object that contains the response the servlet returns to the client.
+     * @throws ServletException If an error occurs during the request handling.
+     * @throws IOException      If an I/O error occurs during the request handling.
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
+    
+        /**
+     * Handles the HTTP POST request.
+     * Retrieves the food item details by ID and displays the checkout form.
+     *
+     * @param request  The HttpServletRequest object that contains the request the client made to the servlet.
+     * @param response The HttpServletResponse object that contains the response the servlet returns to the client.
+     * @throws ServletException If an error occurs during the request handling.
+     * @throws IOException      If an I/O error occurs during the request handling.
+     */
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

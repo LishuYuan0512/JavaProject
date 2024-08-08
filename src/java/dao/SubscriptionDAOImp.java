@@ -18,15 +18,18 @@ import service.FoodItemService;
 import service.FoodItemServiceImpl;
 import utils.DbUtil;
 
+
 /**
- *
- * @author rosal
+ * Implementation of the SubscriptionDao interface.
+ * Provides database operations for Subscription entities using Apache Commons DbUtils.
  */
 public class SubscriptionDAOImp implements SubscriptionDao {
     // Assuming you have a method to get a database connection
     private QueryRunner queryRunner = new QueryRunner();
-//    FoodItemService fs = new FoodItemServiceImpl();
-//    Observable fio = new FoodItemObserverService();
+ /**
+     * Adds a new subscription to the database.
+     * @param subscription the Subscription object to add
+     */
 @Override
     public void addSubscription(Subscription subscription) {
         String sql = "INSERT INTO Subscription (userID, locationID, foodPrefer, communicationMethod, email, phone) VALUES (?, ?, ?, ?, ?, ?)";
@@ -46,6 +49,11 @@ public class SubscriptionDAOImp implements SubscriptionDao {
             // Handle exceptions (e.g., logging)
         }
     }
+    
+      /**
+     * Updates an existing subscription in the database.
+     * @param subscription the Subscription object with updated information
+     */
 
     @Override
     public void updateSubscription(Subscription subscription) {
@@ -63,6 +71,12 @@ public class SubscriptionDAOImp implements SubscriptionDao {
             // Handle exceptions (e.g., logging)
         }
     }
+    
+      /**
+     * Checks if a subscription exists for a given user ID.
+     * @param userID the ID of the user
+     * @return true if the subscription exists, false otherwise
+     */
 
     @Override
     public boolean subscriptionExists(int userID) {
