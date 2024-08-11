@@ -26,7 +26,11 @@ The second version begin at August-11-2024.
 ![retailer](https://github.com/LishuYuan0512/JavaProject/raw/Merge01/img/retailer.png)
 ![addFoodItem](https://github.com/LishuYuan0512/JavaProject/raw/Merge01/img/addFoodItem.png)
 
+- **Charitable Organization:** Charity can view all available food items for donation. They can click the claim button to require items, ensuring that the quantity does not exceed the maximum limit.
+![Charity](https://github.com/LishuYuan0512/JavaProject/raw/Merge01/img/charity.png)
+
+
 ## UML Diagram
-![UML](https://github.com/LishuYuan0512/JavaProject/raw/Merge01/img/UML.png)
+![UML](https://github.com/LishuYuan0512/JavaProject/raw/Merge01/img/UML.jpg)
 ## Database Desgin
 ![database](https://github.com/LishuYuan0512/JavaProject/raw/Merge01/img/database.png)
