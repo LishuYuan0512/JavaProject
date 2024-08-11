@@ -14,7 +14,7 @@ The second version begin at August-11-2024.
 - 🔎 Funny brainstorm game
 ### User Registration and Authentication
 - **login:** Create your Food Waste Reduction account using a username, email and password. Follow the step-by-step guide for a secure registration process.
-![login](img/login.png)
+![login](Merge01/img/login.png)
 
 ### User Main Page
 - **Consumer:** Consumers can view all available food items for purchase. They can click the purchase button to buy items, ensuring that the quantity does not exceed the maximum limit.
