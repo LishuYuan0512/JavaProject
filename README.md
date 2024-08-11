@@ -2,7 +2,7 @@
 AC-CST8288 TEAM PROJECT: Food Waste Reduction Website
 ## Versions
 The first version finised at August-02-2024.
-The second version begin at August-11-2024.
+The second version finised at August-11-2024.
 ## Introduction
 The Food Waste Reduction Platform (FWRP) is an innovative solution designed to address the global challenge of food waste by facilitating the efficient redistribution of surplus food. This platform connects food retailers, consumers, and charitable organizations, fostering collaboration across the food supply chain to promote sustainability, reduce hunger, and build resilient food ecosystems.
 ## Features
