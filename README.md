@@ -14,14 +14,14 @@ The second version begin at August-11-2024.
 - 🔎 Funny brainstorm game
 ### User Registration and Authentication
 - **login:** Create your Food Waste Reduction account using a username, email and password. Follow the step-by-step guide for a secure registration process.
-![login](Merge01/img/login.png)
+![login](https://github.com/LishuYuan0512/JavaProject/raw/Merge01/img/login.png)
 
 ### User Main Page
 - **Consumer:** Consumers can view all available food items for purchase. They can click the purchase button to buy items, ensuring that the quantity does not exceed the maximum limit.
-![consumer](img/consumer.png)
+![consumer](https://github.com/LishuYuan0512/JavaProject/raw/Merge01/img/consumer.png)
 
 
 ## UML Diagram
-![UML](img/UML.png)
+![UML](https://github.com/LishuYuan0512/JavaProject/raw/Merge01/img/UML.png)
 ## Database Desgin
-![database](img/database.png)
+![database](https://github.com/LishuYuan0512/JavaProject/raw/Merge01/img/database.png)
